@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_gastos"
+            android:icon="@drawable/ic_account_balance_black_24dp"
+            android:title="@string/app_menu_gastos" />
+        <item
+            android:id="@+id/nav_ingresos"
+            android:icon="@drawable/ic_credit_card_black_24dp"
+            android:title="@string/app_menu_ingresos" />
+        <item
+            android:id="@+id/nav_usuarios"
+            android:icon="@drawable/ic_account_box_black_24dp"
+            android:title="@string/app_manu_usuarios" />
+        <item
+            android:id="@+id/nav_ajustes"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/app_menu_ajustes" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+        </menu>
+    </item>
+
+</menu>

@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">luanco</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="app_main_tittle">luanco</string>
+    <string name="app_main_current_amount">Saldo actual</string>
+    <string name="app_name_user1">Ramon</string>
+    <string name="app_name_user2">Maria</string>
+    <string name="app_name_user3">Luis</string>
+    <string name="app_nav_header_subtitle">gestion de gastos</string>
+    <string name="app_menu_gastos">Gastos</string>
+    <string name="app_menu_ingresos">Ingresos</string>
+    <string name="app_manu_usuarios">Usuarios</string>
+    <string name="app_menu_ajustes">Ajustes</string>
+    <string name="app_action_ajustes">Ajustes</string>
+</resources>

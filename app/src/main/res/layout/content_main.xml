@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.superg280.dev.luanco.MainActivity"
+    tools:showIn="@layout/app_bar_main">
+
+    <ImageView
+        android:id="@+id/imageView_main_header"
+        android:layout_width="0dp"
+        android:layout_height="96dp"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/luanco_fondo_paisaje" />
+
+    <TextView
+        android:id="@+id/textView_main_tittle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="serif"
+        android:text="@string/app_main_tittle"
+        android:textAlignment="textEnd"
+        android:textAppearance="@android:style/TextAppearance.Material.Small"
+        android:textColor="@android:color/background_light"
+        android:textSize="30sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_current_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="serif"
+        android:text="12345678"
+        android:textAlignment="textEnd"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_main_tittle" />
+
+    <TextView
+        android:id="@+id/textView_current_amount_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="serif"
+        android:text="@string/app_main_current_amount"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView_current_amount"
+        app:layout_constraintEnd_toStartOf="@+id/textView_current_amount" />
+
+    <ImageView
+        android:id="@+id/imageView_user1"
+        android:layout_width="120dp"
+        android:layout_height="95dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView_user2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_main_header"
+        app:srcCompat="@drawable/yo" />
+
+    <ImageView
+        android:id="@+id/imageView_user2"
+        android:layout_width="120dp"
+        android:layout_height="95dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView_user3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageView_user1"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_main_header"
+        app:srcCompat="@drawable/maria_perfil" />
+
+    <ImageView
+        android:id="@+id/imageView_user3"
+        android:layout_width="120dp"
+        android:layout_height="95dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageView_user2"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_main_header"
+        app:srcCompat="@drawable/luis_perfil" />
+
+    <TextView
+        android:id="@+id/textView_name_user1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="serif"
+        android:text="@string/app_name_user1"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_user1"
+        app:layout_constraintStart_toStartOf="@+id/imageView_user1"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_user1" />
+
+    <TextView
+        android:id="@+id/textView_name_user2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="serif"
+        android:text="@string/app_name_user2"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_user2"
+        app:layout_constraintStart_toStartOf="@+id/imageView_user2"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_user2" />
+
+    <TextView
+        android:id="@+id/textView_name_user3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="serif"
+        android:text="@string/app_name_user3"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_user3"
+        app:layout_constraintStart_toStartOf="@+id/imageView_user3"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_user3" />
+
+    <TextView
+        android:id="@+id/textView_current_user1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="serif"
+        android:text="1234.34€"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="@+id/textView_name_user1"
+        app:layout_constraintStart_toStartOf="@+id/textView_name_user1"
+        app:layout_constraintTop_toBottomOf="@+id/textView_name_user1" />
+
+    <TextView
+        android:id="@+id/textView_current_user2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="serif"
+        android:text="324.54€"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="@+id/textView_name_user2"
+        app:layout_constraintStart_toStartOf="@+id/textView_name_user2"
+        app:layout_constraintTop_toBottomOf="@+id/textView_name_user2" />
+
+    <TextView
+        android:id="@+id/textView_current_user3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="serif"
+        android:text="453.73€"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="@+id/textView_name_user3"
+        app:layout_constraintStart_toStartOf="@+id/textView_name_user3"
+        app:layout_constraintTop_toBottomOf="@+id/textView_name_user3" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="270dp" />
+
+    <TextView
+        android:id="@+id/textView_gastos"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/fondo_gastos"
+        android:text="Gastos\n18-01-18 Luz 123,45€\n23-01-18 Comunidad 120,67€"
+        app:layout_constraintBottom_toTopOf="@+id/textView_ingresos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline" />
+
+    <TextView
+        android:id="@+id/textView_ingresos"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/fondo_ingresos"
+        android:text="Ingresos\n18-01-18 Luis 123,45€\n23-01-18 María 120,67€"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_gastos" />
+
+</android.support.constraint.ConstraintLayout>
