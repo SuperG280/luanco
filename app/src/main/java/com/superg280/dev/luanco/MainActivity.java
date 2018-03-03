@@ -1,5 +1,6 @@
 package com.superg280.dev.luanco;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -125,6 +126,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_ingresos) {
+            Intent inent = new Intent(this, LuTabActivity.class);
+            startActivity(inent);
 
         } else if (id == R.id.nav_gastos) {
 
