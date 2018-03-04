@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -50,6 +51,60 @@ public class MainActivity extends AppCompatActivity
         setImageRounded(1);
         setImageRounded(2);
         setImageRounded(3);
+
+        launchMainScreenListeners();
+    }
+
+    public void launchMainScreenListeners() {
+        ImageView user1 = (ImageView) findViewById( R.id.imageView_user1);
+
+        user1.setOnClickListener( new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent inte = new Intent( MainActivity.this, LuTabActivity.class);
+                inte.putExtra("TAB_INDEX", 2);
+                startActivity(inte);
+            }
+        });
+
+        ImageView user2 = (ImageView) findViewById( R.id.imageView_user2);
+
+        user2.setOnClickListener( new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent inte = new Intent( MainActivity.this, LuTabActivity.class);
+                inte.putExtra("TAB_INDEX", 2);
+                startActivity(inte);
+            }
+        });
+
+        ImageView user3 = (ImageView) findViewById( R.id.imageView_user3);
+
+        user3.setOnClickListener( new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent inte = new Intent( MainActivity.this, LuTabActivity.class);
+                inte.putExtra("TAB_INDEX", 2);
+                startActivity(inte);
+            }
+        });
+
+        TextView gastosView = (TextView) findViewById( R.id.textView_gastos);
+        gastosView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent inent = new Intent(MainActivity.this, LuTabActivity.class);
+                inent.putExtra("TAB_INDEX", 0);
+                startActivity(inent);
+            }
+        });
+
+        TextView ingresosView = (TextView) findViewById( R.id.textView_ingresos);
+        ingresosView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent inent = new Intent(MainActivity.this, LuTabActivity.class);
+                inent.putExtra("TAB_INDEX", 1);
+                startActivity(inent);
+            }
+        });
     }
 
     public void setImageRounded( int user) {
@@ -127,12 +182,17 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_ingresos) {
             Intent inent = new Intent(this, LuTabActivity.class);
+            inent.putExtra("TAB_INDEX", 1);
             startActivity(inent);
 
         } else if (id == R.id.nav_gastos) {
-
+            Intent inent = new Intent(this, LuTabActivity.class);
+            inent.putExtra("TAB_INDEX", 0);
+            startActivity(inent);
         } else if (id == R.id.nav_usuarios) {
-
+            Intent inent = new Intent(this, LuTabActivity.class);
+            inent.putExtra("TAB_INDEX", 2);
+            startActivity(inent);
         } else if (id == R.id.nav_ajustes) {
 
         } else if (id == R.id.nav_share) {

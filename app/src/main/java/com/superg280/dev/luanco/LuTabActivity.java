@@ -43,8 +43,14 @@ public class LuTabActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lu_tab);
 
+        int fragmentId = getIntent().getIntExtra("TAB_INDEX", 0);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //Bundle bundle = new Bundle();
+        //bundle.putString("TARGET_FRAGMENT_ID", "" + fragmentId);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -52,6 +58,8 @@ public class LuTabActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        mViewPager.setCurrentItem(fragmentId);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(mViewPager);
@@ -103,13 +111,23 @@ public class LuTabActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
+
+            Bundle args = new Bundle();
+            args.putInt("tabnum", position);
+
             switch (position) {
                 case 0:
-                    return new TabGastos();
+                    Fragment tabgastos = new TabGastos();
+                    tabgastos.setArguments(args);
+                    return tabgastos;
                 case 1:
-                    return new TabIngresos();
+                    Fragment tabingresos = new TabIngresos();
+                    tabingresos.setArguments(args);
+                    return tabingresos;
                 case 2:
-                    return new TabUsuarios();
+                    Fragment tabusuarios = new TabUsuarios();
+                    tabusuarios.setArguments(args);
+                    return tabusuarios;
                 default:
                     return null;
             }
