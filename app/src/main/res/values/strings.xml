@@ -18,6 +18,12 @@
     <string name="app_action_ajustes">Ajustes</string>
     <string name="title_activity_lu_tab">LuTabActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="dlg_delete_title_ingresos">Borrar ingreso</string>
+    <string name="dlg_delete_mensaje_ingresos">Está seguro de que desea borrar el ingreso seleccionado? Esta operación no se podrá deshacer.</string>
+    <string name="dlg_delete_but_confirm">Confirmar</string>
+    <string name="dlg_delete_but_cancel">Cancelar</string>
+    <string name="dlg_delete_title_gastos">Borrar gasto</string>
+    <string name="dlg_delete_mensaje_gastos">Está seguro de que desea borrar el gasto seleccionado? Esta operación no se podrá deshacer.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

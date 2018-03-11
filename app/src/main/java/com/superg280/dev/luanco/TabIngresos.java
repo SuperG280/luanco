@@ -1,10 +1,12 @@
 package com.superg280.dev.luanco;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,27 +19,50 @@ import java.util.ArrayList;
 public class TabIngresos extends Fragment {
 
     private ArrayList<Ingreso> ingresos = null;
+    private AdapterIngreso adapter = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View tab = inflater.inflate(R.layout.fragment_tab_ingresos, container, false);
 
+        refillIngresos();
+        adapter = new AdapterIngreso( getActivity(), ingresos);
+
         ListView lv = (ListView) tab.findViewById(R.id.listView_ingresos);
+        lv.setAdapter(adapter);
 
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Snackbar.make(view, "Borrado de ingreso", Snackbar.LENGTH_LONG)
+                final int posicion = i;
+
+                AlertDialog.Builder dlgBorrar = new AlertDialog.Builder(getActivity());
+                dlgBorrar.setTitle(getString(R.string.dlg_delete_title_ingresos));
+                dlgBorrar.setMessage(getString(R.string.dlg_delete_mensaje_ingresos));
+                dlgBorrar.setCancelable(false);
+                dlgBorrar.setPositiveButton(getString(R.string.dlg_delete_but_confirm), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+                        ingresos.remove(posicion);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+
+                dlgBorrar.setNegativeButton(getString(R.string.dlg_delete_but_cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+                    }
+                });
+                dlgBorrar.show();
+
+                return false;
+
+                /*Snackbar.make(view, "Borrado de ingreso", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                return true;
+                return true;*/
             }
         });
-        refillIngresos();
-        AdapterIngreso adapter = new AdapterIngreso( getActivity(), ingresos);
 
-        lv.setAdapter(adapter);
 
         // Inflate the layout for this fragment
         return tab;
