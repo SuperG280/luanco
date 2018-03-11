@@ -2,10 +2,16 @@ package com.superg280.dev.luanco;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -59,16 +65,41 @@ public class AdapterIngreso extends BaseAdapter {
             v = inf.inflate(R.layout.item_ingreso, null);
         }
 
-        Ingreso dir = items.get(position);
+        Ingreso ingreso = items.get(position);
 
         TextView fecha = (TextView) v.findViewById(R.id.item_ingreso_fecha);
-        fecha.setText(dir.getFecha());
+        fecha.setText(ingreso.getFecha());
 
         TextView description = (TextView) v.findViewById(R.id.item_ingreso_descripcion);
-        description.setText(dir.getDescripcion());
+        description.setText(ingreso.getDescripcion());
 
         TextView importe = (TextView) v.findViewById(R.id.item_ingreso_importe);
-        importe.setText(dir.getImporte());
+        importe.setText(ingreso.getImporte());
+
+        ImageView imagen = (ImageView) v.findViewById(R.id.item_ingreso_image);
+        Drawable originalDrawable;
+
+        //Establece la imagen de usuario de cada ingreso.
+        int user = ingreso.getUserID();
+        if( user == 1) {
+            originalDrawable = parent.getResources().getDrawable(R.drawable.yo);
+        } else if( user == 2) {
+            originalDrawable = parent.getResources().getDrawable(R.drawable.maria_perfil);
+        } else {
+            originalDrawable = parent.getResources().getDrawable(R.drawable.luis_perfil);
+        }
+
+        Bitmap originalBitmap = ((BitmapDrawable) originalDrawable).getBitmap();
+
+        //creamos el drawable redondeado
+        RoundedBitmapDrawable roundedDrawable =
+                RoundedBitmapDrawableFactory.create(activity.getResources(), originalBitmap);
+
+        //asignamos el CornerRadius
+        roundedDrawable.setCircular(true);
+
+        imagen.setImageDrawable(roundedDrawable);
+        //imagen.setImageDrawable(originalDrawable);
 
         return v;
     }
