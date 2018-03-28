@@ -2,6 +2,7 @@ package com.superg280.dev.luanco;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -79,26 +80,50 @@ public class TabGastos extends Fragment {
 
         gastos = new ArrayList<Gasto>();
 
-        gastos.add( new Gasto( "18-02-2018", "Recibo de la luz", "108,46€"));
-        gastos.add( new Gasto( "21-02-2018", "Contribucion municipal", "48,32€"));
-        gastos.add( new Gasto( "24-02-2018", "Recibo de agua", "13,67€"));
-        gastos.add( new Gasto( "28-02-2018", "Recibo de la luz", "145,46€"));
-        gastos.add( new Gasto( "02-03-2018", "Basura", "62,12€"));
-        gastos.add( new Gasto( "12-03-2018", "Calentador", "345,08€"));
-        gastos.add( new Gasto( "15-03-2018", "Recibo de la luz", "21,46€"));
-        gastos.add( new Gasto( "19-03-2018", "Recibo de agua", "12,36€"));
-        gastos.add( new Gasto( "22-03-2018", "Asistenta", "1567,16€"));
-        gastos.add( new Gasto( "23-03-2018", "Comunidad", "108,48€"));
-        gastos.add( new Gasto( "01-04-2018", "Bombona gas", "188,89€"));
-        gastos.add( new Gasto( "06-04-2018", "Recibo de la luz", "98,78€"));
-        gastos.add( new Gasto( "18-05-2018", "Contribucion", "34,56€"));
-        gastos.add( new Gasto( "23-06-2018", "Otros", "458,34€"));
-        gastos.add( new Gasto( "30-06-2018", "Recibo de la luz", "58,16€"));
-        gastos.add( new Gasto( "01-07-2018", "Recibo de la luz", "24,76€"));
-        gastos.add( new Gasto( "22-07-2018", "Municipal", "152,09€"));
-        gastos.add( new Gasto( "18-08-2018", "Paguilla", "408,645€"));
-        gastos.add( new Gasto( "19-08-2018", "Cortinas nuevas", "38,34€"));
-        gastos.add( new Gasto( "21-09-2018", "Sartenes", "208,46€"));
+        int i = 1;
+        Calendar cal = Calendar.getInstance();
+        cal.set(2018, 1, 18);
+        gastos.add(new Gasto( i++, cal.getTimeInMillis(), "Recibo de la luz", 10846));
+        cal.set(2018, 1, 21);
+        gastos.add( new Gasto( i++, cal.getTimeInMillis(), "Contribucion municipal", 4832));
+        cal.set(2018, 1, 24);
+        gastos.add( new Gasto( i++, cal.getTimeInMillis(), "Recibo de agua", 1367));
+        cal.set(2018, 1, 28);
+        gastos.add( new Gasto( i++, cal.getTimeInMillis(), "Recibo de la luz", 14546));
+        cal.set(2018, 2, 2);
+        gastos.add( new Gasto( i++, cal.getTimeInMillis(), "Basura", 6212));
+        cal.set(2018, 2, 12);
+        gastos.add( new Gasto( i++, cal.getTimeInMillis(), "Calentador", 34508));
+        cal.set(2018, 2, 15);
+        gastos.add( new Gasto( i++, cal.getTimeInMillis(), "Recibo de la luz", 2146));
+        cal.set(2018, 2, 19);
+        gastos.add( new Gasto( i++, cal.getTimeInMillis(), "Recibo de agua", 1236));
+        cal.set(2018, 2, 22);
+        gastos.add( new Gasto( i++, cal.getTimeInMillis(), "Asistenta", 156716));
+        cal.set(2018, 2, 23);
+        gastos.add( new Gasto( i++, cal.getTimeInMillis(), "Comunidad", 10848));
+        cal.set(2018, 3, 1);
+        gastos.add( new Gasto( i++, cal.getTimeInMillis(), "Bombona gas", 18889));
+        cal.set(2018, 3, 6);
+        gastos.add( new Gasto( i++, cal.getTimeInMillis(), "Recibo de la luz", 9878));
+        cal.set(2018, 4, 18);
+        gastos.add( new Gasto( i++, cal.getTimeInMillis(), "Contribucion", 3456));
+        cal.set(2018, 5, 23);
+        gastos.add( new Gasto( i++, cal.getTimeInMillis(), "Otros", 45834));
+        cal.set(2018, 5, 30);
+        gastos.add( new Gasto( i++, cal.getTimeInMillis(), "Recibo de la luz", 5816));
+        cal.set(2018, 6, 1);
+        gastos.add( new Gasto( i++, cal.getTimeInMillis(), "Recibo de la luz", 2476));
+        cal.set(2018, 6, 22);
+        gastos.add( new Gasto( i++, cal.getTimeInMillis(), "Municipal", 15209));
+        cal.set(2018, 7, 18);
+        gastos.add( new Gasto( i++, cal.getTimeInMillis(), "Paguilla", 408645));
+        cal.set(2018, 7, 19);
+        gastos.add( new Gasto( i++, cal.getTimeInMillis(), "Cortinas nuevas", 3834));
+        cal.set(2018, 8, 21);
+        gastos.add( new Gasto( i++, cal.getTimeInMillis(), "Sartenes", 20846));
+        cal.set(2018, 8, 24);
+        gastos.add( new Gasto( i++, cal.getTimeInMillis(), "Ultimo", 1200));
     }
 
 }

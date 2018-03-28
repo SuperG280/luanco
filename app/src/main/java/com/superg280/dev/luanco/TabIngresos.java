@@ -2,6 +2,7 @@ package com.superg280.dev.luanco;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -71,27 +72,48 @@ public class TabIngresos extends Fragment {
     public void refillIngresos() {
 
         ingresos = new ArrayList<Ingreso>();
-
-        ingresos.add( new Ingreso( "18-02-2018", "Pago de Ramon", "108,46€", 1));
-        ingresos.add( new Ingreso( "21-02-2018", "Pago de Maria", "48,32€", 2));
-        ingresos.add( new Ingreso( "24-02-2018", "Pago de Maria", "13,67€", 2));
-        ingresos.add( new Ingreso( "28-02-2018", "Pago de Luis", "145,46€", 3));
-        ingresos.add( new Ingreso( "02-03-2018", "Pago de Ramon", "62,12€", 1));
-        ingresos.add( new Ingreso( "12-03-2018", "Pago de Maria", "345,08€", 2));
-        ingresos.add( new Ingreso( "15-03-2018", "Pago de Luis", "21,46€", 3));
-        ingresos.add( new Ingreso( "19-03-2018", "Pago de Ramon", "12,36€", 1));
-        ingresos.add( new Ingreso( "22-03-2018", "Pago de Maria", "1567,16€", 2));
-        ingresos.add( new Ingreso( "23-03-2018", "Pago de Ramon", "108,48€", 1));
-        ingresos.add( new Ingreso( "01-04-2018", "Pago de Luis", "188,89€", 3));
-        ingresos.add( new Ingreso( "06-04-2018", "Pago de Maria", "98,78€", 2));
-        ingresos.add( new Ingreso( "18-05-2018", "Pago de Ramon", "34,56€", 1));
-        ingresos.add( new Ingreso( "23-06-2018", "Pago de Maria", "458,34€", 2));
-        ingresos.add( new Ingreso( "30-06-2018", "Pago de Luis", "58,16€", 3));
-        ingresos.add( new Ingreso( "01-07-2018", "Pago de Luis", "24,76€", 3));
-        ingresos.add( new Ingreso( "22-07-2018", "Pago de Luis", "152,09€", 3));
-        ingresos.add( new Ingreso( "18-08-2018", "Pago de Maria", "408,645€", 2));
-        ingresos.add( new Ingreso( "19-08-2018", "Pago de Ramon", "38,34€", 1));
-        ingresos.add( new Ingreso( "21-09-2018", "Pago de Luis", "208,46€", 3));
+        int i = 1;
+        Calendar cal = Calendar.getInstance();
+        cal.set(2018, 1, 18);
+        ingresos.add(new Ingreso( i++, cal.getTimeInMillis(), "Pago de Ramon", 10846, 1));
+        cal.set(2018, 1, 21);
+        ingresos.add(new Ingreso( i++, cal.getTimeInMillis(), "Pago de Maria", 4832, 2));
+        cal.set(2018, 1, 24);
+        ingresos.add(new Ingreso( i++, cal.getTimeInMillis(), "Pago de Maria", 1367, 2));
+        cal.set(2018, 1, 28);
+        ingresos.add(new Ingreso( i++, cal.getTimeInMillis(), "Pago de Luis", 14546, 3));
+        cal.set(2018, 2, 02);
+        ingresos.add(new Ingreso( i++, cal.getTimeInMillis(), "Pago de Ramon", 6212, 1));
+        cal.set(2018, 2, 12);
+        ingresos.add(new Ingreso( i++, cal.getTimeInMillis(), "Pago de Maria", 34508, 2));
+        cal.set(2018, 2, 15);
+        ingresos.add(new Ingreso( i++, cal.getTimeInMillis(), "Pago de Luis", 2146, 3));
+        cal.set(2018, 2, 19);
+        ingresos.add(new Ingreso( i++, cal.getTimeInMillis(), "Pago de Ramon", 1236, 1));
+        cal.set(2018, 2, 22);
+        ingresos.add(new Ingreso( i++, cal.getTimeInMillis(), "Pago de Maria", 156716, 2));
+        cal.set(2018, 2, 23);
+        ingresos.add(new Ingreso( i++, cal.getTimeInMillis(), "Pago de Ramon", 10848, 1));
+        cal.set(2018, 3, 1);
+        ingresos.add( new Ingreso( i++, cal.getTimeInMillis(), "Pago de Luis", 18889, 3));
+        cal.set(2018, 3, 06);
+        ingresos.add( new Ingreso( i++, cal.getTimeInMillis(), "Pago de Maria", 9878, 2));
+        cal.set(2018, 4, 18);
+        ingresos.add( new Ingreso( i++, cal.getTimeInMillis(), "Pago de Ramon", 3456, 1));
+        cal.set(2018, 5, 23);
+        ingresos.add( new Ingreso( i++, cal.getTimeInMillis(), "Pago de Maria", 45834, 2));
+        cal.set(2018, 5, 30);
+        ingresos.add( new Ingreso( i++, cal.getTimeInMillis(), "Pago de Luis", 5816, 3));
+        cal.set(2018, 6, 1);
+        ingresos.add( new Ingreso( i++, cal.getTimeInMillis(), "Pago de Luis", 2475, 3));
+        cal.set(2018, 6, 22);
+        ingresos.add( new Ingreso( i++, cal.getTimeInMillis(), "Pago de Luis", 15209, 3));
+        cal.set(2018, 7, 18);
+        ingresos.add( new Ingreso( i++, cal.getTimeInMillis(), "Pago de Maria", 40845, 2));
+        cal.set(2018, 7, 19);
+        ingresos.add( new Ingreso( i++, cal.getTimeInMillis(), "Pago de Ramon", 3834, 1));
+        cal.set(2018, 8, 21);
+        ingresos.add( new Ingreso( i++, cal.getTimeInMillis(), "Pago de Luis", 20846, 3));
     }
 
 }
