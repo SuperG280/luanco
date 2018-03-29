@@ -1,8 +1,9 @@
 package com.superg280.dev.luanco;
 
-import android.graphics.drawable.Drawable;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
+
+import java.util.UUID;
 
 /**
  * Created by Super on 10/03/2018.
@@ -10,17 +11,13 @@ import android.icu.util.Calendar;
 
 public class Ingreso {
 
-    private int id;
+    private String id;
     private long fecha;
     private String descripcion;
     private long importe;
     private int    userID;
 
-    public Ingreso() {
-        super();
-    }
-
-    public Ingreso( int id, long fecha, String descripcion, long importe, int userid) {
+    public Ingreso( String id, long fecha, String descripcion, long importe, int userid) {
         this.id          = id;
         this.fecha       = fecha;
         this.descripcion = new String( descripcion);
@@ -28,11 +25,30 @@ public class Ingreso {
         this.userID      = userid;
     }
 
-    public void setId(int id) {
+    public Ingreso( long fecha, String descripcion, long importe, int userid) {
+        regenerateID();
+        this.fecha       = fecha;
+        this.descripcion = new String( descripcion);
+        this.importe     = importe;
+        this.userID      = userid;
+    }
+
+    public Ingreso() {
+        regenerateID();
+        this.fecha = Calendar.getInstance().getTimeInMillis();
+        this.descripcion = new String();
+        this.importe = 0;
+        this.userID = 0;
+    }
+    public void regenerateID() {
+        this.id = UUID.randomUUID().toString();
+    }
+
+    public void setId( String id) {
         this.id = id;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

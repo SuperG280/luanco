@@ -72,48 +72,48 @@ public class TabIngresos extends Fragment {
     public void refillIngresos() {
 
         ingresos = new ArrayList<Ingreso>();
-        int i = 1;
+
         Calendar cal = Calendar.getInstance();
         cal.set(2018, 1, 18);
-        ingresos.add(new Ingreso( i++, cal.getTimeInMillis(), "Pago de Ramon", 10846, 1));
+        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Ramon", 10846, 1));
         cal.set(2018, 1, 21);
-        ingresos.add(new Ingreso( i++, cal.getTimeInMillis(), "Pago de Maria", 4832, 2));
+        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Maria", 4832, 2));
         cal.set(2018, 1, 24);
-        ingresos.add(new Ingreso( i++, cal.getTimeInMillis(), "Pago de Maria", 1367, 2));
+        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Maria", 1367, 2));
         cal.set(2018, 1, 28);
-        ingresos.add(new Ingreso( i++, cal.getTimeInMillis(), "Pago de Luis", 14546, 3));
+        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Luis", 14546, 3));
         cal.set(2018, 2, 02);
-        ingresos.add(new Ingreso( i++, cal.getTimeInMillis(), "Pago de Ramon", 6212, 1));
+        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Ramon", 6212, 1));
         cal.set(2018, 2, 12);
-        ingresos.add(new Ingreso( i++, cal.getTimeInMillis(), "Pago de Maria", 34508, 2));
+        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Maria", 34508, 2));
         cal.set(2018, 2, 15);
-        ingresos.add(new Ingreso( i++, cal.getTimeInMillis(), "Pago de Luis", 2146, 3));
+        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Luis", 2146, 3));
         cal.set(2018, 2, 19);
-        ingresos.add(new Ingreso( i++, cal.getTimeInMillis(), "Pago de Ramon", 1236, 1));
+        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Ramon", 1236, 1));
         cal.set(2018, 2, 22);
-        ingresos.add(new Ingreso( i++, cal.getTimeInMillis(), "Pago de Maria", 156716, 2));
+        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Maria", 156716, 2));
         cal.set(2018, 2, 23);
-        ingresos.add(new Ingreso( i++, cal.getTimeInMillis(), "Pago de Ramon", 10848, 1));
+        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Ramon", 10848, 1));
         cal.set(2018, 3, 1);
-        ingresos.add( new Ingreso( i++, cal.getTimeInMillis(), "Pago de Luis", 18889, 3));
+        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Luis", 18889, 3));
         cal.set(2018, 3, 06);
-        ingresos.add( new Ingreso( i++, cal.getTimeInMillis(), "Pago de Maria", 9878, 2));
+        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Maria", 9878, 2));
         cal.set(2018, 4, 18);
-        ingresos.add( new Ingreso( i++, cal.getTimeInMillis(), "Pago de Ramon", 3456, 1));
+        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Ramon", 3456, 1));
         cal.set(2018, 5, 23);
-        ingresos.add( new Ingreso( i++, cal.getTimeInMillis(), "Pago de Maria", 45834, 2));
+        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Maria", 45834, 2));
         cal.set(2018, 5, 30);
-        ingresos.add( new Ingreso( i++, cal.getTimeInMillis(), "Pago de Luis", 5816, 3));
+        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Luis", 5816, 3));
         cal.set(2018, 6, 1);
-        ingresos.add( new Ingreso( i++, cal.getTimeInMillis(), "Pago de Luis", 2475, 3));
+        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Luis", 2475, 3));
         cal.set(2018, 6, 22);
-        ingresos.add( new Ingreso( i++, cal.getTimeInMillis(), "Pago de Luis", 15209, 3));
+        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Luis", 15209, 3));
         cal.set(2018, 7, 18);
-        ingresos.add( new Ingreso( i++, cal.getTimeInMillis(), "Pago de Maria", 40845, 2));
+        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Maria", 40845, 2));
         cal.set(2018, 7, 19);
-        ingresos.add( new Ingreso( i++, cal.getTimeInMillis(), "Pago de Ramon", 3834, 1));
+        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Ramon", 3834, 1));
         cal.set(2018, 8, 21);
-        ingresos.add( new Ingreso( i++, cal.getTimeInMillis(), "Pago de Luis", 20846, 3));
+        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Luis", 20846, 3));
     }
 
 }
