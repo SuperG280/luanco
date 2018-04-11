@@ -1,6 +1,7 @@
 package com.superg280.dev.luanco;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -21,6 +22,8 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class LuTabActivity extends AppCompatActivity {
 
     /**
@@ -38,12 +41,23 @@ public class LuTabActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
 
+    //Objeto de la base de datos.
+    public LuancoDBHelper LuancoDB;
+
+    public ArrayList<Gasto>   gastos   = null;
+    public ArrayList<Ingreso> ingresos = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lu_tab);
 
+        LuancoDB = new LuancoDBHelper( this);
+
         int fragmentId = getIntent().getIntExtra("TAB_INDEX", 0);
+
+        gastos   = (ArrayList<Gasto>)getIntent().getSerializableExtra("GASTOS");
+        ingresos = (ArrayList<Ingreso>)getIntent().getSerializableExtra("INGRESOS");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -133,11 +147,11 @@ public class LuTabActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Gastos";
+                    return getResources().getString(R.string.app_menu_gastos);
                 case 1:
-                    return "Ingresos";
+                    return getResources().getString(R.string.app_menu_ingresos);
                 case 2:
-                    return "Usuarios";
+                    return getResources().getString(R.string.app_manu_usuarios);
             }
             return null;
         }

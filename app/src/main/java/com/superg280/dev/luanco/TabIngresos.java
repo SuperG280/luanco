@@ -1,34 +1,54 @@
 package com.superg280.dev.luanco;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class TabIngresos extends Fragment {
 
     private ArrayList<Ingreso> ingresos = null;
     private AdapterIngreso adapter = null;
+    public EditText editTextFecha;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View tab = inflater.inflate(R.layout.fragment_tab_ingresos, container, false);
 
-        refillIngresos();
+        ingresos = ((LuTabActivity)this.getActivity()).ingresos;
         adapter = new AdapterIngreso( getActivity(), ingresos);
+
+        if( ingresos == null || ingresos.size() == 0) {
+            Toast.makeText( getActivity(), getResources().getString(R.string.toast_no_ingresos), Toast.LENGTH_LONG).show();
+        }
 
         ListView lv = (ListView) tab.findViewById(R.id.listView_ingresos);
         lv.setAdapter(adapter);
@@ -64,56 +84,227 @@ public class TabIngresos extends Fragment {
             }
         });
 
+        FloatingActionButton fab = (FloatingActionButton) tab.findViewById(R.id.fab_new_ingresos);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog dlg = createNewIngresoDialogo();
+                dlg.show();
+            }
+        });
 
         // Inflate the layout for this fragment
         return tab;
     }
 
-    public void refillIngresos() {
+    public void setImageRounded( View v, int user) {
 
-        ingresos = new ArrayList<Ingreso>();
+        //extraemos el drawable en un bitmap
+        Drawable originalDrawable;
+        if (user == 1) {
+            originalDrawable = getResources().getDrawable(R.drawable.yo);
+        } else if( user == 2) {
+            originalDrawable = getResources().getDrawable(R.drawable.maria_perfil);
+        } else {
+            originalDrawable = getResources().getDrawable(R.drawable.luis_perfil);
+        }
 
-        Calendar cal = Calendar.getInstance();
-        cal.set(2018, 1, 18);
-        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Ramon", 10846, 1));
-        cal.set(2018, 1, 21);
-        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Maria", 4832, 2));
-        cal.set(2018, 1, 24);
-        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Maria", 1367, 2));
-        cal.set(2018, 1, 28);
-        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Luis", 14546, 3));
-        cal.set(2018, 2, 02);
-        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Ramon", 6212, 1));
-        cal.set(2018, 2, 12);
-        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Maria", 34508, 2));
-        cal.set(2018, 2, 15);
-        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Luis", 2146, 3));
-        cal.set(2018, 2, 19);
-        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Ramon", 1236, 1));
-        cal.set(2018, 2, 22);
-        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Maria", 156716, 2));
-        cal.set(2018, 2, 23);
-        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Ramon", 10848, 1));
-        cal.set(2018, 3, 1);
-        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Luis", 18889, 3));
-        cal.set(2018, 3, 06);
-        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Maria", 9878, 2));
-        cal.set(2018, 4, 18);
-        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Ramon", 3456, 1));
-        cal.set(2018, 5, 23);
-        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Maria", 45834, 2));
-        cal.set(2018, 5, 30);
-        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Luis", 5816, 3));
-        cal.set(2018, 6, 1);
-        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Luis", 2475, 3));
-        cal.set(2018, 6, 22);
-        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Luis", 15209, 3));
-        cal.set(2018, 7, 18);
-        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Maria", 40845, 2));
-        cal.set(2018, 7, 19);
-        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Ramon", 3834, 1));
-        cal.set(2018, 8, 21);
-        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Luis", 20846, 3));
+        Bitmap originalBitmap = ((BitmapDrawable) originalDrawable).getBitmap();
+
+        //creamos el drawable redondeado
+        RoundedBitmapDrawable roundedDrawable =
+                RoundedBitmapDrawableFactory.create(getResources(), originalBitmap);
+
+        //asignamos el CornerRadius
+        roundedDrawable.setCircular(true);
+
+        ImageView imageView;
+
+        if( user == 1) {
+            imageView = (ImageView) v.findViewById(R.id.imageView_new_ingreso_user1);
+        } else if( user == 2) {
+            imageView = (ImageView) v.findViewById(R.id.imageView_new_ingreso_user2);
+        } else {
+            imageView = (ImageView) v.findViewById(R.id.imageView_new_ingreso_user3);
+        }
+
+        imageView.setImageDrawable(roundedDrawable);
+
     }
 
+    public AlertDialog createNewIngresoDialogo() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        View v = inflater.inflate(R.layout.new_ingreso, null);
+
+        builder.setView(v);
+
+        setImageRounded( v, 1);
+        setImageRounded( v, 2);
+        setImageRounded( v, 3);
+
+        final EditText editTextImporte = (EditText)v.findViewById( R.id.editText_new_ingreso_importe);
+        final EditText editTextDescripcion = (EditText)v.findViewById( R.id.editText_new_ingreso_descripcion);
+        editTextFecha = (EditText)v.findViewById(R.id.editText_new_ingreso_fecha);
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        editTextFecha.setText( df.format(cal));
+
+        editTextFecha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog();
+            }
+        });
+
+        final RadioButton radioUser1 = v.findViewById( R.id.radioButton_new_ingreso_user1);
+        final RadioButton radioUser2 = v.findViewById( R.id.radioButton_new_ingreso_user2);
+        final RadioButton radioUser3 = v.findViewById( R.id.radioButton_new_ingreso_user3);
+
+        radioUser1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                radioUser2.setChecked( false);
+                radioUser3.setChecked( false);
+            }
+        });
+
+        radioUser2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                radioUser1.setChecked( false);
+                radioUser3.setChecked( false);
+            }
+        });
+
+        radioUser3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                radioUser1.setChecked( false);
+                radioUser2.setChecked( false);
+            }
+        });
+
+        builder.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String importe      = editTextImporte.getText().toString();
+                        String fecha        = editTextFecha.getText().toString();
+                        String descripcion  = editTextDescripcion.getText().toString();
+                        int userID = 0;
+
+                        if( radioUser1.isChecked()) {
+                            userID = 1;
+                        } else if( radioUser2.isChecked()) {
+                            userID = 2;
+                        } else {
+                            userID = 3;
+                        }
+
+                        addNewIngreso( fecha, importe, descripcion, userID);
+                    }
+                });
+
+        builder.setNegativeButton("CANCELAR",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Toast.makeText( getActivity(), "Cancel", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        return builder.create();
+    }
+
+    private void showDatePickerDialog() {
+
+        //Calendario para obtener fecha & hora
+        Calendar c = Calendar.getInstance();
+
+        //Variables para obtener la fecha
+        int mes = c.get(Calendar.MONTH);
+        int dia = c.get(Calendar.DAY_OF_MONTH);
+        int anio = c.get(Calendar.YEAR);
+
+        DatePickerDialog recogerFecha = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                //Esta variable lo que realiza es aumentar en uno el mes ya que comienza desde 0 = enero
+                final int mesActual = month + 1;
+                //Formateo el día obtenido: antepone el 0 si son menores de 10
+                String diaFormateado = (dayOfMonth < 10)? 0 + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
+                //Formateo el mes obtenido: antepone el 0 si son menores de 10
+                String mesFormateado = (mesActual < 10)? 0 + String.valueOf(mesActual):String.valueOf(mesActual);
+                //Muestro la fecha con el formato deseado
+                editTextFecha.setText(diaFormateado + "/" + mesFormateado + "/" + year);
+            }
+            //Estos valores deben ir en ese orden, de lo contrario no mostrara la fecha actual
+            /**
+             *También puede cargar los valores que usted desee
+             */
+        },anio, mes, dia);
+        //Muestro el widget
+        recogerFecha.show();
+    }
+
+    public boolean addNewIngreso( String fecha, String importe, String descripcion, int user) {
+
+        String fecha_formated = fecha.replace( '/', '-');
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        Date date;
+        try {
+            date = sdf.parse(fecha_formated);
+        } catch( Exception ex) {
+            return false;
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        int num = cal.get( Calendar.MONTH);
+        long lImporte;
+        try {
+            lImporte = (long)(new Double( importe).doubleValue() * 100);
+        } catch( Exception ex) {
+            return false;
+        }
+
+        Ingreso newIngreso = new Ingreso( cal.getTimeInMillis(), descripcion, lImporte, user);
+
+        String resultado = newIngreso.toString();
+
+       getLuancoBD().insertNewIngreso( newIngreso);
+
+        insertNewIngresoInArray( newIngreso);
+        adapter.notifyDataSetChanged();
+        return true;
+    }
+
+    public void insertNewIngresoInArray( Ingreso ingreso) {
+
+        if( ingresos.size() == 0) {
+            ingresos.add( ingreso);
+            return;
+        }
+
+        long NewFecha = ingreso.getFechaLong();
+        for( int i = 0; i < ingresos.size(); i++) {
+
+            Ingreso ing = ingresos.get( i);
+            if( ing.getFechaLong() <= NewFecha) {
+                ingresos.add( i, ingreso);
+                return;
+            }
+        }
+        //Si ha llegado a salir del bucle es que no ha encontrado
+        //una fecha menor y esta es la menor, así que lo mete el último.
+        ingresos.add( ingreso);
+    }
+
+    //Función de acceso a la base de datos que está en LuTabActivity.
+    public LuancoDBHelper getLuancoBD() {
+        return ((LuTabActivity)this.getActivity()).LuancoDB;
+    }
 }

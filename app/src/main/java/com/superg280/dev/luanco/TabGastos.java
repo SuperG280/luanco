@@ -1,10 +1,13 @@
 package com.superg280.dev.luanco;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -12,16 +15,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 
 
 public class TabGastos extends Fragment {
 
     private ArrayList<Gasto> gastos = null;
     private AdapterGasto adapter = null;
+    public EditText editTextFecha;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,8 +40,12 @@ public class TabGastos extends Fragment {
 
         View tab = inflater.inflate(R.layout.fragment_tab_gastos, container, false);
 
-        refillGastos();
+        gastos = ((LuTabActivity)this.getActivity()).gastos;
         adapter = new AdapterGasto(getActivity(), gastos);
+
+        if( gastos == null || gastos.size() == 0) {
+            Toast.makeText( getActivity(), getResources().getString(R.string.toast_no_gastos), Toast.LENGTH_LONG).show();
+        }
 
         ListView lv = (ListView) tab.findViewById(R.id.listView_gastos);
 
@@ -69,60 +84,150 @@ public class TabGastos extends Fragment {
             }
         });
 
-
-
+        FloatingActionButton fab = (FloatingActionButton) tab.findViewById(R.id.fab_new_gastos);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog dlg = createNewGastoDialogo();
+                dlg.show();
+            }
+        });
 
         // Inflate the layout for this fragment
         return tab;
     }
 
-    public void refillGastos() {
+    public AlertDialog createNewGastoDialogo() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        gastos = new ArrayList<Gasto>();
+        LayoutInflater inflater = getActivity().getLayoutInflater();
 
+        View v = inflater.inflate(R.layout.new_gasto, null);
+
+        builder.setView(v);
+
+        final EditText editTextImporte = (EditText)v.findViewById( R.id.editText_new_gasto_importe);
+        final EditText editTextDescripcion = (EditText)v.findViewById( R.id.editText_new_gasto_descripcion);
+        editTextFecha = (EditText)v.findViewById(R.id.editText_new_gasto_fecha);
         Calendar cal = Calendar.getInstance();
-        cal.set(2018, 1, 18);
-        gastos.add(new Gasto( cal.getTimeInMillis(), "Recibo de la luz", 10846));
-        cal.set(2018, 1, 21);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Contribucion municipal", 4832));
-        cal.set(2018, 1, 24);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Recibo de agua", 1367));
-        cal.set(2018, 1, 28);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Recibo de la luz", 14546));
-        cal.set(2018, 2, 2);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Basura", 6212));
-        cal.set(2018, 2, 12);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Calentador", 34508));
-        cal.set(2018, 2, 15);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Recibo de la luz", 2146));
-        cal.set(2018, 2, 19);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Recibo de agua", 1236));
-        cal.set(2018, 2, 22);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Asistenta", 156716));
-        cal.set(2018, 2, 23);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Comunidad", 10848));
-        cal.set(2018, 3, 1);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Bombona gas", 18889));
-        cal.set(2018, 3, 6);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Recibo de la luz", 9878));
-        cal.set(2018, 4, 18);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Contribucion", 3456));
-        cal.set(2018, 5, 23);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Otros", 45834));
-        cal.set(2018, 5, 30);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Recibo de la luz", 5816));
-        cal.set(2018, 6, 1);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Recibo de la luz", 2476));
-        cal.set(2018, 6, 22);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Municipal", 15209));
-        cal.set(2018, 7, 18);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Paguilla", 408645));
-        cal.set(2018, 7, 19);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Cortinas nuevas", 3834));
-        cal.set(2018, 8, 21);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Sartenes", 20846));
-        cal.set(2018, 8, 24);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Ultimo", 1200));
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        editTextFecha.setText( df.format(cal));
+
+        editTextFecha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog();
+            }
+        });
+
+        builder.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String importe = editTextImporte.getText().toString();
+                        String fecha = editTextFecha.getText().toString();
+                        String descripcion = editTextDescripcion.getText().toString();
+
+                        addNewGasto( fecha, importe, descripcion);
+                    }
+                });
+
+        builder.setNegativeButton("CANCELAR",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Toast.makeText( getActivity(), "Cancel", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        return builder.create();
     }
 
+    private void showDatePickerDialog() {
+
+        //Calendario para obtener fecha & hora
+        Calendar c = Calendar.getInstance();
+
+        //Variables para obtener la fecha
+        int mes = c.get(Calendar.MONTH);
+        int dia = c.get(Calendar.DAY_OF_MONTH);
+        int anio = c.get(Calendar.YEAR);
+
+        DatePickerDialog recogerFecha = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                //Esta variable lo que realiza es aumentar en uno el mes ya que comienza desde 0 = enero
+                final int mesActual = month + 1;
+                //Formateo el día obtenido: antepone el 0 si son menores de 10
+                String diaFormateado = (dayOfMonth < 10)? 0 + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
+                //Formateo el mes obtenido: antepone el 0 si son menores de 10
+                String mesFormateado = (mesActual < 10)? 0 + String.valueOf(mesActual):String.valueOf(mesActual);
+                //Muestro la fecha con el formato deseado
+                editTextFecha.setText(diaFormateado + "/" + mesFormateado + "/" + year);
+            }
+            //Estos valores deben ir en ese orden, de lo contrario no mostrara la fecha actual
+            /**
+            *También puede cargar los valores que usted desee
+             */
+        },anio, mes, dia);
+        //Muestro el widget
+        recogerFecha.show();
+    }
+
+    public boolean addNewGasto( String fecha, String importe, String descripcion) {
+
+        String fecha_formated = fecha.replace( '/', '-');
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        Date date;
+        try {
+            date = sdf.parse(fecha_formated);
+        } catch( Exception ex) {
+            return false;
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        int num = cal.get( Calendar.MONTH);
+        long lImporte;
+        try {
+            lImporte = (long)(new Double( importe).doubleValue() * 100);
+        } catch( Exception ex) {
+            return false;
+        }
+
+        Gasto newGasto = new Gasto( cal.getTimeInMillis(), descripcion, lImporte);
+
+        String resultado = newGasto.toString();
+
+        getLuancoBD().insertNewGasto( newGasto);
+
+        insertNewGastoInArray( newGasto);
+        adapter.notifyDataSetChanged();
+        return true;
+    }
+
+    public void insertNewGastoInArray( Gasto gasto) {
+
+        if( gastos.size() == 0) {
+            gastos.add( gasto);
+            return;
+        }
+
+        long NewFecha = gasto.getFechaLong();
+        for( int i = 0; i < gastos.size(); i++) {
+
+            Gasto g = gastos.get( i);
+            if( g.getFechaLong() <= NewFecha) {
+                gastos.add( i, gasto);
+                return;
+            }
+        }
+        //Si ha llegado a salir del bucle es que no ha encontrado
+        //una fecha menor y esta es la menor, así que lo mete el último.
+        gastos.add( gasto);
+    }
+    //Función de acceso a la base de datos que está en LuTabActivity.
+    public LuancoDBHelper getLuancoBD() {
+        return ((LuTabActivity)this.getActivity()).LuancoDB;
+    }
 }

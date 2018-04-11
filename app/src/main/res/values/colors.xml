@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorFloatingRed">#FF2020</color>
+    <color name="colorSaldoNegativo">#FF2020</color>
+    <color name="colorSaldoNeutro">#ffffffff</color>
 </resources>

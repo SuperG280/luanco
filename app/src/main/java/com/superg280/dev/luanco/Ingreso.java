@@ -1,5 +1,6 @@
 package com.superg280.dev.luanco;
 
+import android.content.ContentValues;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 
@@ -9,7 +10,7 @@ import java.util.UUID;
  * Created by Super on 10/03/2018.
  */
 
-public class Ingreso {
+public class Ingreso implements java.io.Serializable{
 
     private String id;
     private long fecha;
@@ -72,7 +73,7 @@ public class Ingreso {
     }
 
     public String getImporte() {
-        return "" + (double) ((double)importe / 100) + "€";
+        return String.format("%.2f€", (double) ((double)importe / 100));
 
     }
     public void setDescripcion(String descripcion) {
@@ -93,5 +94,16 @@ public class Ingreso {
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+
+    //Convierte el objeto ingreso actual en el ContentValues para insertarlo en la base de datos.
+    public ContentValues toContentValues() {
+        ContentValues values = new ContentValues();
+        values.put( LuancoContract.IngresoEntry.ID            , id);
+        values.put( LuancoContract.IngresoEntry.FECHA         , fecha);
+        values.put( LuancoContract.IngresoEntry.DESCRIPCION   , descripcion);
+        values.put( LuancoContract.IngresoEntry.IMPORTE       , importe);
+        values.put( LuancoContract.IngresoEntry.USUARIO       , userID);
+        return values;
     }
 }

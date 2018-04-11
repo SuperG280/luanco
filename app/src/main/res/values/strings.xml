@@ -4,7 +4,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Ajustes</string>
     <string name="app_main_tittle">luanco</string>
     <string name="app_main_current_amount">Saldo actual</string>
     <string name="app_name_user1">Ramon</string>
@@ -19,12 +19,18 @@
     <string name="title_activity_lu_tab">LuTabActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="dlg_delete_title_ingresos">Borrar ingreso</string>
-    <string name="dlg_delete_mensaje_ingresos">Está seguro de que desea borrar el ingreso seleccionado? Esta operación no se podrá deshacer.</string>
+    <string name="dlg_delete_mensaje_ingresos">Estás seguro de que deseas borrar el ingreso seleccionado? Esta operación no se podrá deshacer.</string>
     <string name="dlg_delete_but_confirm">Confirmar</string>
     <string name="dlg_delete_but_cancel">Cancelar</string>
     <string name="dlg_delete_title_gastos">Borrar gasto</string>
-    <string name="dlg_delete_mensaje_gastos">Está seguro de que desea borrar el gasto seleccionado? Esta operación no se podrá deshacer.</string>
-
+    <string name="dlg_delete_mensaje_gastos">Estás seguro de que deseas borrar el gasto seleccionado? Esta operación no se podrá deshacer.</string>
+    <string name="toast_no_gastos">Actualmente no hay ningún gasto. Pulsa el boton para crear el primero.</string>
+    <string name="toast_no_ingresos">Actualmente no hay ningún ingreso. Pulsa el boton para crear el primero.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_new_gasto_descripcion">Descripcion</string>
+    <string name="app_new_gasto_importe">Importe</string>
+    <string name="app_new_gasto_fecha">Fecha</string>
+    <string name="app_new_gasto_title">Datos del nuevo gasto</string>
+    <string name="app_new_ingreso_title">Datos del nuevo ingreso</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.superg280.dev.luanco;
 
+import android.content.ContentValues;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 
@@ -9,7 +10,7 @@ import java.util.UUID;
  * Created by Super on 10/03/2018.
  */
 
-public class Gasto {
+public class Gasto implements java.io.Serializable{
 
     private String id;
     private long fecha;
@@ -69,9 +70,10 @@ public class Gasto {
     }
 
     public String getImporte() {
-        return "" + (double) ((double)importe / 100) + "€";
+        return String.format("%.2f€", (double) ((double)importe / 100));
 
     }
+
     public void setDescripcion(String descripcion) {
         this.descripcion = new String( descripcion);
     }
@@ -83,4 +85,21 @@ public class Gasto {
     public void setImporte(long importe) {
         this.importe =  importe;
     }
+
+    //Convierte el objeto gasto actual en el ContentValues para insertarlo en la base de datos.
+    public ContentValues toContentValues() {
+        ContentValues values = new ContentValues();
+        values.put( LuancoContract.GastoEntry.ID            , id);
+        values.put( LuancoContract.GastoEntry.FECHA         , fecha);
+        values.put( LuancoContract.GastoEntry.DESCRIPCION   , descripcion);
+        values.put( LuancoContract.GastoEntry.IMPORTE       , importe);
+        return values;
+    }
+/*
+    public String toString( ) {
+        return  LuancoContract.GastoEntry.ID            + " " + id          + " " +
+                LuancoContract.GastoEntry.FECHA         + " " + fecha       + " " +
+                LuancoContract.GastoEntry.DESCRIPCION   + " " + descripcion + " " +
+                LuancoContract.GastoEntry.IMPORTE       + " " + importe;
+    }*/
 }
