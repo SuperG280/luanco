@@ -1,5 +1,6 @@
 package com.superg280.dev.luanco;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -30,11 +32,24 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public final static int USER_RAMON = 1;
+    public final static int USER_MARIA = 2;
+    public final static int USER_LUIS = 3;
+
     private ArrayList<Gasto> gastos = null;
     private ArrayList<Ingreso> ingresos = null;
 
     //Objeto de la base de datos.
     public LuancoDBHelper LuancoDB;
+
+    //Guarda el total de gastos actual. Para acelerar la ejecución. Se actualiza
+    //en updateSaldoActual y se utiliza en refillTextViewSaldoUser para refrescar
+    //el TextView.
+    private long TotalGastos;
+
+    private long SaldoUsuario1;
+    private long SaldoUsuario2;
+    private long SaldoUsuario3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +77,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        setImageRounded(1);
-        setImageRounded(2);
-        setImageRounded(3);
+        setImageRounded(USER_RAMON);
+        setImageRounded(USER_MARIA);
+        setImageRounded(USER_LUIS);
 
         LuancoDB = new LuancoDBHelper( this);
         refillGastos();
@@ -78,6 +93,9 @@ public class MainActivity extends AppCompatActivity
         refillGastos();
         refillIngresos();
         updateSaldoActual();
+        SaldoUsuario1 = refillTextViewSaldoUser( USER_RAMON);
+        SaldoUsuario2 = refillTextViewSaldoUser( USER_MARIA);
+        SaldoUsuario3 = refillTextViewSaldoUser( USER_LUIS);
         refillTextViewMainGastos();
         refillTextViewMainIngresos();
     }
@@ -96,6 +114,36 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        user1.setOnLongClickListener( new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View view) {
+
+                if( SaldoUsuario1 > 0)
+                    return false;
+
+                AlertDialog.Builder dlgAlDia = new AlertDialog.Builder( MainActivity.this);
+                dlgAlDia.setTitle( getString(R.string.dlg_aldia_title));
+                dlgAlDia.setMessage( getString( R.string.dlg_aldia_mensaje1) + " " +
+                                     getString( R.string.app_name_user1)     + " " +
+                                     getString( R.string.dlg_aldia_mensaje2) + " " +
+                                     String.format("%.2f€", (double) ((double)(SaldoUsuario1 * -1) / (double)100)));
+                dlgAlDia.setCancelable(false);
+                dlgAlDia.setPositiveButton(getString(R.string.dlg_delete_but_confirm), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+                        alDiaUser( USER_RAMON);
+                    }
+                });
+
+                dlgAlDia.setNegativeButton(getString(R.string.dlg_delete_but_cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+                    }
+                });
+                dlgAlDia.show();
+                return true;
+            }
+        });
+
         ImageView user2 = (ImageView) findViewById( R.id.imageView_user2);
 
         user2.setOnClickListener( new View.OnClickListener() {
@@ -109,6 +157,36 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        user2.setOnLongClickListener( new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View view) {
+
+                if( SaldoUsuario2 > 0)
+                    return false;
+
+                AlertDialog.Builder dlgAlDia = new AlertDialog.Builder( MainActivity.this);
+                dlgAlDia.setTitle( getString(R.string.dlg_aldia_title));
+                dlgAlDia.setMessage( getString( R.string.dlg_aldia_mensaje1) + " " +
+                        getString( R.string.app_name_user2)     + " " +
+                        getString( R.string.dlg_aldia_mensaje2) + " " +
+                        String.format("%.2f€", (double) ((double)(SaldoUsuario2 * -1) / (double)100)));
+                dlgAlDia.setCancelable(false);
+                dlgAlDia.setPositiveButton(getString(R.string.dlg_delete_but_confirm), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+                        alDiaUser( USER_MARIA);
+                    }
+                });
+
+                dlgAlDia.setNegativeButton(getString(R.string.dlg_delete_but_cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+                    }
+                });
+                dlgAlDia.show();
+                return true;
+            }
+        });
+
         ImageView user3 = (ImageView) findViewById( R.id.imageView_user3);
 
         user3.setOnClickListener( new View.OnClickListener() {
@@ -119,6 +197,36 @@ public class MainActivity extends AppCompatActivity
                 inte.putExtra( "INGRESOS", ingresos);
 
                 startActivity(inte);
+            }
+        });
+
+        user3.setOnLongClickListener( new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View view) {
+
+                if( SaldoUsuario3 > 0)
+                    return false;
+
+                AlertDialog.Builder dlgAlDia = new AlertDialog.Builder( MainActivity.this);
+                dlgAlDia.setTitle( getString(R.string.dlg_aldia_title));
+                dlgAlDia.setMessage( getString( R.string.dlg_aldia_mensaje1) + " " +
+                        getString( R.string.app_name_user3)     + " " +
+                        getString( R.string.dlg_aldia_mensaje2) + " " +
+                        String.format("%.2f€", (double) ((double)(SaldoUsuario3 * -1) / (double)100)));
+                dlgAlDia.setCancelable(false);
+                dlgAlDia.setPositiveButton(getString(R.string.dlg_delete_but_confirm), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+                        alDiaUser( USER_LUIS);
+                    }
+                });
+
+                dlgAlDia.setNegativeButton(getString(R.string.dlg_delete_but_cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+                    }
+                });
+                dlgAlDia.show();
+                return true;
             }
         });
 
@@ -153,9 +261,9 @@ public class MainActivity extends AppCompatActivity
 
         //extraemos el drawable en un bitmap
         Drawable originalDrawable;
-        if (user == 1) {
+        if (user == USER_RAMON) {
             originalDrawable = getResources().getDrawable(R.drawable.yo);
-        } else if( user == 2) {
+        } else if( user == USER_MARIA) {
             originalDrawable = getResources().getDrawable(R.drawable.maria_perfil);
         } else {
             originalDrawable = getResources().getDrawable(R.drawable.luis_perfil);
@@ -172,9 +280,9 @@ public class MainActivity extends AppCompatActivity
 
         ImageView imageView;
 
-        if( user == 1) {
+        if( user == USER_RAMON) {
             imageView = (ImageView) findViewById(R.id.imageView_user1);
-        } else if( user == 2) {
+        } else if( user == USER_MARIA) {
             imageView = (ImageView) findViewById(R.id.imageView_user2);
         } else {
             imageView = (ImageView) findViewById(R.id.imageView_user3);
@@ -287,21 +395,60 @@ public class MainActivity extends AppCompatActivity
         txGastosMain.setText( contenido);
     }
 
+    //Hay que llamarla después de haber llamado a updateSaldoActual, para
+    //que utilice la variable de la clase TotalGastos que ya estará actualizada.
+    public long refillTextViewSaldoUser( int user) {
+
+        long ingresosDeUsario = 0;
+
+        TextView txSaldoUsuario;
+
+        if( user == USER_RAMON) {
+            txSaldoUsuario = ( TextView) findViewById( R.id.textView_current_user1);
+        } else if( user == USER_MARIA) {
+            txSaldoUsuario = ( TextView) findViewById( R.id.textView_current_user2);
+        } else if( user == USER_LUIS){
+            txSaldoUsuario = ( TextView) findViewById( R.id.textView_current_user3);
+        } else {
+            return 0;
+        }
+
+        for( Ingreso i: ingresos) {
+            if( i.getUserID() == user) {
+                ingresosDeUsario += i.getImporteLong();
+            }
+        }
+
+        long saldoUsuario = ingresosDeUsario - (TotalGastos / 3);
+
+        if( saldoUsuario < 0) {
+            txSaldoUsuario.setTextColor( ContextCompat.getColor( this, R.color.colorSaldoNegativoUsuario));
+        } else {
+            txSaldoUsuario.setTextColor( ContextCompat.getColor( this, R.color.colorSaldoNeutroUsuario));
+        }
+
+        txSaldoUsuario.setText( String.format("%.2f€", (double) ((double)saldoUsuario / (double)100)));
+
+        return saldoUsuario;
+    }
+
     public void updateSaldoActual() {
 
         TextView txSaldoActual = (TextView) findViewById( R.id.textView_current_amount);
-        long totalGastos   = 0;
+
         long totalIngresos = 0;
         long total = 0;
 
+        TotalGastos = 0;
+
         for( Gasto g: gastos) {
-            totalGastos += g.getImporteLong();
+            TotalGastos += g.getImporteLong();
         }
 
         for( Ingreso i: ingresos) {
             totalIngresos += i.getImporteLong();
         }
-        total = totalIngresos - totalGastos;
+        total = totalIngresos - TotalGastos;
 
         if( total < 0) {
             txSaldoActual.setTextColor( ContextCompat.getColor( this, R.color.colorSaldoNegativo));
@@ -312,6 +459,39 @@ public class MainActivity extends AppCompatActivity
         txSaldoActual.setText( String.format("%.2f€", (double) ((double)total / (double)100)));
     }
 
+    public void alDiaUser( int user) {
+
+        TextView txSaldoUsuario;
+        long saldoUsuario = 0;
+
+        if( user == USER_RAMON) {
+            txSaldoUsuario = ( TextView) findViewById( R.id.textView_current_user1);
+            saldoUsuario = SaldoUsuario1;
+        } else if( user == USER_MARIA) {
+            txSaldoUsuario = ( TextView) findViewById( R.id.textView_current_user2);
+            saldoUsuario = SaldoUsuario2;
+        } else if( user == USER_LUIS){
+            txSaldoUsuario = ( TextView) findViewById( R.id.textView_current_user3);
+            saldoUsuario = SaldoUsuario3;
+        } else {
+            return;
+        }
+
+        Ingreso ing = new Ingreso();
+        ing.setUserID( user);
+        ing.setImporte( saldoUsuario * -1);
+        ing.setFechaToday();
+        ing.setDescripcion( getString(R.string.app_new_aldia_ingreso_descripcion));
+
+        LuancoDB.insertNewIngreso( ing);
+
+        refillIngresos();
+        updateSaldoActual();
+        SaldoUsuario1 = refillTextViewSaldoUser( USER_RAMON);
+        SaldoUsuario2 = refillTextViewSaldoUser( USER_MARIA);
+        SaldoUsuario3 = refillTextViewSaldoUser( USER_LUIS);
+        refillTextViewMainIngresos();
+    }
     public void refillGastos() {
 
         gastos = LuancoDB.getAllGastos();

@@ -65,8 +65,7 @@ public class TabIngresos extends Fragment {
                 dlgBorrar.setCancelable(false);
                 dlgBorrar.setPositiveButton(getString(R.string.dlg_delete_but_confirm), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogo1, int id) {
-                        ingresos.remove(posicion);
-                        adapter.notifyDataSetChanged();
+                        deleteIngreso( posicion);
                     }
                 });
 
@@ -76,7 +75,7 @@ public class TabIngresos extends Fragment {
                 });
                 dlgBorrar.show();
 
-                return false;
+                return true;
 
                 /*Snackbar.make(view, "Borrado de ingreso", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
@@ -101,9 +100,9 @@ public class TabIngresos extends Fragment {
 
         //extraemos el drawable en un bitmap
         Drawable originalDrawable;
-        if (user == 1) {
+        if (user == MainActivity.USER_RAMON) {
             originalDrawable = getResources().getDrawable(R.drawable.yo);
-        } else if( user == 2) {
+        } else if( user == MainActivity.USER_MARIA) {
             originalDrawable = getResources().getDrawable(R.drawable.maria_perfil);
         } else {
             originalDrawable = getResources().getDrawable(R.drawable.luis_perfil);
@@ -120,9 +119,9 @@ public class TabIngresos extends Fragment {
 
         ImageView imageView;
 
-        if( user == 1) {
+        if( user == MainActivity.USER_RAMON) {
             imageView = (ImageView) v.findViewById(R.id.imageView_new_ingreso_user1);
-        } else if( user == 2) {
+        } else if( user == MainActivity.USER_MARIA) {
             imageView = (ImageView) v.findViewById(R.id.imageView_new_ingreso_user2);
         } else {
             imageView = (ImageView) v.findViewById(R.id.imageView_new_ingreso_user3);
@@ -141,12 +140,13 @@ public class TabIngresos extends Fragment {
 
         builder.setView(v);
 
-        setImageRounded( v, 1);
-        setImageRounded( v, 2);
-        setImageRounded( v, 3);
+        setImageRounded( v, MainActivity.USER_RAMON);
+        setImageRounded( v, MainActivity.USER_MARIA);
+        setImageRounded( v, MainActivity.USER_LUIS);
 
-        final EditText editTextImporte = (EditText)v.findViewById( R.id.editText_new_ingreso_importe);
+        final EditText editTextImporte     = (EditText)v.findViewById( R.id.editText_new_ingreso_importe);
         final EditText editTextDescripcion = (EditText)v.findViewById( R.id.editText_new_ingreso_descripcion);
+
         editTextFecha = (EditText)v.findViewById(R.id.editText_new_ingreso_fecha);
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -197,11 +197,11 @@ public class TabIngresos extends Fragment {
                         int userID = 0;
 
                         if( radioUser1.isChecked()) {
-                            userID = 1;
+                            userID = MainActivity.USER_RAMON;
                         } else if( radioUser2.isChecked()) {
-                            userID = 2;
+                            userID = MainActivity.USER_MARIA;
                         } else {
-                            userID = 3;
+                            userID = MainActivity.USER_LUIS;
                         }
 
                         addNewIngreso( fecha, importe, descripcion, userID);
@@ -301,6 +301,13 @@ public class TabIngresos extends Fragment {
         //Si ha llegado a salir del bucle es que no ha encontrado
         //una fecha menor y esta es la menor, así que lo mete el último.
         ingresos.add( ingreso);
+    }
+
+    public void deleteIngreso( int posicion) {
+
+        getLuancoBD().deleteIngreso( ingresos.get(posicion).getId());
+        ingresos.remove(posicion);
+        adapter.notifyDataSetChanged();
     }
 
     //Función de acceso a la base de datos que está en LuTabActivity.

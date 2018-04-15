@@ -81,9 +81,9 @@ public class AdapterIngreso extends BaseAdapter {
 
         //Establece la imagen de usuario de cada ingreso.
         int user = ingreso.getUserID();
-        if( user == 1) {
+        if( user == MainActivity.USER_RAMON) {
             originalDrawable = parent.getResources().getDrawable(R.drawable.yo);
-        } else if( user == 2) {
+        } else if( user == MainActivity.USER_MARIA) {
             originalDrawable = parent.getResources().getDrawable(R.drawable.maria_perfil);
         } else {
             originalDrawable = parent.getResources().getDrawable(R.drawable.luis_perfil);

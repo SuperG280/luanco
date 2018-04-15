@@ -83,4 +83,16 @@ public class LuancoDBHelper extends SQLiteOpenHelper {
         }
         return ingresos;
     }
+
+    public void deleteGasto( String id) {
+
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        int result = sqLiteDatabase.delete( LuancoContract.GastoEntry.TABLE_NAME, LuancoContract.GastoEntry.ID + "=?", new String[]{id});
+    }
+
+    public void deleteIngreso( String id) {
+
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        int result = sqLiteDatabase.delete( LuancoContract.IngresoEntry.TABLE_NAME, LuancoContract.IngresoEntry.ID + "=?", new String[]{id});
+    }
 }

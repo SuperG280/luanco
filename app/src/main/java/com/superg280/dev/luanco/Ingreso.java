@@ -84,6 +84,10 @@ public class Ingreso implements java.io.Serializable{
         this.fecha = fecha;
     }
 
+    public void setFechaToday( ) {
+        this.fecha = Calendar.getInstance().getTimeInMillis();
+    }
+
     public void setImporte(long importe) {
         this.importe = importe;
     }

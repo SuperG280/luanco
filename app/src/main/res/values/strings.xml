@@ -33,4 +33,8 @@
     <string name="app_new_gasto_fecha">Fecha</string>
     <string name="app_new_gasto_title">Datos del nuevo gasto</string>
     <string name="app_new_ingreso_title">Datos del nuevo ingreso</string>
+    <string name="dlg_aldia_title">Poner al día</string>
+    <string name="dlg_aldia_mensaje1">Se creará un ingreso para</string>
+    <string name="dlg_aldia_mensaje2">de</string>
+    <string name="app_new_aldia_ingreso_descripcion">Al dia</string>
 </resources>

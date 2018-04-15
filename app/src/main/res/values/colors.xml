@@ -6,4 +6,7 @@
     <color name="colorFloatingRed">#FF2020</color>
     <color name="colorSaldoNegativo">#FF2020</color>
     <color name="colorSaldoNeutro">#ffffffff</color>
+    <color name="colorSaldoNegativoUsuario">#FF2020</color>
+    <color name="colorSaldoNeutroUsuario">#272d2a</color>
+
 </resources>

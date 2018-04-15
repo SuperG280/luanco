@@ -63,8 +63,7 @@ public class TabGastos extends Fragment {
                 dlgBorrar.setCancelable(false);
                 dlgBorrar.setPositiveButton(getString(R.string.dlg_delete_but_confirm), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogo1, int id) {
-                        gastos.remove(posicion);
-                        adapter.notifyDataSetChanged();
+                        deleteGasto( posicion);
                     }
                 });
 
@@ -74,7 +73,7 @@ public class TabGastos extends Fragment {
                 });
                 dlgBorrar.show();
 
-                return false;
+                return true;
 
                 /*
                 Snackbar.make(view, "Borrado de gasto", Snackbar.LENGTH_LONG)
@@ -226,6 +225,14 @@ public class TabGastos extends Fragment {
         //una fecha menor y esta es la menor, así que lo mete el último.
         gastos.add( gasto);
     }
+
+    public void deleteGasto( int posicion) {
+
+        getLuancoBD().deleteGasto( gastos.get(posicion).getId());
+        gastos.remove(posicion);
+        adapter.notifyDataSetChanged();
+    }
+
     //Función de acceso a la base de datos que está en LuTabActivity.
     public LuancoDBHelper getLuancoBD() {
         return ((LuTabActivity)this.getActivity()).LuancoDB;

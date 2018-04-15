@@ -151,7 +151,9 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="@+id/textView_name_user1"
         app:layout_constraintStart_toStartOf="@+id/textView_name_user1"
-        app:layout_constraintTop_toBottomOf="@+id/textView_name_user1" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_name_user1"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/textView_current_user2"
@@ -166,7 +168,9 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="@+id/textView_name_user2"
         app:layout_constraintStart_toStartOf="@+id/textView_name_user2"
-        app:layout_constraintTop_toBottomOf="@+id/textView_name_user2" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_name_user2"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/textView_current_user3"
@@ -181,7 +185,9 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="@+id/textView_name_user3"
         app:layout_constraintStart_toStartOf="@+id/textView_name_user3"
-        app:layout_constraintTop_toBottomOf="@+id/textView_name_user3" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_name_user3"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
