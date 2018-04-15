@@ -1,11 +1,11 @@
 package com.superg280.dev.luanco;
 
-import android.widget.BaseAdapter;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -14,12 +14,12 @@ import java.util.ArrayList;
  * Created by Super on 10/03/2018.
  */
 
-public class AdapterGasto extends BaseAdapter {
+public class AdapterIngresoMain extends BaseAdapter {
 
     protected Activity activity;
-    protected ArrayList<Gasto> items;
+    protected ArrayList<Ingreso> items;
 
-    public AdapterGasto (Activity activity, ArrayList<Gasto> items) {
+    public AdapterIngresoMain(Activity activity, ArrayList<Ingreso> items) {
         this.activity = activity;
         this.items    = items;
     }
@@ -33,7 +33,7 @@ public class AdapterGasto extends BaseAdapter {
         items.clear();
     }
 
-    public void addAll(ArrayList<Gasto> category) {
+    public void addAll(ArrayList<Ingreso> category) {
         for (int i = 0; i < category.size(); i++) {
             items.add(category.get(i));
         }
@@ -56,18 +56,18 @@ public class AdapterGasto extends BaseAdapter {
 
         if (convertView == null) {
             LayoutInflater inf = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inf.inflate(R.layout.item_gasto, null);
+            v = inf.inflate(R.layout.item_ingreso_main, null);
         }
 
-        Gasto dir = items.get(position);
+        Ingreso dir = items.get(position);
 
-        TextView fecha = (TextView) v.findViewById(R.id.item_gasto_fecha);
+        TextView fecha = (TextView) v.findViewById(R.id.item_ingreso_main_fecha);
         fecha.setText(dir.getFecha());
 
-        TextView description = (TextView) v.findViewById(R.id.item_gasto_descripcion);
+        TextView description = (TextView) v.findViewById(R.id.item_ingreso_main_descripcion);
         description.setText(dir.getDescripcion());
 
-        TextView importe = (TextView) v.findViewById(R.id.item_gasto_importe);
+        TextView importe = (TextView) v.findViewById(R.id.item_ingreso_main_importe);
         importe.setText(dir.getImporte());
 
         return v;

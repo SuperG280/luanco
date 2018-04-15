@@ -22,7 +22,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -31,6 +33,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private AdapterGastoMain gastoAdapter;
+    private AdapterIngresoMain ingresoAdapter;
 
     public final static int USER_RAMON = 1;
     public final static int USER_MARIA = 2;
@@ -83,8 +88,8 @@ public class MainActivity extends AppCompatActivity
 
         LuancoDB = new LuancoDBHelper( this);
         refillGastos();
-        //refillTextViewMainGastos();
         refillIngresos();
+
         launchMainScreenListeners();
     }
     @Override
@@ -96,163 +101,137 @@ public class MainActivity extends AppCompatActivity
         SaldoUsuario1 = refillTextViewSaldoUser( USER_RAMON);
         SaldoUsuario2 = refillTextViewSaldoUser( USER_MARIA);
         SaldoUsuario3 = refillTextViewSaldoUser( USER_LUIS);
-        refillTextViewMainGastos();
-        refillTextViewMainIngresos();
+        prepareGastosListView();
+        prepareIngresosListView();
     }
 
     public void launchMainScreenListeners() {
-        ImageView user1 = (ImageView) findViewById( R.id.imageView_user1);
+        ImageView user1 = (ImageView) findViewById(R.id.imageView_user1);
 
-        user1.setOnClickListener( new View.OnClickListener() {
+        user1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent inte = new Intent( MainActivity.this, LuTabActivity.class);
-                inte.putExtra("TAB_INDEX", 2);
-                inte.putExtra( "GASTOS", gastos);
-                inte.putExtra( "INGRESOS", ingresos);
-
-                startActivity(inte);
-            }
-        });
-
-        user1.setOnLongClickListener( new View.OnLongClickListener() {
-
-            @Override
-            public boolean onLongClick(View view) {
-
-                if( SaldoUsuario1 > 0)
-                    return false;
-
-                AlertDialog.Builder dlgAlDia = new AlertDialog.Builder( MainActivity.this);
-                dlgAlDia.setTitle( getString(R.string.dlg_aldia_title));
-                dlgAlDia.setMessage( getString( R.string.dlg_aldia_mensaje1) + " " +
-                                     getString( R.string.app_name_user1)     + " " +
-                                     getString( R.string.dlg_aldia_mensaje2) + " " +
-                                     String.format("%.2f€", (double) ((double)(SaldoUsuario1 * -1) / (double)100)));
-                dlgAlDia.setCancelable(false);
-                dlgAlDia.setPositiveButton(getString(R.string.dlg_delete_but_confirm), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialogo1, int id) {
-                        alDiaUser( USER_RAMON);
-                    }
-                });
-
-                dlgAlDia.setNegativeButton(getString(R.string.dlg_delete_but_cancel), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialogo1, int id) {
-                    }
-                });
-                dlgAlDia.show();
-                return true;
-            }
-        });
-
-        ImageView user2 = (ImageView) findViewById( R.id.imageView_user2);
-
-        user2.setOnClickListener( new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent inte = new Intent( MainActivity.this, LuTabActivity.class);
-                inte.putExtra("TAB_INDEX", 2);
-                inte.putExtra( "GASTOS", gastos);
-                inte.putExtra( "INGRESOS", ingresos);
-
-                startActivity(inte);
-            }
-        });
-
-        user2.setOnLongClickListener( new View.OnLongClickListener() {
-
-            @Override
-            public boolean onLongClick(View view) {
-
-                if( SaldoUsuario2 > 0)
-                    return false;
-
-                AlertDialog.Builder dlgAlDia = new AlertDialog.Builder( MainActivity.this);
-                dlgAlDia.setTitle( getString(R.string.dlg_aldia_title));
-                dlgAlDia.setMessage( getString( R.string.dlg_aldia_mensaje1) + " " +
-                        getString( R.string.app_name_user2)     + " " +
-                        getString( R.string.dlg_aldia_mensaje2) + " " +
-                        String.format("%.2f€", (double) ((double)(SaldoUsuario2 * -1) / (double)100)));
-                dlgAlDia.setCancelable(false);
-                dlgAlDia.setPositiveButton(getString(R.string.dlg_delete_but_confirm), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialogo1, int id) {
-                        alDiaUser( USER_MARIA);
-                    }
-                });
-
-                dlgAlDia.setNegativeButton(getString(R.string.dlg_delete_but_cancel), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialogo1, int id) {
-                    }
-                });
-                dlgAlDia.show();
-                return true;
-            }
-        });
-
-        ImageView user3 = (ImageView) findViewById( R.id.imageView_user3);
-
-        user3.setOnClickListener( new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent inte = new Intent( MainActivity.this, LuTabActivity.class);
-                inte.putExtra("TAB_INDEX", 2);
-                inte.putExtra( "GASTOS", gastos);
-                inte.putExtra( "INGRESOS", ingresos);
-
-                startActivity(inte);
-            }
-        });
-
-        user3.setOnLongClickListener( new View.OnLongClickListener() {
-
-            @Override
-            public boolean onLongClick(View view) {
-
-                if( SaldoUsuario3 > 0)
-                    return false;
-
-                AlertDialog.Builder dlgAlDia = new AlertDialog.Builder( MainActivity.this);
-                dlgAlDia.setTitle( getString(R.string.dlg_aldia_title));
-                dlgAlDia.setMessage( getString( R.string.dlg_aldia_mensaje1) + " " +
-                        getString( R.string.app_name_user3)     + " " +
-                        getString( R.string.dlg_aldia_mensaje2) + " " +
-                        String.format("%.2f€", (double) ((double)(SaldoUsuario3 * -1) / (double)100)));
-                dlgAlDia.setCancelable(false);
-                dlgAlDia.setPositiveButton(getString(R.string.dlg_delete_but_confirm), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialogo1, int id) {
-                        alDiaUser( USER_LUIS);
-                    }
-                });
-
-                dlgAlDia.setNegativeButton(getString(R.string.dlg_delete_but_cancel), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialogo1, int id) {
-                    }
-                });
-                dlgAlDia.show();
-                return true;
-            }
-        });
-
-        TextView gastosView = (TextView) findViewById( R.id.textView_gastos);
-        gastosView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               Intent inte = new Intent(MainActivity.this, LuTabActivity.class);
-               inte.putExtra("TAB_INDEX", 0);
-               inte.putExtra("GASTOS", gastos);
-               inte.putExtra( "INGRESOS", ingresos);
-
-               startActivity(inte);
-            }
-        });
-
-        TextView ingresosView = (TextView) findViewById( R.id.textView_ingresos);
-        ingresosView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 Intent inte = new Intent(MainActivity.this, LuTabActivity.class);
-                inte.putExtra("TAB_INDEX", 1);
-                inte.putExtra( "GASTOS", gastos);
-                inte.putExtra( "INGRESOS", ingresos);
+                inte.putExtra("TAB_INDEX", 2);
+                inte.putExtra("GASTOS", gastos);
+                inte.putExtra("INGRESOS", ingresos);
 
                 startActivity(inte);
+            }
+        });
+
+        user1.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View view) {
+
+                if (SaldoUsuario1 > 0)
+                    return false;
+
+                AlertDialog.Builder dlgAlDia = new AlertDialog.Builder(MainActivity.this);
+                dlgAlDia.setTitle(getString(R.string.dlg_aldia_title));
+                dlgAlDia.setMessage(getString(R.string.dlg_aldia_mensaje1) + " " +
+                        getString(R.string.app_name_user1) + " " +
+                        getString(R.string.dlg_aldia_mensaje2) + " " +
+                        String.format("%.2f€", (double) ((double) (SaldoUsuario1 * -1) / (double) 100)));
+                dlgAlDia.setCancelable(false);
+                dlgAlDia.setPositiveButton(getString(R.string.dlg_delete_but_confirm), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+                        alDiaUser(USER_RAMON);
+                    }
+                });
+
+                dlgAlDia.setNegativeButton(getString(R.string.dlg_delete_but_cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+                    }
+                });
+                dlgAlDia.show();
+                return true;
+            }
+        });
+
+        ImageView user2 = (ImageView) findViewById(R.id.imageView_user2);
+
+        user2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent inte = new Intent(MainActivity.this, LuTabActivity.class);
+                inte.putExtra("TAB_INDEX", 2);
+                inte.putExtra("GASTOS", gastos);
+                inte.putExtra("INGRESOS", ingresos);
+
+                startActivity(inte);
+            }
+        });
+
+        user2.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View view) {
+
+                if (SaldoUsuario2 > 0)
+                    return false;
+
+                AlertDialog.Builder dlgAlDia = new AlertDialog.Builder(MainActivity.this);
+                dlgAlDia.setTitle(getString(R.string.dlg_aldia_title));
+                dlgAlDia.setMessage(getString(R.string.dlg_aldia_mensaje1) + " " +
+                        getString(R.string.app_name_user2) + " " +
+                        getString(R.string.dlg_aldia_mensaje2) + " " +
+                        String.format("%.2f€", (double) ((double) (SaldoUsuario2 * -1) / (double) 100)));
+                dlgAlDia.setCancelable(false);
+                dlgAlDia.setPositiveButton(getString(R.string.dlg_delete_but_confirm), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+                        alDiaUser(USER_MARIA);
+                    }
+                });
+
+                dlgAlDia.setNegativeButton(getString(R.string.dlg_delete_but_cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+                    }
+                });
+                dlgAlDia.show();
+                return true;
+            }
+        });
+
+        ImageView user3 = (ImageView) findViewById(R.id.imageView_user3);
+
+        user3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent inte = new Intent(MainActivity.this, LuTabActivity.class);
+                inte.putExtra("TAB_INDEX", 2);
+                inte.putExtra("GASTOS", gastos);
+                inte.putExtra("INGRESOS", ingresos);
+
+                startActivity(inte);
+            }
+        });
+
+        user3.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View view) {
+
+                if (SaldoUsuario3 > 0)
+                    return false;
+
+                AlertDialog.Builder dlgAlDia = new AlertDialog.Builder(MainActivity.this);
+                dlgAlDia.setTitle(getString(R.string.dlg_aldia_title));
+                dlgAlDia.setMessage(getString(R.string.dlg_aldia_mensaje1) + " " +
+                        getString(R.string.app_name_user3) + " " +
+                        getString(R.string.dlg_aldia_mensaje2) + " " +
+                        String.format("%.2f€", (double) ((double) (SaldoUsuario3 * -1) / (double) 100)));
+                dlgAlDia.setCancelable(false);
+                dlgAlDia.setPositiveButton(getString(R.string.dlg_delete_but_confirm), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+                        alDiaUser(USER_LUIS);
+                    }
+                });
+
+                dlgAlDia.setNegativeButton(getString(R.string.dlg_delete_but_cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+                    }
+                });
+                dlgAlDia.show();
+                return true;
             }
         });
     }
@@ -364,35 +343,53 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void refillTextViewMainIngresos() {
+    public void prepareGastosListView() {
 
-        TextView txIngresosMain = ( TextView)findViewById(R.id.textView_ingresos);
+        if( gastos.size() < 0)
+            return;
 
-        StringBuffer contenido = new StringBuffer();
-        contenido.append( "Ingresos\n");
+        ArrayList<Gasto> mainGastos = new ArrayList<Gasto>();
+        Gasto realGasto;
+        for( int i = 0; i < 8 && i < gastos.size(); i++) {
+            realGasto = gastos.get( i);
+            Gasto newGasto = new Gasto();
+            newGasto.setFecha      ( realGasto.getFechaLong());
+            newGasto.setDescripcion( realGasto.getDescripcion());
+            newGasto.setImporte    ( realGasto.getImporteLong());
 
-        for( int i = 0; i < 8; i++) {
-            if( i < ingresos.size() ) {
-                contenido.append( ingresos.get(i).getFecha() + " " + ingresos.get(i).getDescripcion() + " " + ingresos.get(i).getImporte() + "\n");
-            }
+            mainGastos.add( newGasto);
         }
-        txIngresosMain.setText( contenido);
 
+        gastoAdapter = new AdapterGastoMain( this, mainGastos);
+
+        ListView lv = (ListView) findViewById(R.id.listView_main_gastos);
+
+        lv.setAdapter(gastoAdapter);
     }
 
-    public void refillTextViewMainGastos() {
+    public void prepareIngresosListView() {
 
-        TextView txGastosMain = ( TextView)findViewById(R.id.textView_gastos);
+        if( ingresos.size() < 0)
+            return;
 
-        StringBuffer contenido = new StringBuffer();
-        contenido.append( "Gastos\n");
+        ArrayList<Ingreso> mainIngresos = new ArrayList<Ingreso>();
+        Ingreso realIngreso;
 
-        for( int i = 0; i < 8; i++) {
-            if( i < gastos.size() ) {
-                contenido.append( gastos.get(i).getFecha() + " " + gastos.get(i).getDescripcion() + " " + gastos.get(i).getImporte() + "\n");
-            }
+        for( int i = 0; i < 8 && i < ingresos.size(); i++) {
+            realIngreso = ingresos.get( i);
+            Ingreso newIngreso = new Ingreso();
+            newIngreso.setFecha      ( realIngreso.getFechaLong());
+            newIngreso.setDescripcion( realIngreso.getDescripcion());
+            newIngreso.setImporte    ( realIngreso.getImporteLong());
+
+            mainIngresos.add( newIngreso);
         }
-        txGastosMain.setText( contenido);
+
+        ingresoAdapter = new AdapterIngresoMain( this, mainIngresos);
+
+        ListView lv = (ListView) findViewById(R.id.listView_main_ingresos);
+
+        lv.setAdapter(ingresoAdapter);
     }
 
     //Hay que llamarla después de haber llamado a updateSaldoActual, para
@@ -490,108 +487,15 @@ public class MainActivity extends AppCompatActivity
         SaldoUsuario1 = refillTextViewSaldoUser( USER_RAMON);
         SaldoUsuario2 = refillTextViewSaldoUser( USER_MARIA);
         SaldoUsuario3 = refillTextViewSaldoUser( USER_LUIS);
-        refillTextViewMainIngresos();
+        prepareIngresosListView();
     }
     public void refillGastos() {
 
         gastos = LuancoDB.getAllGastos();
-
-        /*
-        gastos = new ArrayList<Gasto>();
-
-        Calendar cal = Calendar.getInstance();
-        cal.set(2018, 1, 18);
-        gastos.add(new Gasto( cal.getTimeInMillis(), "Recibo de la luz", 10846));
-        cal.set(2018, 1, 21);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Contribucion municipal", 4832));
-        cal.set(2018, 1, 24);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Recibo de agua", 1367));
-        cal.set(2018, 1, 28);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Recibo de la luz", 14546));
-        cal.set(2018, 2, 2);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Basura", 6212));
-        cal.set(2018, 2, 12);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Calentador", 34508));
-        cal.set(2018, 2, 15);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Recibo de la luz", 2146));
-        cal.set(2018, 2, 19);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Recibo de agua", 1236));
-        cal.set(2018, 2, 22);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Asistenta", 156716));
-        cal.set(2018, 2, 23);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Comunidad", 10848));
-        cal.set(2018, 3, 1);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Bombona gas", 18889));
-        cal.set(2018, 3, 6);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Recibo de la luz", 9878));
-        cal.set(2018, 4, 18);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Contribucion", 3456));
-        cal.set(2018, 5, 23);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Otros", 45834));
-        cal.set(2018, 5, 30);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Recibo de la luz", 5816));
-        cal.set(2018, 6, 1);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Recibo de la luz", 2476));
-        cal.set(2018, 6, 22);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Municipal", 15209));
-        cal.set(2018, 7, 18);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Paguilla", 408645));
-        cal.set(2018, 7, 19);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Cortinas nuevas", 3834));
-        cal.set(2018, 8, 21);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Sartenes", 20846));
-        cal.set(2018, 8, 24);
-        gastos.add( new Gasto( cal.getTimeInMillis(), "Ultimo", 1200));
-        */
     }
 
     public void refillIngresos() {
 
         ingresos = LuancoDB.getAllIngresos();
-        /*
-        ingresos = new ArrayList<Ingreso>();
-
-        Calendar cal = Calendar.getInstance();
-        cal.set(2018, 1, 18);
-        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Ramon", 10846, 1));
-        cal.set(2018, 1, 21);
-        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Maria", 4832, 2));
-        cal.set(2018, 1, 24);
-        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Maria", 1367, 2));
-        cal.set(2018, 1, 28);
-        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Luis", 14546, 3));
-        cal.set(2018, 2, 02);
-        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Ramon", 6212, 1));
-        cal.set(2018, 2, 12);
-        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Maria", 34508, 2));
-        cal.set(2018, 2, 15);
-        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Luis", 2146, 3));
-        cal.set(2018, 2, 19);
-        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Ramon", 1236, 1));
-        cal.set(2018, 2, 22);
-        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Maria", 156716, 2));
-        cal.set(2018, 2, 23);
-        ingresos.add(new Ingreso( cal.getTimeInMillis(), "Pago de Ramon", 10848, 1));
-        cal.set(2018, 3, 1);
-        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Luis", 18889, 3));
-        cal.set(2018, 3, 06);
-        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Maria", 9878, 2));
-        cal.set(2018, 4, 18);
-        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Ramon", 3456, 1));
-        cal.set(2018, 5, 23);
-        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Maria", 45834, 2));
-        cal.set(2018, 5, 30);
-        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Luis", 5816, 3));
-        cal.set(2018, 6, 1);
-        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Luis", 2475, 3));
-        cal.set(2018, 6, 22);
-        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Luis", 15209, 3));
-        cal.set(2018, 7, 18);
-        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Maria", 40845, 2));
-        cal.set(2018, 7, 19);
-        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Ramon", 3834, 1));
-        cal.set(2018, 8, 21);
-        ingresos.add( new Ingreso( cal.getTimeInMillis(), "Pago de Luis", 20846, 3));
-        */
     }
 }

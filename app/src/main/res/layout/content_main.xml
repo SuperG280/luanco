@@ -148,12 +148,12 @@
         android:fontFamily="serif"
         android:text="1234.34€"
         android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="@+id/textView_name_user1"
         app:layout_constraintStart_toStartOf="@+id/textView_name_user1"
-        app:layout_constraintTop_toBottomOf="@+id/textView_name_user1"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+        app:layout_constraintTop_toBottomOf="@+id/textView_name_user1" />
 
     <TextView
         android:id="@+id/textView_current_user2"
@@ -165,12 +165,12 @@
         android:fontFamily="serif"
         android:text="324.54€"
         android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="@+id/textView_name_user2"
         app:layout_constraintStart_toStartOf="@+id/textView_name_user2"
-        app:layout_constraintTop_toBottomOf="@+id/textView_name_user2"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+        app:layout_constraintTop_toBottomOf="@+id/textView_name_user2" />
 
     <TextView
         android:id="@+id/textView_current_user3"
@@ -182,12 +182,12 @@
         android:fontFamily="serif"
         android:text="453.73€"
         android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="@+id/textView_name_user3"
         app:layout_constraintStart_toStartOf="@+id/textView_name_user3"
-        app:layout_constraintTop_toBottomOf="@+id/textView_name_user3"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+        app:layout_constraintTop_toBottomOf="@+id/textView_name_user3" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
@@ -196,37 +196,59 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="270dp" />
 
-    <TextView
-        android:id="@+id/textView_gastos"
+    <LinearLayout
+        android:id="@+id/linear_gastos_ingresos"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/fondo_gastos"
-        android:text="Gastos\n18-01-18 Luz 123,45€\n23-01-18 Comunidad 120,67€"
-        app:layout_constraintBottom_toTopOf="@+id/textView_ingresos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline" />
-
-    <TextView
-        android:id="@+id/textView_ingresos"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/fondo_ingresos"
-        android:text="Ingresos\n18-01-18 Luis 123,45€\n23-01-18 María 120,67€"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_gastos" />
+        app:layout_constraintTop_toTopOf="@+id/guideline">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/app_menu_gastos"
+            android:textColor="@color/colorTituloGastos"
+            android:layout_weight="1"/>
+
+        <ListView
+            android:id="@+id/listView_main_ingresos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="2dp"
+            android:layout_weight="6"/>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/app_menu_ingresos"
+            android:textColor="@color/colorTituloIngresos"
+            android:layout_weight="1"
+            tools:layout_editor_absoluteY="143dp" />
+
+
+        <ListView
+            android:id="@+id/listView_main_gastos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="2dp"
+            android:layout_weight="6"/>
+    </LinearLayout>
+
 
 </android.support.constraint.ConstraintLayout>

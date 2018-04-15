@@ -8,5 +8,7 @@
     <color name="colorSaldoNeutro">#ffffffff</color>
     <color name="colorSaldoNegativoUsuario">#FF2020</color>
     <color name="colorSaldoNeutroUsuario">#272d2a</color>
+    <color name="colorTituloIngresos">#009919</color>
+    <color name="colorTituloGastos">#ff2020</color>
 
 </resources>
