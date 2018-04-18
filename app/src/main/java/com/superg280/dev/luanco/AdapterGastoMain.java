@@ -68,7 +68,7 @@ public class AdapterGastoMain extends BaseAdapter {
         description.setText(dir.getDescripcion());
 
         TextView importe = (TextView) v.findViewById(R.id.item_gasto_main_importe);
-        importe.setText(dir.getImporte());
+        importe.setText("-" + dir.getImporte());
 
         return v;
     }
