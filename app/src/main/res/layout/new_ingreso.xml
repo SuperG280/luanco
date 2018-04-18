@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/textView_new_ingreso_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="serif"
+        android:text="@string/app_new_ingreso_title"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_new_ingreso_fecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="serif"
+        android:text="@string/app_new_gasto_fecha"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/editText_new_ingreso_fecha"
+        app:layout_constraintStart_toStartOf="@+id/editText_new_ingreso_fecha" />
+
+
+    <EditText
+        android:id="@+id/editText_new_ingreso_fecha"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:clickable="true"
+        android:ems="10"
+        android:focusable="false"
+        android:inputType="date"
+        app:layout_constraintEnd_toStartOf="@+id/editText_new_ingreso_importe"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_new_ingreso_title" />
+
+    <TextView
+        android:id="@+id/textView_new_ingreso_importe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="serif"
+        android:text="@string/app_new_gasto_importe"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/editText_new_ingreso_importe"
+        app:layout_constraintStart_toStartOf="@+id/editText_new_ingreso_importe" />
+
+    <EditText
+        android:id="@+id/editText_new_ingreso_importe"
+        android:layout_width="133dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/editText_new_ingreso_fecha"
+        app:layout_constraintTop_toBottomOf="@+id/textView_new_ingreso_title" />
+
+    <EditText
+        android:id="@+id/editText_new_ingreso_descripcion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/editText_new_ingreso_importe"
+        app:layout_constraintStart_toStartOf="@+id/editText_new_ingreso_fecha"
+        app:layout_constraintTop_toBottomOf="@+id/editText_new_ingreso_fecha" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="serif"
+        android:text="@string/app_new_gasto_descripcion"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/editText_new_ingreso_descripcion"
+        app:layout_constraintStart_toStartOf="@+id/editText_new_ingreso_descripcion" />
+
+    <ImageView
+        android:id="@+id/imageView_new_ingreso_user1"
+        android:layout_width="49dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView_new_ingreso_user2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_new_ingreso_descripcion"
+        app:srcCompat="@drawable/yo" />
+
+    <ImageView
+        android:id="@+id/imageView_new_ingreso_user2"
+        android:layout_width="49dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView_new_ingreso_user3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageView_new_ingreso_user1"
+        app:layout_constraintTop_toBottomOf="@+id/editText_new_ingreso_descripcion"
+        app:srcCompat="@drawable/maria_perfil" />
+
+    <ImageView
+        android:id="@+id/imageView_new_ingreso_user3"
+        android:layout_width="49dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageView_new_ingreso_user2"
+        app:layout_constraintTop_toBottomOf="@+id/editText_new_ingreso_descripcion"
+        app:srcCompat="@drawable/luis_perfil" />
+
+    <RadioButton
+        android:id="@+id/radioButton_new_ingreso_user1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:checked="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_new_ingreso_user1"
+        app:layout_constraintStart_toStartOf="@+id/imageView_new_ingreso_user1"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_new_ingreso_user1" />
+
+    <RadioButton
+        android:id="@+id/radioButton_new_ingreso_user2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:checked="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_new_ingreso_user2"
+        app:layout_constraintStart_toStartOf="@+id/imageView_new_ingreso_user2"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_new_ingreso_user2" />
+
+    <RadioButton
+        android:id="@+id/radioButton_new_ingreso_user3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:checked="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_new_ingreso_user3"
+        app:layout_constraintStart_toStartOf="@+id/imageView_new_ingreso_user3"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_new_ingreso_user3" />
+
+
+</android.support.constraint.ConstraintLayout>

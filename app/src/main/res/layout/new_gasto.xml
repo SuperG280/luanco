@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/textView_new_gasto_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="serif"
+        android:text="@string/app_new_gasto_title"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_new_gasto_fecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="serif"
+        android:text="@string/app_new_gasto_fecha"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/editText_new_gasto_fecha"
+        app:layout_constraintStart_toStartOf="@+id/editText_new_gasto_fecha" />
+
+
+    <EditText
+        android:id="@+id/editText_new_gasto_fecha"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="date"
+        app:layout_constraintEnd_toStartOf="@+id/editText_new_gasto_importe"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_new_gasto_title"
+        android:clickable="true"
+        android:focusable="false"/>
+
+    <TextView
+        android:id="@+id/textView_new_gasto_importe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="serif"
+        android:text="@string/app_new_gasto_importe"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/editText_new_gasto_importe"
+        app:layout_constraintStart_toStartOf="@+id/editText_new_gasto_importe" />
+
+    <EditText
+        android:id="@+id/editText_new_gasto_importe"
+        android:layout_width="133dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/editText_new_gasto_fecha"
+        app:layout_constraintTop_toBottomOf="@+id/textView_new_gasto_title" />
+
+    <EditText
+        android:id="@+id/editText_new_gasto_descripcion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/editText_new_gasto_importe"
+        app:layout_constraintStart_toStartOf="@+id/editText_new_gasto_fecha"
+        app:layout_constraintTop_toBottomOf="@+id/editText_new_gasto_fecha" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="serif"
+        android:text="@string/app_new_gasto_descripcion"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/editText_new_gasto_descripcion"
+        app:layout_constraintStart_toStartOf="@+id/editText_new_gasto_descripcion" />
+
+</android.support.constraint.ConstraintLayout>

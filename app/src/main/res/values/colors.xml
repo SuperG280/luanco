@@ -3,4 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorFloatingRed">#FF2020</color>
+    <color name="colorSaldoNegativo">#FF2020</color>
+    <color name="colorSaldoNeutro">#ffffffff</color>
+    <color name="colorSaldoNegativoUsuario">#FF2020</color>
+    <color name="colorSaldoNeutroUsuario">#272d2a</color>
+    <color name="colorTituloIngresos">#009919</color>
+    <color name="colorTituloGastos">#ff2020</color>
+
 </resources>
