@@ -22,6 +22,9 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 public class LuTabActivity extends AppCompatActivity {
@@ -42,7 +45,7 @@ public class LuTabActivity extends AppCompatActivity {
     private ViewPager mViewPager;
 
     //Objeto de la base de datos.
-    public LuancoDBHelper LuancoDB;
+    //public LuancoDBHelper LuancoDB;
 
     public ArrayList<Gasto>   gastos   = null;
     public ArrayList<Ingreso> ingresos = null;
@@ -52,7 +55,7 @@ public class LuTabActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lu_tab);
 
-        LuancoDB = new LuancoDBHelper( this);
+        //LuancoDB = new LuancoDBHelper( this);
 
         int fragmentId = getIntent().getIntExtra("TAB_INDEX", 0);
 

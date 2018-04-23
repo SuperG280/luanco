@@ -27,9 +27,18 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -44,8 +53,14 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Gasto> gastos = null;
     private ArrayList<Ingreso> ingresos = null;
 
+    private DatabaseReference mFirebaseDatabaseGastos;
+    private FirebaseDatabase mFirebaseInstance;
+    private DatabaseReference mFirebaseDatabaseIngresos;
+    private ValueEventListener mFireBaseGastosEventListener;
+    private ValueEventListener mFireBaseIngresosEventListener;
+
     //Objeto de la base de datos.
-    public LuancoDBHelper LuancoDB;
+    //public LuancoDBHelper LuancoDB;
 
     //Guarda el total de gastos actual. Para acelerar la ejecución. Se actualiza
     //en updateSaldoActual y se utiliza en refillTextViewSaldoUser para refrescar
@@ -86,23 +101,43 @@ public class MainActivity extends AppCompatActivity
         setImageRounded(USER_MARIA);
         setImageRounded(USER_LUIS);
 
-        LuancoDB = new LuancoDBHelper( this);
-        refillGastos();
-        refillIngresos();
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabaseGastos = mFirebaseInstance.getReference("gastos");
+        mFirebaseDatabaseIngresos = mFirebaseInstance.getReference("ingresos");
+
+        gastos = new ArrayList<Gasto>();
+        ingresos = new ArrayList<Ingreso>();
+
+
+        //LuancoDB = new LuancoDBHelper( this);
+        //refillGastos();
+        //refillIngresos();
 
         launchMainScreenListeners();
     }
     @Override
     public void onResume(){
         super.onResume();
-        refillGastos();
-        refillIngresos();
+        refillFireBaseGastos();
+        refillFireBaseIngresos();
+        //refillMainWindow();
+    }
+
+    private void refillMainWindow() {
         updateSaldoActual();
         SaldoUsuario1 = refillTextViewSaldoUser( USER_RAMON);
         SaldoUsuario2 = refillTextViewSaldoUser( USER_MARIA);
         SaldoUsuario3 = refillTextViewSaldoUser( USER_LUIS);
         prepareGastosListView();
         prepareIngresosListView();
+    }
+
+    @Override
+    protected void onPause() {
+
+        mFirebaseDatabaseGastos.removeEventListener( mFireBaseGastosEventListener);
+        mFirebaseDatabaseIngresos.removeEventListener( mFireBaseIngresosEventListener);
+        super.onPause();
     }
 
     public void launchMainScreenListeners() {
@@ -353,9 +388,9 @@ public class MainActivity extends AppCompatActivity
         for( int i = 0; i < 8 && i < gastos.size(); i++) {
             realGasto = gastos.get( i);
             Gasto newGasto = new Gasto();
-            newGasto.setFecha      ( realGasto.getFechaLong());
+            newGasto.setFecha      ( realGasto.getFecha());
             newGasto.setDescripcion( realGasto.getDescripcion());
-            newGasto.setImporte    ( realGasto.getImporteLong());
+            newGasto.setImporte    ( realGasto.getImporte());
 
             mainGastos.add( newGasto);
         }
@@ -378,9 +413,9 @@ public class MainActivity extends AppCompatActivity
         for( int i = 0; i < 8 && i < ingresos.size(); i++) {
             realIngreso = ingresos.get( i);
             Ingreso newIngreso = new Ingreso();
-            newIngreso.setFecha      ( realIngreso.getFechaLong());
+            newIngreso.setFecha      ( realIngreso.getFecha());
             newIngreso.setDescripcion( realIngreso.getDescripcion());
-            newIngreso.setImporte    ( realIngreso.getImporteLong());
+            newIngreso.setImporte    ( realIngreso.getImporte());
 
             mainIngresos.add( newIngreso);
         }
@@ -412,7 +447,7 @@ public class MainActivity extends AppCompatActivity
 
         for( Ingreso i: ingresos) {
             if( i.getUserID() == user) {
-                ingresosDeUsario += i.getImporteLong();
+                ingresosDeUsario += i.getImporte();
             }
         }
 
@@ -439,11 +474,11 @@ public class MainActivity extends AppCompatActivity
         TotalGastos = 0;
 
         for( Gasto g: gastos) {
-            TotalGastos += g.getImporteLong();
+            TotalGastos += g.getImporte();
         }
 
         for( Ingreso i: ingresos) {
-            totalIngresos += i.getImporteLong();
+            totalIngresos += i.getImporte();
         }
         total = totalIngresos - TotalGastos;
 
@@ -477,25 +512,97 @@ public class MainActivity extends AppCompatActivity
         Ingreso ing = new Ingreso();
         ing.setUserID( user);
         ing.setImporte( saldoUsuario * -1);
-        ing.setFechaToday();
+        ing.createFechaToday();
         ing.setDescripcion( getString(R.string.app_new_aldia_ingreso_descripcion));
 
-        LuancoDB.insertNewIngreso( ing);
+        //LuancoDB.insertNewIngreso( ing);
 
-        refillIngresos();
+        //refillIngresos();
         updateSaldoActual();
         SaldoUsuario1 = refillTextViewSaldoUser( USER_RAMON);
         SaldoUsuario2 = refillTextViewSaldoUser( USER_MARIA);
         SaldoUsuario3 = refillTextViewSaldoUser( USER_LUIS);
         prepareIngresosListView();
     }
+    /*
     public void refillGastos() {
 
         gastos = LuancoDB.getAllGastos();
     }
+    */
+    public void refillFireBaseGastos() {
 
+        mFireBaseGastosEventListener = new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                gastos = new ArrayList<Gasto>();
+                Gasto g;
+                for( DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    g = postSnapshot.getValue( Gasto.class);
+                    gastos.add( g);
+                }
+                sortGastos();
+                refillMainWindow();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        mFirebaseDatabaseGastos.addValueEventListener( mFireBaseGastosEventListener);
+    }
+
+    public void sortGastos() {
+
+        Collections.sort(gastos, new Comparator<Gasto>() {
+            @Override
+            public int compare(Gasto gasto, Gasto t1) {
+                return new Long(t1.getFecha()).compareTo(new Long(gasto.getFecha()));
+            }
+        });
+    }
+
+    public void refillFireBaseIngresos() {
+
+        mFireBaseIngresosEventListener = new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ingresos = new ArrayList<Ingreso>();
+                Ingreso ing;
+                for( DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    ing = postSnapshot.getValue( Ingreso.class);
+                    ingresos.add( ing);
+                }
+                sortIngresos();
+                refillMainWindow();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        mFirebaseDatabaseIngresos.addValueEventListener( mFireBaseIngresosEventListener );
+    }
+
+    public void sortIngresos() {
+
+        Collections.sort(ingresos, new Comparator<Ingreso>() {
+            @Override
+            public int compare(Ingreso ingreso, Ingreso t1) {
+                return new Long(t1.getFecha()).compareTo(new Long(ingreso.getFecha()));
+            }
+        });
+    }
+    /*
     public void refillIngresos() {
 
         ingresos = LuancoDB.getAllIngresos();
     }
+    */
 }

@@ -57,22 +57,22 @@ public class Ingreso implements java.io.Serializable{
         return descripcion;
     }
 
-    public long getFechaLong() {
+    public long getFecha() {
         return fecha;
     }
 
-    public String getFecha() {
+    public String formatFecha() {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis( fecha);
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy");
         return df.format(cal);
     }
 
-    public long getImporteLong() {
+    public long getImporte() {
         return importe;
     }
 
-    public String getImporte() {
+    public String formatImporte() {
         return String.format("%.2f€", (double) ((double)importe / 100));
 
     }
@@ -84,7 +84,7 @@ public class Ingreso implements java.io.Serializable{
         this.fecha = fecha;
     }
 
-    public void setFechaToday( ) {
+    public void createFechaToday( ) {
         this.fecha = Calendar.getInstance().getTimeInMillis();
     }
 

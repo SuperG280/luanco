@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "237978396950",
+    "firebase_url": "https://luanco-358de.firebaseio.com",
+    "project_id": "luanco-358de",
+    "storage_bucket": "luanco-358de.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:237978396950:android:484521203921ff4f",
+        "android_client_info": {
+          "package_name": "com.superg280.dev.luanco"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "237978396950-6jfrl8m72jd05qpvtei4l1v4oqrv2qgo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.superg280.dev.luanco",
+            "certificate_hash": "b7d0ae5c70a88fdd0f626d0c9c2e417f2dbc5420"
+          }
+        },
+        {
+          "client_id": "237978396950-fc2hbebtv1torks8vr5s1q4i869q91qh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJbS9kNfC9JlZ1mO-8oCcAWRi8jwonsOk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "237978396950-fc2hbebtv1torks8vr5s1q4i869q91qh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

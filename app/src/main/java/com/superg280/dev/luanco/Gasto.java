@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 
+import com.google.firebase.database.Exclude;
+
 import java.util.UUID;
 
 /**
@@ -54,22 +56,23 @@ public class Gasto implements java.io.Serializable{
         return descripcion;
     }
 
-    public long getFechaLong() {
+    public long getFecha() {
         return fecha;
     }
 
-    public String getFecha() {
+    public String formatFecha() {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis( fecha);
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy");
         return df.format(cal);
     }
 
-    public long getImporteLong() {
+    public long getImporte() {
         return importe;
     }
 
-    public String getImporte() {
+    @Exclude
+    public String formatImporte() {
         return String.format("%.2f€", (double) ((double)importe / 100));
 
     }
