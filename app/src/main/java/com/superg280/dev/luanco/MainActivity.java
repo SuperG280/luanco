@@ -508,13 +508,16 @@ public class MainActivity extends AppCompatActivity
         ing.setDescripcion( getString(R.string.app_new_aldia_ingreso_descripcion));
 
         //LuancoDB.insertNewIngreso( ing);
+        mFirebaseDatabaseIngresos.child( ing.getId()).setValue(ing);
 
         //refillIngresos();
+        /*
         updateSaldoActual();
         SaldoUsuario1 = refillTextViewSaldoUser( USER_RAMON);
         SaldoUsuario2 = refillTextViewSaldoUser( USER_MARIA);
         SaldoUsuario3 = refillTextViewSaldoUser( USER_LUIS);
         prepareIngresosListView();
+        */
     }
 
     public void refillFireBaseGastos() {
