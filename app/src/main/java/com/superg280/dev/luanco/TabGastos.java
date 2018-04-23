@@ -211,8 +211,6 @@ public class TabGastos extends Fragment {
 
         String resultado = newGasto.toString();
 
-        //getLuancoBD().insertNewGasto( newGasto);
-
         addGastoInFireBase( newGasto);
 
         insertNewGastoInArray( newGasto);
@@ -248,12 +246,7 @@ public class TabGastos extends Fragment {
         gastos.remove(posicion);
         adapter.notifyDataSetChanged();
     }
-/*
-    //Función de acceso a la base de datos que está en LuTabActivity.
-    public LuancoDBHelper getLuancoBD() {
-        return ((LuTabActivity)this.getActivity()).LuancoDB;
-    }
-*/
+
     public void addGastoInFireBase( Gasto gasto) {
 
         mFirebaseDatabase.child( gasto.getId()).setValue(gasto);

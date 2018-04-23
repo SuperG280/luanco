@@ -55,8 +55,6 @@ public class LuTabActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lu_tab);
 
-        //LuancoDB = new LuancoDBHelper( this);
-
         int fragmentId = getIntent().getIntExtra("TAB_INDEX", 0);
 
         gastos   = (ArrayList<Gasto>)getIntent().getSerializableExtra("GASTOS");

@@ -278,8 +278,6 @@ public class TabIngresos extends Fragment {
 
         String resultado = newIngreso.toString();
 
-       //getLuancoBD().insertNewIngreso( newIngreso);
-
         addIngresoInFireBase( newIngreso);
 
         insertNewIngresoInArray( newIngreso);
@@ -311,16 +309,10 @@ public class TabIngresos extends Fragment {
     public void deleteIngreso( int posicion) {
 
         deleteIngresoInFireBase( ingresos.get( posicion).getId());
-        //getLuancoBD().deleteIngreso( ingresos.get(posicion).getId());
         ingresos.remove(posicion);
         adapter.notifyDataSetChanged();
     }
-    /*
-    //Función de acceso a la base de datos que está en LuTabActivity.
-    public LuancoDBHelper getLuancoBD() {
-        return ((LuTabActivity)this.getActivity()).LuancoDB;
-    }
-    */
+
     public void addIngresoInFireBase( Ingreso ingreso) {
 
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("ingresos");

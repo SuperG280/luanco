@@ -99,15 +99,4 @@ public class Ingreso implements java.io.Serializable{
     public void setUserID(int userID) {
         this.userID = userID;
     }
-
-    //Convierte el objeto ingreso actual en el ContentValues para insertarlo en la base de datos.
-    public ContentValues toContentValues() {
-        ContentValues values = new ContentValues();
-        values.put( LuancoContract.IngresoEntry.ID            , id);
-        values.put( LuancoContract.IngresoEntry.FECHA         , fecha);
-        values.put( LuancoContract.IngresoEntry.DESCRIPCION   , descripcion);
-        values.put( LuancoContract.IngresoEntry.IMPORTE       , importe);
-        values.put( LuancoContract.IngresoEntry.USUARIO       , userID);
-        return values;
-    }
 }

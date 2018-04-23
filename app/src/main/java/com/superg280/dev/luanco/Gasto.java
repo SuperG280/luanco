@@ -88,21 +88,4 @@ public class Gasto implements java.io.Serializable{
     public void setImporte(long importe) {
         this.importe =  importe;
     }
-
-    //Convierte el objeto gasto actual en el ContentValues para insertarlo en la base de datos.
-    public ContentValues toContentValues() {
-        ContentValues values = new ContentValues();
-        values.put( LuancoContract.GastoEntry.ID            , id);
-        values.put( LuancoContract.GastoEntry.FECHA         , fecha);
-        values.put( LuancoContract.GastoEntry.DESCRIPCION   , descripcion);
-        values.put( LuancoContract.GastoEntry.IMPORTE       , importe);
-        return values;
-    }
-/*
-    public String toString( ) {
-        return  LuancoContract.GastoEntry.ID            + " " + id          + " " +
-                LuancoContract.GastoEntry.FECHA         + " " + fecha       + " " +
-                LuancoContract.GastoEntry.DESCRIPCION   + " " + descripcion + " " +
-                LuancoContract.GastoEntry.IMPORTE       + " " + importe;
-    }*/
 }

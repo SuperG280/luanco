@@ -59,8 +59,6 @@ public class MainActivity extends AppCompatActivity
     private ValueEventListener mFireBaseGastosEventListener;
     private ValueEventListener mFireBaseIngresosEventListener;
 
-    //Objeto de la base de datos.
-    //public LuancoDBHelper LuancoDB;
 
     //Guarda el total de gastos actual. Para acelerar la ejecución. Se actualiza
     //en updateSaldoActual y se utiliza en refillTextViewSaldoUser para refrescar
@@ -108,11 +106,6 @@ public class MainActivity extends AppCompatActivity
         gastos = new ArrayList<Gasto>();
         ingresos = new ArrayList<Ingreso>();
 
-
-        //LuancoDB = new LuancoDBHelper( this);
-        //refillGastos();
-        //refillIngresos();
-
         launchMainScreenListeners();
     }
     @Override
@@ -120,7 +113,6 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         refillFireBaseGastos();
         refillFireBaseIngresos();
-        //refillMainWindow();
     }
 
     private void refillMainWindow() {
@@ -524,12 +516,7 @@ public class MainActivity extends AppCompatActivity
         SaldoUsuario3 = refillTextViewSaldoUser( USER_LUIS);
         prepareIngresosListView();
     }
-    /*
-    public void refillGastos() {
 
-        gastos = LuancoDB.getAllGastos();
-    }
-    */
     public void refillFireBaseGastos() {
 
         mFireBaseGastosEventListener = new ValueEventListener() {
@@ -599,10 +586,4 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
-    /*
-    public void refillIngresos() {
-
-        ingresos = LuancoDB.getAllIngresos();
-    }
-    */
 }
