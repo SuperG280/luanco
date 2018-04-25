@@ -9,6 +9,8 @@
     <color name="colorSaldoNegativoUsuario">#FF2020</color>
     <color name="colorSaldoNeutroUsuario">#272d2a</color>
     <color name="colorTituloIngresos">#009919</color>
+    <color name="colorButtonRegistrar">#009969</color>
+    <color name="colorTextoResetPassword">#009969</color>
     <color name="colorTituloGastos">#ff2020</color>
 
 </resources>

@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -27,6 +28,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -69,6 +72,8 @@ public class MainActivity extends AppCompatActivity
     private long SaldoUsuario2;
     private long SaldoUsuario3;
 
+    private FirebaseAuth auth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -107,6 +112,13 @@ public class MainActivity extends AppCompatActivity
         ingresos = new ArrayList<Ingreso>();
 
         launchMainScreenListeners();
+
+        auth = FirebaseAuth.getInstance();
+        View header = navigationView.getHeaderView(0);
+
+        TextView userMail = (TextView) header.findViewById( R.id.textView_nav_user_mail);
+        userMail.setText( auth.getCurrentUser().getEmail());
+
     }
     @Override
     public void onResume(){
@@ -311,7 +323,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        //getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -357,12 +369,11 @@ public class MainActivity extends AppCompatActivity
             inte.putExtra( "GASTOS", gastos);
             inte.putExtra( "INGRESOS", ingresos);
             startActivity(inte);
-        } else if (id == R.id.nav_ajustes) {
+        } else if (id == R.id.nav_cerrar_sesion) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+            auth.signOut();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
