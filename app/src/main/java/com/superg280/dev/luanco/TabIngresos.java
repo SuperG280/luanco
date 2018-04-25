@@ -28,6 +28,9 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -275,7 +278,7 @@ public class TabIngresos extends Fragment {
 
         String resultado = newIngreso.toString();
 
-       getLuancoBD().insertNewIngreso( newIngreso);
+        addIngresoInFireBase( newIngreso);
 
         insertNewIngresoInArray( newIngreso);
         adapter.notifyDataSetChanged();
@@ -289,11 +292,11 @@ public class TabIngresos extends Fragment {
             return;
         }
 
-        long NewFecha = ingreso.getFechaLong();
+        long NewFecha = ingreso.getFecha();
         for( int i = 0; i < ingresos.size(); i++) {
 
             Ingreso ing = ingresos.get( i);
-            if( ing.getFechaLong() <= NewFecha) {
+            if( ing.getFecha() <= NewFecha) {
                 ingresos.add( i, ingreso);
                 return;
             }
@@ -305,13 +308,21 @@ public class TabIngresos extends Fragment {
 
     public void deleteIngreso( int posicion) {
 
-        getLuancoBD().deleteIngreso( ingresos.get(posicion).getId());
+        deleteIngresoInFireBase( ingresos.get( posicion).getId());
         ingresos.remove(posicion);
         adapter.notifyDataSetChanged();
     }
 
-    //Función de acceso a la base de datos que está en LuTabActivity.
-    public LuancoDBHelper getLuancoBD() {
-        return ((LuTabActivity)this.getActivity()).LuancoDB;
+    public void addIngresoInFireBase( Ingreso ingreso) {
+
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("ingresos");
+
+        mDatabase.child( ingreso.getId()).setValue(ingreso);
+    }
+
+    public void deleteIngresoInFireBase( String ingresoId) {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("ingresos");
+
+        mDatabase.child( ingresoId).removeValue();
     }
 }

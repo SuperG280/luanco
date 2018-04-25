@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 
+import com.google.firebase.database.Exclude;
+
 import java.util.UUID;
 
 /**
@@ -54,22 +56,23 @@ public class Gasto implements java.io.Serializable{
         return descripcion;
     }
 
-    public long getFechaLong() {
+    public long getFecha() {
         return fecha;
     }
 
-    public String getFecha() {
+    public String formatFecha() {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis( fecha);
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy");
         return df.format(cal);
     }
 
-    public long getImporteLong() {
+    public long getImporte() {
         return importe;
     }
 
-    public String getImporte() {
+    @Exclude
+    public String formatImporte() {
         return String.format("%.2f€", (double) ((double)importe / 100));
 
     }
@@ -85,21 +88,4 @@ public class Gasto implements java.io.Serializable{
     public void setImporte(long importe) {
         this.importe =  importe;
     }
-
-    //Convierte el objeto gasto actual en el ContentValues para insertarlo en la base de datos.
-    public ContentValues toContentValues() {
-        ContentValues values = new ContentValues();
-        values.put( LuancoContract.GastoEntry.ID            , id);
-        values.put( LuancoContract.GastoEntry.FECHA         , fecha);
-        values.put( LuancoContract.GastoEntry.DESCRIPCION   , descripcion);
-        values.put( LuancoContract.GastoEntry.IMPORTE       , importe);
-        return values;
-    }
-/*
-    public String toString( ) {
-        return  LuancoContract.GastoEntry.ID            + " " + id          + " " +
-                LuancoContract.GastoEntry.FECHA         + " " + fecha       + " " +
-                LuancoContract.GastoEntry.DESCRIPCION   + " " + descripcion + " " +
-                LuancoContract.GastoEntry.IMPORTE       + " " + importe;
-    }*/
 }

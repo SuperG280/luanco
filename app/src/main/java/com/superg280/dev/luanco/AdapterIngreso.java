@@ -68,13 +68,13 @@ public class AdapterIngreso extends BaseAdapter {
         Ingreso ingreso = items.get(position);
 
         TextView fecha = (TextView) v.findViewById(R.id.item_ingreso_fecha);
-        fecha.setText(ingreso.getFecha());
+        fecha.setText(ingreso.formatFecha());
 
         TextView description = (TextView) v.findViewById(R.id.item_ingreso_descripcion);
         description.setText(ingreso.getDescripcion());
 
         TextView importe = (TextView) v.findViewById(R.id.item_ingreso_importe);
-        importe.setText(ingreso.getImporte());
+        importe.setText(ingreso.formatImporte());
 
         ImageView imagen = (ImageView) v.findViewById(R.id.item_ingreso_image);
         Drawable originalDrawable;

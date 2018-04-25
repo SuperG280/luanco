@@ -57,22 +57,22 @@ public class Ingreso implements java.io.Serializable{
         return descripcion;
     }
 
-    public long getFechaLong() {
+    public long getFecha() {
         return fecha;
     }
 
-    public String getFecha() {
+    public String formatFecha() {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis( fecha);
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy");
         return df.format(cal);
     }
 
-    public long getImporteLong() {
+    public long getImporte() {
         return importe;
     }
 
-    public String getImporte() {
+    public String formatImporte() {
         return String.format("%.2f€", (double) ((double)importe / 100));
 
     }
@@ -84,7 +84,7 @@ public class Ingreso implements java.io.Serializable{
         this.fecha = fecha;
     }
 
-    public void setFechaToday( ) {
+    public void createFechaToday( ) {
         this.fecha = Calendar.getInstance().getTimeInMillis();
     }
 
@@ -98,16 +98,5 @@ public class Ingreso implements java.io.Serializable{
 
     public void setUserID(int userID) {
         this.userID = userID;
-    }
-
-    //Convierte el objeto ingreso actual en el ContentValues para insertarlo en la base de datos.
-    public ContentValues toContentValues() {
-        ContentValues values = new ContentValues();
-        values.put( LuancoContract.IngresoEntry.ID            , id);
-        values.put( LuancoContract.IngresoEntry.FECHA         , fecha);
-        values.put( LuancoContract.IngresoEntry.DESCRIPCION   , descripcion);
-        values.put( LuancoContract.IngresoEntry.IMPORTE       , importe);
-        values.put( LuancoContract.IngresoEntry.USUARIO       , userID);
-        return values;
     }
 }

@@ -62,13 +62,13 @@ public class AdapterGastoMain extends BaseAdapter {
         Gasto dir = items.get(position);
 
         TextView fecha = (TextView) v.findViewById(R.id.item_gasto_main_fecha);
-        fecha.setText(dir.getFecha());
+        fecha.setText(dir.formatFecha());
 
         TextView description = (TextView) v.findViewById(R.id.item_gasto_main_descripcion);
         description.setText(dir.getDescripcion());
 
         TextView importe = (TextView) v.findViewById(R.id.item_gasto_main_importe);
-        importe.setText("-" + dir.getImporte());
+        importe.setText("-" + dir.formatImporte());
 
         return v;
     }

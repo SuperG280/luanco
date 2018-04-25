@@ -37,4 +37,24 @@
     <string name="dlg_aldia_mensaje1">Se creará un ingreso para</string>
     <string name="dlg_aldia_mensaje2">de</string>
     <string name="app_new_aldia_ingreso_descripcion">Al dia</string>
+    <string name="email">email</string>
+    <string name="hint_password">password</string>
+    <string name="action_sign_in_short">Registrar</string>
+    <string name="btn_forgot_password">¿Olvidaste tu password?</string>
+    <string name="btn_link_to_login">Ya estoy registrado</string>
+    <string name="toast_enter_email">Debe introducir una dirección de correo válida</string>
+    <string name="toast_enter_password">Debe introducir una password</string>
+    <string name="toast_enter_len_password">La password debe ser de al menos 6 caracteres</string>
+    <string name="toast_authentication_failed">¡¡El usuario o la password no son correctos!!</string>
+    <string name="btn_login">Acceder</string>
+    <string name="btn_link_to_register">Crear nueva cuenta</string>
+    <string name="forgot_password_msg">Introduce la dirección de correo con la que te registraste y recibirás un mail con las instrucciones para el cambio de password</string>
+    <string name="btn_reset_password">Reiniciar password</string>
+    <string name="btn_back">Volver</string>
+    <string name="toast_mail_reset_password">Introduce la dirección de correo con la que te registraste</string>
+    <string name="toast_send_mail_reset_password">Te hemos enviado un mail con las instrucciones para resetear la password</string>
+    <string name="toast_send_mail_reset_password_error">Error reseteando la password. Ponte en contacto con el Ramón. Igual se puede arreglar o igual no...</string>
+    <string name="menu_separador_cuenta">Cuenta</string>
+    <string name="menu_cerrar_sesion">Cerrar sesión</string>
+    <string name="copyright_login">Luanco app de gastos. SuperG © 2018</string>
 </resources>

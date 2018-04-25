@@ -23,6 +23,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -33,6 +39,9 @@ public class TabGastos extends Fragment {
     private ArrayList<Gasto> gastos = null;
     private AdapterGasto adapter = null;
     public EditText editTextFecha;
+
+    private DatabaseReference mFirebaseDatabase;
+    private FirebaseDatabase mFirebaseInstance;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,6 +55,10 @@ public class TabGastos extends Fragment {
         if( gastos == null || gastos.size() == 0) {
             Toast.makeText( getActivity(), getResources().getString(R.string.toast_no_gastos), Toast.LENGTH_LONG).show();
         }
+
+        ///////////////////
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = mFirebaseInstance.getReference("gastos");
 
         ListView lv = (ListView) tab.findViewById(R.id.listView_gastos);
 
@@ -198,7 +211,7 @@ public class TabGastos extends Fragment {
 
         String resultado = newGasto.toString();
 
-        getLuancoBD().insertNewGasto( newGasto);
+        addGastoInFireBase( newGasto);
 
         insertNewGastoInArray( newGasto);
         adapter.notifyDataSetChanged();
@@ -212,11 +225,11 @@ public class TabGastos extends Fragment {
             return;
         }
 
-        long NewFecha = gasto.getFechaLong();
+        long NewFecha = gasto.getFecha();
         for( int i = 0; i < gastos.size(); i++) {
 
             Gasto g = gastos.get( i);
-            if( g.getFechaLong() <= NewFecha) {
+            if( g.getFecha() <= NewFecha) {
                 gastos.add( i, gasto);
                 return;
             }
@@ -228,13 +241,19 @@ public class TabGastos extends Fragment {
 
     public void deleteGasto( int posicion) {
 
-        getLuancoBD().deleteGasto( gastos.get(posicion).getId());
+        deleteGastoInFireBase( gastos.get(posicion).getId());
+        //getLuancoBD().deleteGasto( gastos.get(posicion).getId());
         gastos.remove(posicion);
         adapter.notifyDataSetChanged();
     }
 
-    //Función de acceso a la base de datos que está en LuTabActivity.
-    public LuancoDBHelper getLuancoBD() {
-        return ((LuTabActivity)this.getActivity()).LuancoDB;
+    public void addGastoInFireBase( Gasto gasto) {
+
+        mFirebaseDatabase.child( gasto.getId()).setValue(gasto);
+    }
+
+    public void deleteGastoInFireBase( String gastoId) {
+
+        mFirebaseDatabase.child( gastoId).removeValue();
     }
 }

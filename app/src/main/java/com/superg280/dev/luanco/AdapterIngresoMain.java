@@ -62,13 +62,13 @@ public class AdapterIngresoMain extends BaseAdapter {
         Ingreso dir = items.get(position);
 
         TextView fecha = (TextView) v.findViewById(R.id.item_ingreso_main_fecha);
-        fecha.setText(dir.getFecha());
+        fecha.setText(dir.formatFecha());
 
         TextView description = (TextView) v.findViewById(R.id.item_ingreso_main_descripcion);
         description.setText(dir.getDescripcion());
 
         TextView importe = (TextView) v.findViewById(R.id.item_ingreso_main_importe);
-        importe.setText(dir.getImporte());
+        importe.setText(dir.formatImporte());
 
         return v;
     }
