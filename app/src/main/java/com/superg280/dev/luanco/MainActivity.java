@@ -1,11 +1,13 @@
 package com.superg280.dev.luanco;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.icu.util.Calendar;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -74,11 +76,16 @@ public class MainActivity extends AppCompatActivity
 
     private FirebaseAuth auth;
 
+    public boolean isLoading = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        isLoading = true;
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         /*
@@ -123,6 +130,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResume(){
         super.onResume();
+        isLoading = true;
+        new SomeTask().execute();
         refillFireBaseGastos();
         refillFireBaseIngresos();
     }
@@ -134,6 +143,7 @@ public class MainActivity extends AppCompatActivity
         SaldoUsuario3 = refillTextViewSaldoUser( USER_LUIS);
         prepareGastosListView();
         prepareIngresosListView();
+        isLoading = false;
     }
 
     @Override
@@ -599,5 +609,42 @@ public class MainActivity extends AppCompatActivity
                 return new Long(t1.getFecha()).compareTo(new Long(ingreso.getFecha()));
             }
         });
+    }
+
+    /** Inner class for implementing progress bar before fetching data **/
+    private class SomeTask extends AsyncTask<Void, Void, Integer>
+    {
+        private ProgressDialog Dialog = new ProgressDialog(MainActivity.this);
+
+        @Override
+        protected void onPreExecute()
+        {
+            Dialog.setMessage(getString( R.string.toas_loading_main));
+            Dialog.show();
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params)
+        {
+            //Task for doing something
+            try {
+                while ( isLoading == true) {
+                    Thread.sleep(100);
+                }
+            } catch( Exception ex) {}
+            return 0;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result)
+        {
+
+            if(result==0)
+            {
+                //do some thing
+            }
+            // after completed finished the progressbar
+            Dialog.dismiss();
+        }
     }
 }
