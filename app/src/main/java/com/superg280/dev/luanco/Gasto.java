@@ -88,4 +88,10 @@ public class Gasto implements java.io.Serializable{
     public void setImporte(long importe) {
         this.importe =  importe;
     }
+
+    public Calendar fechaToCalendar( ) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis( this.fecha);
+        return cal;
+    }
 }

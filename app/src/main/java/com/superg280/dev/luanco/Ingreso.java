@@ -99,4 +99,10 @@ public class Ingreso implements java.io.Serializable{
     public void setUserID(int userID) {
         this.userID = userID;
     }
+
+    public Calendar fechaToCalendar( ) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis( this.fecha);
+        return cal;
+    }
 }

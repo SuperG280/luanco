@@ -141,8 +141,8 @@ public class MainActivity extends AppCompatActivity
         SaldoUsuario1 = refillTextViewSaldoUser( USER_RAMON);
         SaldoUsuario2 = refillTextViewSaldoUser( USER_MARIA);
         SaldoUsuario3 = refillTextViewSaldoUser( USER_LUIS);
-        prepareGastosListView();
-        prepareIngresosListView();
+        prepareCardGastos();
+        prepareCardIngresos();
         isLoading = false;
     }
 
@@ -283,6 +283,33 @@ public class MainActivity extends AppCompatActivity
                 return true;
             }
         });
+
+        TextView gastosVerTodos = ( TextView) findViewById( R.id.textView_card_gastos_vertodos);
+
+        gastosVerTodos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent inte = new Intent(MainActivity.this, LuTabActivity.class);
+                inte.putExtra("TAB_INDEX", 0);
+                inte.putExtra( "GASTOS", gastos);
+                inte.putExtra( "INGRESOS", ingresos);
+                startActivity(inte);
+            }
+        });
+
+        TextView ingresosVerTodos = ( TextView) findViewById( R.id.textView_card_ingresos_vertodos);
+
+        ingresosVerTodos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent inte = new Intent(MainActivity.this, LuTabActivity.class);
+                inte.putExtra("TAB_INDEX", 1);
+                inte.putExtra( "GASTOS", gastos);
+                inte.putExtra( "INGRESOS", ingresos);
+                startActivity(inte);
+            }
+        });
     }
 
     public void setImageRounded( int user) {
@@ -391,53 +418,51 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void prepareGastosListView() {
+    public void prepareCardGastos() {
 
-        if( gastos.size() < 0)
-            return;
+        long totalGastosMesActual = getTotalGastosMesActual();
 
-        ArrayList<Gasto> mainGastos = new ArrayList<Gasto>();
-        Gasto realGasto;
-        for( int i = 0; i < 8 && i < gastos.size(); i++) {
-            realGasto = gastos.get( i);
-            Gasto newGasto = new Gasto();
-            newGasto.setFecha      ( realGasto.getFecha());
-            newGasto.setDescripcion( realGasto.getDescripcion());
-            newGasto.setImporte    ( realGasto.getImporte());
+        TextView txTotalGastosMesActual = ( TextView) findViewById( R.id.textView_card_gastos_estemes);
+        txTotalGastosMesActual.setText(String.format("%.2f€", (double) ((double)totalGastosMesActual / (double)100)));
 
-            mainGastos.add( newGasto);
-        }
+        double mediaGastosMesActual = getMediaGastosMesActual();
 
-        gastoAdapter = new AdapterGastoMain( this, mainGastos);
+        TextView txMediaGastosMesActual = ( TextView) findViewById( R.id.textView_card_gastos_mediames);
+        txMediaGastosMesActual.setText(String.format("%.2f€", mediaGastosMesActual / (double)100));
 
-        ListView lv = (ListView) findViewById(R.id.listView_main_gastos);
+        long totalGastosAnoActual = getTotalGastosAnoActual();
 
-        lv.setAdapter(gastoAdapter);
+        TextView txTotalGastosAnoActual = ( TextView) findViewById( R.id.textView_card_gastos_esteano);
+        txTotalGastosAnoActual.setText(String.format("%.2f€", (double) ((double)totalGastosAnoActual / (double)100)));
+
+        double mediaGastosAnoActual = getMediaGastosAnoActual();
+
+        TextView txMediaGastosAnoActual = ( TextView) findViewById( R.id.textView_card_gastos_mediaano);
+        txMediaGastosAnoActual.setText(String.format("%.2f€", mediaGastosAnoActual / (double)100));
     }
 
-    public void prepareIngresosListView() {
+    public void prepareCardIngresos() {
 
-        if( ingresos.size() < 0)
-            return;
+        long totalIngresosMesActual = getTotalIngresosMesActual();
 
-        ArrayList<Ingreso> mainIngresos = new ArrayList<Ingreso>();
-        Ingreso realIngreso;
+        TextView txTotalIngresosMesActual = ( TextView) findViewById( R.id.textView_card_ingresos_estemes);
+        txTotalIngresosMesActual.setText(String.format("%.2f€", (double) ((double)totalIngresosMesActual / (double)100)));
 
-        for( int i = 0; i < 8 && i < ingresos.size(); i++) {
-            realIngreso = ingresos.get( i);
-            Ingreso newIngreso = new Ingreso();
-            newIngreso.setFecha      ( realIngreso.getFecha());
-            newIngreso.setDescripcion( realIngreso.getDescripcion());
-            newIngreso.setImporte    ( realIngreso.getImporte());
+        double mediaIngresosMesActual = getMediaIngresosMesActual();
 
-            mainIngresos.add( newIngreso);
-        }
+        TextView txMediaIngresosMesActual = ( TextView) findViewById( R.id.textView_card_ingresos_mediames);
+        txMediaIngresosMesActual.setText(String.format("%.2f€", mediaIngresosMesActual / (double)100));
 
-        ingresoAdapter = new AdapterIngresoMain( this, mainIngresos);
+        long totalIngresosAnoActual = getTotalIngresosAnoActual();
 
-        ListView lv = (ListView) findViewById(R.id.listView_main_ingresos);
+        TextView txTotalIngresosAnoActual = ( TextView) findViewById( R.id.textView_card_ingresos_esteano);
+        txTotalIngresosAnoActual.setText(String.format("%.2f€", (double) ((double)totalIngresosAnoActual / (double)100)));
 
-        lv.setAdapter(ingresoAdapter);
+        double mediaIngresosAnoActual = getMediaIngresosAnoActual();
+
+        TextView txMediaIngresosAnoActual = ( TextView) findViewById( R.id.textView_card_ingresos_mediaano);
+        txMediaIngresosAnoActual.setText(String.format("%.2f€", mediaIngresosAnoActual / (double)100));
+
     }
 
     //Hay que llamarla después de haber llamado a updateSaldoActual, para
@@ -609,6 +634,242 @@ public class MainActivity extends AppCompatActivity
                 return new Long(t1.getFecha()).compareTo(new Long(ingreso.getFecha()));
             }
         });
+    }
+
+    public long getTotalGastosMesActual() {
+
+        if( gastos == null || gastos.size() == 0) {
+            return 0;
+        }
+
+        Calendar hoy = Calendar.getInstance();
+        long importe = 0;
+
+        for( Gasto g: gastos) {
+            Calendar fechaGasto = g.fechaToCalendar();
+            if( fechaGasto.get( Calendar.MONTH) < hoy.get( Calendar.MONTH)) {
+                //Como los gastos están ordenados por fecha de más actual a más viejo,
+                //si el mes del gasto en el array es menor que el mes actual, ya no habrá
+                //más gastos ese mes y termina la búsqueda.
+                return importe;
+            }
+            //Suma los importes de los gastos de este mes.
+            if( hoy.get( Calendar.MONTH) == fechaGasto.get( Calendar.MONTH)) {
+                importe += g.getImporte();
+            }
+        }
+
+        //si llega aquí, ha sumado todos los gastos y todos son de este mes, o no hay
+        //ninguno este mes.
+        return importe;
+    }
+
+    public double getMediaGastosMesActual() {
+
+        if( gastos == null || gastos.size() == 0) {
+            return 0;
+        }
+
+        Calendar hoy = Calendar.getInstance();
+
+        long importe = 0;
+        int index = 0;
+        for( Gasto g: gastos) {
+            Calendar fechaGasto = g.fechaToCalendar();
+            if( fechaGasto.get( Calendar.MONTH) < hoy.get( Calendar.MONTH)) {
+                //Como los gastos están ordenados por fecha de más actual a más viejo,
+                //si el mes del gasto en el array es menor que el mes actual, ya no habrá
+                //más gastos ese mes y termina la búsqueda.
+                break;
+            }
+            //Suma los importes de los gastos de este mes.
+            if( hoy.get( Calendar.MONTH) == fechaGasto.get( Calendar.MONTH)) {
+                importe += g.getImporte();
+                index++;
+            }
+        }
+
+        if( index == 0)
+            return 0;
+
+        return ((double)importe /(double) index);
+    }
+
+    public long getTotalGastosAnoActual() {
+
+        if( gastos == null || gastos.size() == 0) {
+            return 0;
+        }
+
+        Calendar hoy = Calendar.getInstance();
+        long importe = 0;
+
+        for( Gasto g: gastos) {
+            Calendar fechaGasto = g.fechaToCalendar();
+            if( fechaGasto.get( Calendar.YEAR) < hoy.get( Calendar.YEAR)) {
+                //Como los gastos están ordenados por fecha de más actual a más viejo,
+                //si el año del gasto en el array es menor que el año actual, ya no habrá
+                //más gastos ese año y termina la búsqueda.
+                return importe;
+            }
+            //Suma los importes de los gastos de este año.
+            if( hoy.get( Calendar.YEAR) == fechaGasto.get( Calendar.YEAR)) {
+                importe += g.getImporte();
+            }
+        }
+
+        //si llega aquí, ha sumado todos los gastos y todos son de este año, o no hay
+        //ninguno este año.
+        return importe;
+    }
+
+    public double getMediaGastosAnoActual() {
+
+        if( gastos == null || gastos.size() == 0) {
+            return 0;
+        }
+
+        Calendar hoy = Calendar.getInstance();
+
+        long importe = 0;
+        int index = 0;
+        for( Gasto g: gastos) {
+            Calendar fechaGasto = g.fechaToCalendar();
+            if( fechaGasto.get( Calendar.YEAR) < hoy.get( Calendar.YEAR)) {
+                //Como los gastos están ordenados por fecha de más actual a más viejo,
+                //si el año del gasto en el array es menor que el año actual, ya no habrá
+                //más gastos ese año y termina la búsqueda.
+                break;
+            }
+            //Suma los importes de los gastos de este año.
+            if( hoy.get( Calendar.YEAR) == fechaGasto.get( Calendar.YEAR)) {
+                importe += g.getImporte();
+                index++;
+            }
+        }
+
+        if( index == 0)
+            return 0;
+
+        return ((double)importe /(double) index);
+    }
+
+    public long getTotalIngresosMesActual() {
+
+        if( ingresos == null || ingresos.size() == 0) {
+            return 0;
+        }
+
+        Calendar hoy = Calendar.getInstance();
+        long importe = 0;
+
+        for( Ingreso ing: ingresos) {
+            Calendar fechaIngreso = ing.fechaToCalendar();
+            if( fechaIngreso.get( Calendar.MONTH) < hoy.get( Calendar.MONTH)) {
+                //Como los ingresos están ordenados por fecha de más actual a más viejo,
+                //si el mes del ingreso en el array es menor que el mes actual, ya no habrá
+                //más ingresos ese mes y termina la búsqueda.
+                return importe;
+            }
+            //Suma los importes de los ingresos de este mes.
+            if( hoy.get( Calendar.MONTH) == fechaIngreso.get( Calendar.MONTH)) {
+                importe += ing.getImporte();
+            }
+        }
+
+        //si llega aquí, ha sumado todos los ingresos y todos son de este mes, o no hay
+        //ninguno este mes.
+        return importe;
+    }
+
+    public double getMediaIngresosMesActual() {
+
+        if( ingresos == null || ingresos.size() == 0) {
+            return 0;
+        }
+
+        Calendar hoy = Calendar.getInstance();
+
+        long importe = 0;
+        int index = 0;
+        for( Ingreso ing: ingresos) {
+            Calendar fechaIngreso = ing.fechaToCalendar();
+            if( fechaIngreso.get( Calendar.MONTH) < hoy.get( Calendar.MONTH)) {
+                //Como los ingresos están ordenados por fecha de más actual a más viejo,
+                //si el mes del ingreso en el array es menor que el mes actual, ya no habrá
+                //más ingresos ese mes y termina la búsqueda.
+                break;
+            }
+            //Suma los importes de los ingresos de este mes.
+            if( hoy.get( Calendar.MONTH) == fechaIngreso.get( Calendar.MONTH)) {
+                importe += ing.getImporte();
+                index++;
+            }
+        }
+
+        if( index == 0)
+            return 0;
+
+        return ((double)importe /(double) index);
+    }
+
+    public long getTotalIngresosAnoActual() {
+
+        if( ingresos == null || ingresos.size() == 0) {
+            return 0;
+        }
+
+        Calendar hoy = Calendar.getInstance();
+        long importe = 0;
+
+        for( Ingreso ing: ingresos) {
+            Calendar fechaIngreso = ing.fechaToCalendar();
+            if( fechaIngreso.get( Calendar.YEAR) < hoy.get( Calendar.YEAR)) {
+                //Como los ingresos están ordenados por fecha de más actual a más viejo,
+                //si el año del ingreso en el array es menor que el año actual, ya no habrá
+                //más ingresos ese año y termina la búsqueda.
+                return importe;
+            }
+            //Suma los importes de los ingresos de este año.
+            if( hoy.get( Calendar.YEAR) == fechaIngreso.get( Calendar.YEAR)) {
+                importe += ing.getImporte();
+            }
+        }
+
+        //si llega aquí, ha sumado todos los ingresos y todos son de este año, o no hay
+        //ninguno este año.
+        return importe;
+    }
+
+    public double getMediaIngresosAnoActual() {
+
+        if( ingresos == null || ingresos.size() == 0) {
+            return 0;
+        }
+
+        Calendar hoy = Calendar.getInstance();
+
+        long importe = 0;
+        int index = 0;
+        for( Ingreso ing: ingresos) {
+            Calendar fechaIngreso = ing.fechaToCalendar();
+            if( fechaIngreso.get( Calendar.YEAR) < hoy.get( Calendar.YEAR)) {
+                //Como los ingresos están ordenados por fecha de más actual a más viejo,
+                //si el año del ingreso en el array es menor que el año actual, ya no habrá
+                //más ingresos ese año y termina la búsqueda.
+                break;
+            }
+            //Suma los importes de los ingresos de este año.
+            if( hoy.get( Calendar.YEAR) == fechaIngreso.get( Calendar.YEAR)) {
+                importe += ing.getImporte();
+                index++;
+            }
+        }
+
+        if( index == 0)
+            return 0;
+
+        return ((double)importe /(double) index);
     }
 
     /** Inner class for implementing progress bar before fetching data **/
