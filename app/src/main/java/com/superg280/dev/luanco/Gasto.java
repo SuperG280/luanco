@@ -6,6 +6,8 @@ import android.icu.util.Calendar;
 
 import com.google.firebase.database.Exclude;
 
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -73,7 +75,8 @@ public class Gasto implements java.io.Serializable{
 
     @Exclude
     public String formatImporte() {
-        return String.format("%.2f€", (double) ((double)importe / 100));
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.getDefault());
+        return  nf.format( (double)importe / 100);
 
     }
 

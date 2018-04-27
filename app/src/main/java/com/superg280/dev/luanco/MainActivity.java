@@ -9,9 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.icu.util.Calendar;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -25,25 +22,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
-
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -124,7 +115,10 @@ public class MainActivity extends AppCompatActivity
         View header = navigationView.getHeaderView(0);
 
         TextView userMail = (TextView) header.findViewById( R.id.textView_nav_user_mail);
-        userMail.setText( auth.getCurrentUser().getEmail());
+        if( auth != null) {
+            userMail.setText(auth.getCurrentUser().getEmail());
+        }
+
 
     }
     @Override
@@ -181,7 +175,7 @@ public class MainActivity extends AppCompatActivity
                 dlgAlDia.setMessage(getString(R.string.dlg_aldia_mensaje1) + " " +
                         getString(R.string.app_name_user1) + " " +
                         getString(R.string.dlg_aldia_mensaje2) + " " +
-                        String.format("%.2f€", (double) ((double) (SaldoUsuario1 * -1) / (double) 100)));
+                        formatImporte((double) (SaldoUsuario1 * -1) / (double) 100));
                 dlgAlDia.setCancelable(false);
                 dlgAlDia.setPositiveButton(getString(R.string.dlg_delete_but_confirm), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogo1, int id) {
@@ -224,7 +218,7 @@ public class MainActivity extends AppCompatActivity
                 dlgAlDia.setMessage(getString(R.string.dlg_aldia_mensaje1) + " " +
                         getString(R.string.app_name_user2) + " " +
                         getString(R.string.dlg_aldia_mensaje2) + " " +
-                        String.format("%.2f€", (double) ((double) (SaldoUsuario2 * -1) / (double) 100)));
+                        formatImporte((double) (SaldoUsuario2 * -1) / (double) 100));
                 dlgAlDia.setCancelable(false);
                 dlgAlDia.setPositiveButton(getString(R.string.dlg_delete_but_confirm), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogo1, int id) {
@@ -267,7 +261,7 @@ public class MainActivity extends AppCompatActivity
                 dlgAlDia.setMessage(getString(R.string.dlg_aldia_mensaje1) + " " +
                         getString(R.string.app_name_user3) + " " +
                         getString(R.string.dlg_aldia_mensaje2) + " " +
-                        String.format("%.2f€", (double) ((double) (SaldoUsuario3 * -1) / (double) 100)));
+                        formatImporte((double) (SaldoUsuario3 * -1) / (double) 100));
                 dlgAlDia.setCancelable(false);
                 dlgAlDia.setPositiveButton(getString(R.string.dlg_delete_but_confirm), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogo1, int id) {
@@ -423,22 +417,22 @@ public class MainActivity extends AppCompatActivity
         long totalGastosMesActual = getTotalGastosMesActual();
 
         TextView txTotalGastosMesActual = ( TextView) findViewById( R.id.textView_card_gastos_estemes);
-        txTotalGastosMesActual.setText(String.format("%.2f€", (double) ((double)totalGastosMesActual / (double)100)));
+        txTotalGastosMesActual.setText( formatImporte((double)totalGastosMesActual / (double)100));
 
         double mediaGastosMesActual = getMediaGastosMesActual();
 
         TextView txMediaGastosMesActual = ( TextView) findViewById( R.id.textView_card_gastos_mediames);
-        txMediaGastosMesActual.setText(String.format("%.2f€", mediaGastosMesActual / (double)100));
+        txMediaGastosMesActual.setText( formatImporte( mediaGastosMesActual / (double)100));
 
         long totalGastosAnoActual = getTotalGastosAnoActual();
 
         TextView txTotalGastosAnoActual = ( TextView) findViewById( R.id.textView_card_gastos_esteano);
-        txTotalGastosAnoActual.setText(String.format("%.2f€", (double) ((double)totalGastosAnoActual / (double)100)));
+        txTotalGastosAnoActual.setText( formatImporte((double)totalGastosAnoActual / (double)100));
 
         double mediaGastosAnoActual = getMediaGastosAnoActual();
 
         TextView txMediaGastosAnoActual = ( TextView) findViewById( R.id.textView_card_gastos_mediaano);
-        txMediaGastosAnoActual.setText(String.format("%.2f€", mediaGastosAnoActual / (double)100));
+        txMediaGastosAnoActual.setText( formatImporte( mediaGastosAnoActual / (double)100));
     }
 
     public void prepareCardIngresos() {
@@ -446,23 +440,28 @@ public class MainActivity extends AppCompatActivity
         long totalIngresosMesActual = getTotalIngresosMesActual();
 
         TextView txTotalIngresosMesActual = ( TextView) findViewById( R.id.textView_card_ingresos_estemes);
-        txTotalIngresosMesActual.setText(String.format("%.2f€", (double) ((double)totalIngresosMesActual / (double)100)));
+        txTotalIngresosMesActual.setText( formatImporte((double)totalIngresosMesActual / (double)100));
 
         double mediaIngresosMesActual = getMediaIngresosMesActual();
 
         TextView txMediaIngresosMesActual = ( TextView) findViewById( R.id.textView_card_ingresos_mediames);
-        txMediaIngresosMesActual.setText(String.format("%.2f€", mediaIngresosMesActual / (double)100));
+        txMediaIngresosMesActual.setText( formatImporte( mediaIngresosMesActual / (double)100));
 
         long totalIngresosAnoActual = getTotalIngresosAnoActual();
 
         TextView txTotalIngresosAnoActual = ( TextView) findViewById( R.id.textView_card_ingresos_esteano);
-        txTotalIngresosAnoActual.setText(String.format("%.2f€", (double) ((double)totalIngresosAnoActual / (double)100)));
+        txTotalIngresosAnoActual.setText( formatImporte((double)totalIngresosAnoActual / (double)100));
 
         double mediaIngresosAnoActual = getMediaIngresosAnoActual();
 
         TextView txMediaIngresosAnoActual = ( TextView) findViewById( R.id.textView_card_ingresos_mediaano);
-        txMediaIngresosAnoActual.setText(String.format("%.2f€", mediaIngresosAnoActual / (double)100));
+        txMediaIngresosAnoActual.setText( formatImporte( mediaIngresosAnoActual / (double)100));
 
+    }
+
+    public String formatImporte( double importe) {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.getDefault());
+        return  nf.format(importe);
     }
 
     //Hay que llamarla después de haber llamado a updateSaldoActual, para
@@ -497,7 +496,7 @@ public class MainActivity extends AppCompatActivity
             txSaldoUsuario.setTextColor( ContextCompat.getColor( this, R.color.colorSaldoNeutroUsuario));
         }
 
-        txSaldoUsuario.setText( String.format("%.2f€", (double) ((double)saldoUsuario / (double)100)));
+        txSaldoUsuario.setText( formatImporte((double)saldoUsuario / (double)100));
 
         return saldoUsuario;
     }
@@ -526,7 +525,7 @@ public class MainActivity extends AppCompatActivity
             txSaldoActual.setTextColor( ContextCompat.getColor( this, R.color.colorSaldoNeutro));
         }
 
-        txSaldoActual.setText( String.format("%.2f€", (double) ((double)total / (double)100)));
+        txSaldoActual.setText( formatImporte((double)total / (double)100));
     }
 
     public void alDiaUser( int user) {
@@ -596,7 +595,7 @@ public class MainActivity extends AppCompatActivity
         Collections.sort(gastos, new Comparator<Gasto>() {
             @Override
             public int compare(Gasto gasto, Gasto t1) {
-                return new Long(t1.getFecha()).compareTo(new Long(gasto.getFecha()));
+                return new Long(t1.getFecha()).compareTo(Long.valueOf(gasto.getFecha()));
             }
         });
     }
@@ -889,7 +888,7 @@ public class MainActivity extends AppCompatActivity
         {
             //Task for doing something
             try {
-                while ( isLoading == true) {
+                while ( isLoading) {
                     Thread.sleep(100);
                 }
             } catch( Exception ex) {}
