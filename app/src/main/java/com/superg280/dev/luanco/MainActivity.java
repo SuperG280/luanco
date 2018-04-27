@@ -135,8 +135,7 @@ public class MainActivity extends AppCompatActivity
         SaldoUsuario1 = refillTextViewSaldoUser( USER_RAMON);
         SaldoUsuario2 = refillTextViewSaldoUser( USER_MARIA);
         SaldoUsuario3 = refillTextViewSaldoUser( USER_LUIS);
-        prepareCardGastos();
-        prepareCardIngresos();
+        prepareCardCuentas();
         isLoading = false;
     }
 
@@ -278,7 +277,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        TextView gastosVerTodos = ( TextView) findViewById( R.id.textView_card_gastos_vertodos);
+        TextView gastosVerTodos = ( TextView) findViewById( R.id.textView_card_gastos_title);
 
         gastosVerTodos.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -291,7 +290,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        TextView ingresosVerTodos = ( TextView) findViewById( R.id.textView_card_ingresos_vertodos);
+        TextView ingresosVerTodos = ( TextView) findViewById( R.id.textView_card_ingresos_title);
 
         ingresosVerTodos.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -412,50 +411,17 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void prepareCardGastos() {
-
-        long totalGastosMesActual = getTotalGastosMesActual();
-
-        TextView txTotalGastosMesActual = ( TextView) findViewById( R.id.textView_card_gastos_estemes);
-        txTotalGastosMesActual.setText( formatImporte((double)totalGastosMesActual / (double)100));
-
-        double mediaGastosMesActual = getMediana(0, 0);//getMediaGastosMesActual();
-
-        TextView txMediaGastosMesActual = ( TextView) findViewById( R.id.textView_card_gastos_mediames);
-        txMediaGastosMesActual.setText( formatImporte( mediaGastosMesActual / (double)100));
+    public void prepareCardCuentas() {
 
         long totalGastosAnoActual = getTotalGastosAnoActual();
 
         TextView txTotalGastosAnoActual = ( TextView) findViewById( R.id.textView_card_gastos_esteano);
         txTotalGastosAnoActual.setText( formatImporte((double)totalGastosAnoActual / (double)100));
 
-        double mediaGastosAnoActual = getMediana( 0, 1); //getMediaGastosAnoActual();
-
-        TextView txMediaGastosAnoActual = ( TextView) findViewById( R.id.textView_card_gastos_mediaano);
-        txMediaGastosAnoActual.setText( formatImporte( mediaGastosAnoActual / (double)100));
-    }
-
-    public void prepareCardIngresos() {
-
-        long totalIngresosMesActual = getTotalIngresosMesActual();
-
-        TextView txTotalIngresosMesActual = ( TextView) findViewById( R.id.textView_card_ingresos_estemes);
-        txTotalIngresosMesActual.setText( formatImporte((double)totalIngresosMesActual / (double)100));
-
-        double mediaIngresosMesActual = getMediana( 1, 0);//getMediaIngresosMesActual();
-
-        TextView txMediaIngresosMesActual = ( TextView) findViewById( R.id.textView_card_ingresos_mediames);
-        txMediaIngresosMesActual.setText( formatImporte( mediaIngresosMesActual / (double)100));
-
         long totalIngresosAnoActual = getTotalIngresosAnoActual();
 
         TextView txTotalIngresosAnoActual = ( TextView) findViewById( R.id.textView_card_ingresos_esteano);
         txTotalIngresosAnoActual.setText( formatImporte((double)totalIngresosAnoActual / (double)100));
-
-        double mediaIngresosAnoActual = getMediana( 1, 1);//getMediaIngresosAnoActual();
-
-        TextView txMediaIngresosAnoActual = ( TextView) findViewById( R.id.textView_card_ingresos_mediaano);
-        txMediaIngresosAnoActual.setText( formatImporte( mediaIngresosAnoActual / (double)100));
 
     }
 
@@ -530,17 +496,13 @@ public class MainActivity extends AppCompatActivity
 
     public void alDiaUser( int user) {
 
-        TextView txSaldoUsuario;
         long saldoUsuario = 0;
 
         if( user == USER_RAMON) {
-            txSaldoUsuario = ( TextView) findViewById( R.id.textView_current_user1);
             saldoUsuario = SaldoUsuario1;
         } else if( user == USER_MARIA) {
-            txSaldoUsuario = ( TextView) findViewById( R.id.textView_current_user2);
             saldoUsuario = SaldoUsuario2;
         } else if( user == USER_LUIS){
-            txSaldoUsuario = ( TextView) findViewById( R.id.textView_current_user3);
             saldoUsuario = SaldoUsuario3;
         } else {
             return;
@@ -635,40 +597,6 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    public long getTotalGastosMesActual() {
-
-        if( gastos == null || gastos.size() == 0) {
-            return 0;
-        }
-
-        ArrayList<Long> gastosMesActual = getGastosMesActual();
-
-        long importe = 0;
-        for( Long g: gastosMesActual) {
-            importe += g;
-        }
-        return importe;
-    }
-
-    public double getMediaGastosMesActual() {
-
-        if( gastos == null || gastos.size() == 0) {
-            return 0;
-        }
-
-        ArrayList<Long> gastosMesActual = getGastosMesActual();
-
-        long importe = 0;
-        for( Long g: gastosMesActual) {
-            importe += g;
-        }
-
-        if( importe == 0)
-            return 0;
-
-        return ((double)importe /(double) gastosMesActual.size());
-    }
-
     public ArrayList<Long> getGastosMesActual() {
 
         ArrayList<Long> gastosMes = new ArrayList<Long>();
@@ -686,58 +614,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         return gastosMes;
-    }
-
-    //quien 0: gastos.
-    //quien 1: ingresos.
-    //como 0 : mediana  del mes actual.
-    //como 1 : mediana del año actual.
-    public double getMediana ( int quien, int como){
-
-        if( quien == 0) {
-            if (gastos == null || gastos.size() == 0) {
-                return 0;
-            }
-        } else {
-            if (ingresos == null || ingresos.size() == 0) {
-                return 0;
-            }
-        }
-
-        ArrayList<Long> Actual;
-
-        if( como == 0) { //mensual
-            if( quien == 0) {   //gastos
-                Actual = getGastosMesActual();
-            } else {            //Ingresos
-                Actual = getIngresosMesActual();
-            }
-        } else {
-            if( quien == 0) { //gastos
-                Actual = getGastosAnoActual();
-            } else {
-                Actual = getIngresosAnoActual();
-            }
-        }
-
-        if( Actual.size() == 0) {
-            return 0;
-        }
-
-        Collections.sort(Actual);
-
-        double result = 0;
-
-        if( Actual.size() % 2 == 0) {
-
-            long uno = Actual.get(( Actual.size() / 2) -1);
-            long dos = Actual.get( Actual.size() / 2);
-            result = ((double)uno + (double)dos) /(double)2;
-        } else {
-            result = (double)Actual.get((( Actual.size() + 1) / 2) - 1);
-        }
-
-        return result;
     }
 
     public long getTotalGastosAnoActual() {
@@ -776,79 +652,6 @@ public class MainActivity extends AppCompatActivity
         return gastosA;
     }
 
-    public double getMediaGastosAnoActual() {
-
-        if( gastos == null || gastos.size() == 0) {
-            return 0;
-        }
-
-        ArrayList<Long> gastosAActual = getGastosAnoActual();
-
-        long importe = 0;
-        for( Long g: gastosAActual) {
-            importe += g;
-        }
-
-        if( importe == 0)
-            return 0;
-
-        return ((double)importe /(double) gastosAActual.size());
-    }
-
-
-    public long getTotalIngresosMesActual() {
-
-        if( ingresos == null || ingresos.size() == 0) {
-            return 0;
-        }
-
-        ArrayList<Long> ingresosMesActual = getIngresosMesActual();
-
-        long importe = 0;
-        for( Long g: ingresosMesActual) {
-            importe += g;
-        }
-        return importe;
-    }
-
-    public double getMediaIngresosMesActual() {
-
-        if( ingresos == null || ingresos.size() == 0) {
-            return 0;
-        }
-
-        ArrayList<Long> ingresosMesActual = getIngresosMesActual();
-
-        long importe = 0;
-        for( Long g: ingresosMesActual) {
-            importe += g;
-        }
-
-        if( importe == 0)
-            return 0;
-
-        return ((double)importe /(double) ingresosMesActual.size());
-    }
-
-    public ArrayList<Long> getIngresosMesActual() {
-
-        ArrayList<Long> ingresosMes = new ArrayList<Long>();
-
-        Calendar hoy = Calendar.getInstance();
-
-        for( Ingreso i: ingresos) {
-            Calendar fechaIngreso = i.fechaToCalendar();
-            if( fechaIngreso.get( Calendar.MONTH) < hoy.get( Calendar.MONTH)) {
-                break;
-            }
-            if( hoy.get( Calendar.MONTH) == fechaIngreso.get( Calendar.MONTH)) {
-                ingresosMes.add( i.getImporte());
-            }
-        }
-
-        return ingresosMes;
-    }
-
     public long getTotalIngresosAnoActual() {
 
         if( ingresos == null || ingresos.size() == 0) {
@@ -883,25 +686,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         return ingresosA;
-    }
-
-    public double getMediaIngresosAnoActual() {
-
-        if( ingresos == null || ingresos.size() == 0) {
-            return 0;
-        }
-
-        ArrayList<Long> ingresosAActual = getIngresosAnoActual();
-
-        long importe = 0;
-        for( Long g: ingresosAActual) {
-            importe += g;
-        }
-
-        if( importe == 0)
-            return 0;
-
-        return ((double)importe /(double) ingresosAActual.size());
     }
 
     /** Inner class for implementing progress bar before fetching data **/

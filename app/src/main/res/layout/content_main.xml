@@ -203,7 +203,7 @@
     <android.support.v7.widget.CardView
         android:id="@+id/cardView_gastos"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -224,122 +224,55 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/app_menu_gastos"
-                android:textAlignment="center"
-                android:textColor="@color/colorTituloGastos"
-                android:textSize="24sp"
+                android:text="@string/gastos_ano"
+                android:textAlignment="viewStart"
+                android:textSize="18sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView_card_gastos_esteano"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView_card_gastos_vertodos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/gastos_ver_todos"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView_card_gastos_label_estemes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/gastos_mes_actual"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_card_gastos_title" />
-
-            <TextView
-                android:id="@+id/textView_card_gastos_estemes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="123,34€"
-                android:textAlignment="textEnd"
-                android:textColor="@color/colorSaldoNegativo"
-                android:textSize="16sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView_card_gastos_label_estemes"
-                app:layout_constraintStart_toEndOf="@+id/textView_card_gastos_label_estemes" />
-
-            <TextView
-                android:id="@+id/textView_card_gastos_label_mediames"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/gastos_media_mensual"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_card_gastos_label_estemes" />
-
-            <TextView
-                android:id="@+id/textView_card_gastos_mediames"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="123,45€"
-                android:textAlignment="textEnd"
-                android:textColor="@color/colorSaldoNegativo"
-                android:textSize="16sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView_card_gastos_label_mediames"
-                app:layout_constraintEnd_toEndOf="@+id/textView_card_gastos_estemes" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/textView_card_gastos_esteano"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:text="214,45€"
+                android:layout_marginTop="8dp"
+                android:text="22214,45€"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorSaldoNegativo"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/textView_card_gastos_estemes"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView_card_gastos_estemes" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView1_card_gastos_label_esteano"
+                android:id="@+id/textView_card_ingresos_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="@string/gastos_ano_actual"
-                android:textSize="16sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView_card_gastos_esteano"
-                app:layout_constraintEnd_toStartOf="@+id/textView_card_gastos_esteano" />
+                android:layout_marginStart="8dp"
+                android:text="@string/ingresos_ano"
+                android:textAlignment="viewStart"
+                android:textSize="18sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView_card_ingresos_esteano"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
-                android:id="@+id/textView_card_gastos_mediaano"
+                android:id="@+id/textView_card_ingresos_esteano"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="345,34€"
+                android:layout_marginTop="8dp"
+                android:text="22214,45€"
                 android:textAlignment="textEnd"
-                android:textColor="@color/colorSaldoNegativo"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/textView_card_gastos_mediames"
+                android:textColor="@color/colorSaldoPositivo"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView_card_gastos_mediames" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_card_gastos_esteano" />
 
-            <TextView
-                android:id="@+id/textView_card_gastos_label_mediaano"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/gastos_media_ano"
-                android:textSize="16sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView_card_gastos_mediaano"
-                app:layout_constraintStart_toStartOf="@+id/textView1_card_gastos_label_esteano" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 
@@ -360,128 +293,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/textView_card_ingresos_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/app_menu_ingresos"
-                android:textAlignment="center"
-                android:textColor="@color/colorTituloIngresos"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView_card_ingresos_vertodos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/ingresos_ver_todos"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView_card_ingresos_label_estemes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/ingresos_mes_actual"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_card_ingresos_title" />
-
-            <TextView
-                android:id="@+id/textView_card_ingresos_estemes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="123,34€"
-                android:textAlignment="textEnd"
-                android:textColor="@color/colorSaldoPositivo"
-                android:textSize="16sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView_card_ingresos_label_estemes"
-                app:layout_constraintStart_toEndOf="@+id/textView_card_ingresos_label_estemes" />
-
-            <TextView
-                android:id="@+id/textView_card_ingresos_label_mediames"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/ingresos_media_mensual"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_card_ingresos_label_estemes" />
-
-            <TextView
-                android:id="@+id/textView_card_ingresos_mediames"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="123,45€"
-                android:textAlignment="textEnd"
-                android:textColor="@color/colorSaldoPositivo"
-                android:textSize="16sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView_card_ingresos_label_mediames"
-                app:layout_constraintEnd_toEndOf="@+id/textView_card_ingresos_estemes" />
-
-            <TextView
-                android:id="@+id/textView_card_ingresos_esteano"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="214,45€"
-                android:textAlignment="textEnd"
-                android:textColor="@color/colorSaldoPositivo"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/textView_card_ingresos_estemes"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView_card_ingresos_estemes" />
-
-            <TextView
-                android:id="@+id/textView1_card_ingresos_label_esteano"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="@string/ingresos_ano_actual"
-                android:textSize="16sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView_card_ingresos_esteano"
-                app:layout_constraintEnd_toStartOf="@+id/textView_card_ingresos_esteano" />
-
-            <TextView
-                android:id="@+id/textView_card_ingresos_mediaano"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="345,34€"
-                android:textAlignment="textEnd"
-                android:textColor="@color/colorSaldoPositivo"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/textView_card_ingresos_mediames"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView_card_ingresos_mediames" />
-
-            <TextView
-                android:id="@+id/textView_card_ingesos_label_mediaano"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ingresos_media_ano"
-                android:textSize="16sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView_card_ingresos_mediaano"
-                app:layout_constraintStart_toStartOf="@+id/textView1_card_ingresos_label_esteano" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 

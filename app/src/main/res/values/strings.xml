@@ -68,4 +68,6 @@
     <string name="ingresos_media_mensual">Media:</string>
     <string name="ingresos_ano_actual">Este año:</string>
     <string name="ingresos_media_ano">Media:</string>
+    <string name="gastos_ano">Gastos este año</string>
+    <string name="ingresos_ano">Ingresos este año</string>
 </resources>
