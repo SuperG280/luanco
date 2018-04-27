@@ -419,7 +419,7 @@ public class MainActivity extends AppCompatActivity
         TextView txTotalGastosMesActual = ( TextView) findViewById( R.id.textView_card_gastos_estemes);
         txTotalGastosMesActual.setText( formatImporte((double)totalGastosMesActual / (double)100));
 
-        double mediaGastosMesActual = getMediaGastosMesActual();
+        double mediaGastosMesActual = getMediana(0, 0);//getMediaGastosMesActual();
 
         TextView txMediaGastosMesActual = ( TextView) findViewById( R.id.textView_card_gastos_mediames);
         txMediaGastosMesActual.setText( formatImporte( mediaGastosMesActual / (double)100));
@@ -429,7 +429,7 @@ public class MainActivity extends AppCompatActivity
         TextView txTotalGastosAnoActual = ( TextView) findViewById( R.id.textView_card_gastos_esteano);
         txTotalGastosAnoActual.setText( formatImporte((double)totalGastosAnoActual / (double)100));
 
-        double mediaGastosAnoActual = getMediaGastosAnoActual();
+        double mediaGastosAnoActual = getMediana( 0, 1); //getMediaGastosAnoActual();
 
         TextView txMediaGastosAnoActual = ( TextView) findViewById( R.id.textView_card_gastos_mediaano);
         txMediaGastosAnoActual.setText( formatImporte( mediaGastosAnoActual / (double)100));
@@ -442,7 +442,7 @@ public class MainActivity extends AppCompatActivity
         TextView txTotalIngresosMesActual = ( TextView) findViewById( R.id.textView_card_ingresos_estemes);
         txTotalIngresosMesActual.setText( formatImporte((double)totalIngresosMesActual / (double)100));
 
-        double mediaIngresosMesActual = getMediaIngresosMesActual();
+        double mediaIngresosMesActual = getMediana( 1, 0);//getMediaIngresosMesActual();
 
         TextView txMediaIngresosMesActual = ( TextView) findViewById( R.id.textView_card_ingresos_mediames);
         txMediaIngresosMesActual.setText( formatImporte( mediaIngresosMesActual / (double)100));
@@ -452,7 +452,7 @@ public class MainActivity extends AppCompatActivity
         TextView txTotalIngresosAnoActual = ( TextView) findViewById( R.id.textView_card_ingresos_esteano);
         txTotalIngresosAnoActual.setText( formatImporte((double)totalIngresosAnoActual / (double)100));
 
-        double mediaIngresosAnoActual = getMediaIngresosAnoActual();
+        double mediaIngresosAnoActual = getMediana( 1, 1);//getMediaIngresosAnoActual();
 
         TextView txMediaIngresosAnoActual = ( TextView) findViewById( R.id.textView_card_ingresos_mediaano);
         txMediaIngresosAnoActual.setText( formatImporte( mediaIngresosAnoActual / (double)100));
@@ -641,25 +641,12 @@ public class MainActivity extends AppCompatActivity
             return 0;
         }
 
-        Calendar hoy = Calendar.getInstance();
+        ArrayList<Long> gastosMesActual = getGastosMesActual();
+
         long importe = 0;
-
-        for( Gasto g: gastos) {
-            Calendar fechaGasto = g.fechaToCalendar();
-            if( fechaGasto.get( Calendar.MONTH) < hoy.get( Calendar.MONTH)) {
-                //Como los gastos están ordenados por fecha de más actual a más viejo,
-                //si el mes del gasto en el array es menor que el mes actual, ya no habrá
-                //más gastos ese mes y termina la búsqueda.
-                return importe;
-            }
-            //Suma los importes de los gastos de este mes.
-            if( hoy.get( Calendar.MONTH) == fechaGasto.get( Calendar.MONTH)) {
-                importe += g.getImporte();
-            }
+        for( Long g: gastosMesActual) {
+            importe += g;
         }
-
-        //si llega aquí, ha sumado todos los gastos y todos son de este mes, o no hay
-        //ninguno este mes.
         return importe;
     }
 
@@ -669,29 +656,88 @@ public class MainActivity extends AppCompatActivity
             return 0;
         }
 
-        Calendar hoy = Calendar.getInstance();
+        ArrayList<Long> gastosMesActual = getGastosMesActual();
 
         long importe = 0;
-        int index = 0;
+        for( Long g: gastosMesActual) {
+            importe += g;
+        }
+
+        if( importe == 0)
+            return 0;
+
+        return ((double)importe /(double) gastosMesActual.size());
+    }
+
+    public ArrayList<Long> getGastosMesActual() {
+
+        ArrayList<Long> gastosMes = new ArrayList<Long>();
+
+        Calendar hoy = Calendar.getInstance();
+
         for( Gasto g: gastos) {
             Calendar fechaGasto = g.fechaToCalendar();
             if( fechaGasto.get( Calendar.MONTH) < hoy.get( Calendar.MONTH)) {
-                //Como los gastos están ordenados por fecha de más actual a más viejo,
-                //si el mes del gasto en el array es menor que el mes actual, ya no habrá
-                //más gastos ese mes y termina la búsqueda.
                 break;
             }
-            //Suma los importes de los gastos de este mes.
             if( hoy.get( Calendar.MONTH) == fechaGasto.get( Calendar.MONTH)) {
-                importe += g.getImporte();
-                index++;
+                gastosMes.add( g.getImporte());
             }
         }
 
-        if( index == 0)
-            return 0;
+        return gastosMes;
+    }
 
-        return ((double)importe /(double) index);
+    //quien 0: gastos.
+    //quien 1: ingresos.
+    //como 0 : mediana  del mes actual.
+    //como 1 : mediana del año actual.
+    public double getMediana ( int quien, int como){
+
+        if( quien == 0) {
+            if (gastos == null || gastos.size() == 0) {
+                return 0;
+            }
+        } else {
+            if (ingresos == null || ingresos.size() == 0) {
+                return 0;
+            }
+        }
+
+        ArrayList<Long> Actual;
+
+        if( como == 0) { //mensual
+            if( quien == 0) {   //gastos
+                Actual = getGastosMesActual();
+            } else {            //Ingresos
+                Actual = getIngresosMesActual();
+            }
+        } else {
+            if( quien == 0) { //gastos
+                Actual = getGastosAnoActual();
+            } else {
+                Actual = getIngresosAnoActual();
+            }
+        }
+
+        if( Actual.size() == 0) {
+            return 0;
+        }
+
+        Collections.sort(Actual);
+
+        double result = 0;
+
+        if( Actual.size() % 2 == 0) {
+
+            long uno = Actual.get(( Actual.size() / 2) -1);
+            long dos = Actual.get( Actual.size() / 2);
+            result = ((double)uno + (double)dos) /(double)2;
+        } else {
+            result = (double)Actual.get((( Actual.size() + 1) / 2) - 1);
+        }
+
+        return result;
     }
 
     public long getTotalGastosAnoActual() {
@@ -700,26 +746,34 @@ public class MainActivity extends AppCompatActivity
             return 0;
         }
 
-        Calendar hoy = Calendar.getInstance();
+        ArrayList<Long> gastosAActual = getGastosAnoActual();
+
         long importe = 0;
+        for( Long g: gastosAActual) {
+            importe += g;
+        }
+        return importe;
+    }
+
+    public ArrayList<Long> getGastosAnoActual() {
+
+        ArrayList<Long> gastosA = new ArrayList<Long>();
+
+        Calendar hoy = Calendar.getInstance();
 
         for( Gasto g: gastos) {
             Calendar fechaGasto = g.fechaToCalendar();
             if( fechaGasto.get( Calendar.YEAR) < hoy.get( Calendar.YEAR)) {
-                //Como los gastos están ordenados por fecha de más actual a más viejo,
-                //si el año del gasto en el array es menor que el año actual, ya no habrá
-                //más gastos ese año y termina la búsqueda.
-                return importe;
+
+                break;
             }
-            //Suma los importes de los gastos de este año.
+
             if( hoy.get( Calendar.YEAR) == fechaGasto.get( Calendar.YEAR)) {
-                importe += g.getImporte();
+                gastosA.add( g.getImporte());
             }
         }
 
-        //si llega aquí, ha sumado todos los gastos y todos son de este año, o no hay
-        //ninguno este año.
-        return importe;
+        return gastosA;
     }
 
     public double getMediaGastosAnoActual() {
@@ -728,30 +782,19 @@ public class MainActivity extends AppCompatActivity
             return 0;
         }
 
-        Calendar hoy = Calendar.getInstance();
+        ArrayList<Long> gastosAActual = getGastosAnoActual();
 
         long importe = 0;
-        int index = 0;
-        for( Gasto g: gastos) {
-            Calendar fechaGasto = g.fechaToCalendar();
-            if( fechaGasto.get( Calendar.YEAR) < hoy.get( Calendar.YEAR)) {
-                //Como los gastos están ordenados por fecha de más actual a más viejo,
-                //si el año del gasto en el array es menor que el año actual, ya no habrá
-                //más gastos ese año y termina la búsqueda.
-                break;
-            }
-            //Suma los importes de los gastos de este año.
-            if( hoy.get( Calendar.YEAR) == fechaGasto.get( Calendar.YEAR)) {
-                importe += g.getImporte();
-                index++;
-            }
+        for( Long g: gastosAActual) {
+            importe += g;
         }
 
-        if( index == 0)
+        if( importe == 0)
             return 0;
 
-        return ((double)importe /(double) index);
+        return ((double)importe /(double) gastosAActual.size());
     }
+
 
     public long getTotalIngresosMesActual() {
 
@@ -759,25 +802,12 @@ public class MainActivity extends AppCompatActivity
             return 0;
         }
 
-        Calendar hoy = Calendar.getInstance();
+        ArrayList<Long> ingresosMesActual = getIngresosMesActual();
+
         long importe = 0;
-
-        for( Ingreso ing: ingresos) {
-            Calendar fechaIngreso = ing.fechaToCalendar();
-            if( fechaIngreso.get( Calendar.MONTH) < hoy.get( Calendar.MONTH)) {
-                //Como los ingresos están ordenados por fecha de más actual a más viejo,
-                //si el mes del ingreso en el array es menor que el mes actual, ya no habrá
-                //más ingresos ese mes y termina la búsqueda.
-                return importe;
-            }
-            //Suma los importes de los ingresos de este mes.
-            if( hoy.get( Calendar.MONTH) == fechaIngreso.get( Calendar.MONTH)) {
-                importe += ing.getImporte();
-            }
+        for( Long g: ingresosMesActual) {
+            importe += g;
         }
-
-        //si llega aquí, ha sumado todos los ingresos y todos son de este mes, o no hay
-        //ninguno este mes.
         return importe;
     }
 
@@ -787,29 +817,36 @@ public class MainActivity extends AppCompatActivity
             return 0;
         }
 
-        Calendar hoy = Calendar.getInstance();
+        ArrayList<Long> ingresosMesActual = getIngresosMesActual();
 
         long importe = 0;
-        int index = 0;
-        for( Ingreso ing: ingresos) {
-            Calendar fechaIngreso = ing.fechaToCalendar();
+        for( Long g: ingresosMesActual) {
+            importe += g;
+        }
+
+        if( importe == 0)
+            return 0;
+
+        return ((double)importe /(double) ingresosMesActual.size());
+    }
+
+    public ArrayList<Long> getIngresosMesActual() {
+
+        ArrayList<Long> ingresosMes = new ArrayList<Long>();
+
+        Calendar hoy = Calendar.getInstance();
+
+        for( Ingreso i: ingresos) {
+            Calendar fechaIngreso = i.fechaToCalendar();
             if( fechaIngreso.get( Calendar.MONTH) < hoy.get( Calendar.MONTH)) {
-                //Como los ingresos están ordenados por fecha de más actual a más viejo,
-                //si el mes del ingreso en el array es menor que el mes actual, ya no habrá
-                //más ingresos ese mes y termina la búsqueda.
                 break;
             }
-            //Suma los importes de los ingresos de este mes.
             if( hoy.get( Calendar.MONTH) == fechaIngreso.get( Calendar.MONTH)) {
-                importe += ing.getImporte();
-                index++;
+                ingresosMes.add( i.getImporte());
             }
         }
 
-        if( index == 0)
-            return 0;
-
-        return ((double)importe /(double) index);
+        return ingresosMes;
     }
 
     public long getTotalIngresosAnoActual() {
@@ -818,26 +855,34 @@ public class MainActivity extends AppCompatActivity
             return 0;
         }
 
-        Calendar hoy = Calendar.getInstance();
-        long importe = 0;
+        ArrayList<Long> ingresosAActual = getIngresosAnoActual();
 
-        for( Ingreso ing: ingresos) {
-            Calendar fechaIngreso = ing.fechaToCalendar();
+        long importe = 0;
+        for( Long i: ingresosAActual) {
+            importe += i;
+        }
+        return importe;
+    }
+
+    public ArrayList<Long> getIngresosAnoActual() {
+
+        ArrayList<Long> ingresosA = new ArrayList<Long>();
+
+        Calendar hoy = Calendar.getInstance();
+
+        for( Ingreso i: ingresos) {
+            Calendar fechaIngreso = i.fechaToCalendar();
             if( fechaIngreso.get( Calendar.YEAR) < hoy.get( Calendar.YEAR)) {
-                //Como los ingresos están ordenados por fecha de más actual a más viejo,
-                //si el año del ingreso en el array es menor que el año actual, ya no habrá
-                //más ingresos ese año y termina la búsqueda.
-                return importe;
+
+                break;
             }
-            //Suma los importes de los ingresos de este año.
+
             if( hoy.get( Calendar.YEAR) == fechaIngreso.get( Calendar.YEAR)) {
-                importe += ing.getImporte();
+                ingresosA.add( i.getImporte());
             }
         }
 
-        //si llega aquí, ha sumado todos los ingresos y todos son de este año, o no hay
-        //ninguno este año.
-        return importe;
+        return ingresosA;
     }
 
     public double getMediaIngresosAnoActual() {
@@ -846,29 +891,17 @@ public class MainActivity extends AppCompatActivity
             return 0;
         }
 
-        Calendar hoy = Calendar.getInstance();
+        ArrayList<Long> ingresosAActual = getIngresosAnoActual();
 
         long importe = 0;
-        int index = 0;
-        for( Ingreso ing: ingresos) {
-            Calendar fechaIngreso = ing.fechaToCalendar();
-            if( fechaIngreso.get( Calendar.YEAR) < hoy.get( Calendar.YEAR)) {
-                //Como los ingresos están ordenados por fecha de más actual a más viejo,
-                //si el año del ingreso en el array es menor que el año actual, ya no habrá
-                //más ingresos ese año y termina la búsqueda.
-                break;
-            }
-            //Suma los importes de los ingresos de este año.
-            if( hoy.get( Calendar.YEAR) == fechaIngreso.get( Calendar.YEAR)) {
-                importe += ing.getImporte();
-                index++;
-            }
+        for( Long g: ingresosAActual) {
+            importe += g;
         }
 
-        if( index == 0)
+        if( importe == 0)
             return 0;
 
-        return ((double)importe /(double) index);
+        return ((double)importe /(double) ingresosAActual.size());
     }
 
     /** Inner class for implementing progress bar before fetching data **/
