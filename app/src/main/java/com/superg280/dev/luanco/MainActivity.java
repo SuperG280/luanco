@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,6 +25,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,7 +46,9 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -136,6 +150,7 @@ public class MainActivity extends AppCompatActivity
         SaldoUsuario2 = refillTextViewSaldoUser( USER_MARIA);
         SaldoUsuario3 = refillTextViewSaldoUser( USER_LUIS);
         prepareCardCuentas();
+        prepareCardGrafico();
         isLoading = false;
     }
 
@@ -153,7 +168,7 @@ public class MainActivity extends AppCompatActivity
         user1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent inte = new Intent(MainActivity.this, LuTabActivity.class);
-                inte.putExtra("TAB_INDEX", 2);
+                inte.putExtra("TAB_INDEX", 1);
                 inte.putExtra("GASTOS", gastos);
                 inte.putExtra("INGRESOS", ingresos);
 
@@ -196,7 +211,7 @@ public class MainActivity extends AppCompatActivity
         user2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent inte = new Intent(MainActivity.this, LuTabActivity.class);
-                inte.putExtra("TAB_INDEX", 2);
+                inte.putExtra("TAB_INDEX", 1);
                 inte.putExtra("GASTOS", gastos);
                 inte.putExtra("INGRESOS", ingresos);
 
@@ -239,7 +254,7 @@ public class MainActivity extends AppCompatActivity
         user3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent inte = new Intent(MainActivity.this, LuTabActivity.class);
-                inte.putExtra("TAB_INDEX", 2);
+                inte.putExtra("TAB_INDEX", 1);
                 inte.putExtra("GASTOS", gastos);
                 inte.putExtra("INGRESOS", ingresos);
 
@@ -282,6 +297,8 @@ public class MainActivity extends AppCompatActivity
         gastosVerTodos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Calendar hoy = Calendar.getInstance();
+
                 Intent inte = new Intent(MainActivity.this, LuTabActivity.class);
                 inte.putExtra("TAB_INDEX", 0);
                 inte.putExtra( "GASTOS", gastos);
@@ -423,6 +440,65 @@ public class MainActivity extends AppCompatActivity
         TextView txTotalIngresosAnoActual = ( TextView) findViewById( R.id.textView_card_ingresos_esteano);
         txTotalIngresosAnoActual.setText( formatImporte((double)totalIngresosAnoActual / (double)100));
 
+    }
+
+    public ArrayList<Entry> getEntriesMedia() {
+
+        ArrayList<Entry> entriesMedia = new ArrayList<>();
+        ArrayList<Float> medias = getMedias();
+        for( int i = 0; i < 12; i++) {
+            entriesMedia.add( new Entry( i, medias.get(i)));
+        }
+
+        return entriesMedia;
+    }
+    public void prepareCardGrafico() {
+
+        LineChart lineChart = (LineChart) findViewById( R.id.chart);
+        ArrayList<Entry> entriesCurrent = new ArrayList<>();
+
+        final String[] xValues = new String[] { "E", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"};
+
+        Calendar hoy = Calendar.getInstance();
+        for( int i = 0; i < 12; i++) {
+
+            entriesCurrent.add( new Entry( i, (float)getGastosMes( i, hoy.get( Calendar.YEAR))/100));
+
+        }
+        SimpleDateFormat df = new SimpleDateFormat("yyyy");
+        LineDataSet dataSetCurrent = new LineDataSet( entriesCurrent, df.format(hoy));
+        dataSetCurrent.setColor(getResources().getColor(R.color.colorSaldoPositivo));
+        dataSetCurrent.setCircleColor(getResources().getColor(R.color.colorSaldoPositivo));
+
+
+        LineDataSet dataSetMedia = new LineDataSet( getEntriesMedia(), getString(R.string.label_media_grafico));
+        dataSetMedia.setColor(getResources().getColor(R.color.colorSaldoNegativoUsuario));
+        dataSetMedia.setCircleColor(getResources().getColor(R.color.colorSaldoNegativoUsuario));
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        dataSets.add(dataSetCurrent);
+        dataSets.add(dataSetMedia);
+
+        LineData lineData = new LineData( dataSets);
+        lineChart.setData( lineData);
+        Description description = new Description();
+        description.setText( getResources().getString(R.string.leyenda_grafico));
+        lineChart.setDescription( description);
+
+
+        IAxisValueFormatter formatter = new IAxisValueFormatter() {
+
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return xValues[(int) value % xValues.length];
+            }
+        };
+
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
+        xAxis.setValueFormatter(formatter);
+
+        lineChart.invalidate();
     }
 
     public String formatImporte( double importe) {
@@ -587,6 +663,7 @@ public class MainActivity extends AppCompatActivity
         mFirebaseDatabaseIngresos.addValueEventListener( mFireBaseIngresosEventListener );
     }
 
+
     public void sortIngresos() {
 
         Collections.sort(ingresos, new Comparator<Ingreso>() {
@@ -597,23 +674,101 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    public ArrayList<Long> getGastosMesActual() {
+    public ArrayList<Float> getMedias() {
 
-        ArrayList<Long> gastosMes = new ArrayList<Long>();
+        ArrayList<Integer> years = differentYears();
+        Map< Integer, ArrayList<Float>> medias = new HashMap< Integer, ArrayList<Float>>();
 
-        Calendar hoy = Calendar.getInstance();
+        for( Integer y: years) {
+            ArrayList<Float> mediasOneYear = new ArrayList<>();
+            for( int i = 0; i < 12; i++) {
+                mediasOneYear.add( getMediaDeMesAno( i, y));
+            }
+            medias.put( y, mediasOneYear);
+        }
+
+        ArrayList< Float> result = new ArrayList<>();
+
+
+        for( int i = 0; i < 12; i++) {
+            float suma = 0;
+            for (Map.Entry<Integer, ArrayList<Float>> entry : medias.entrySet()) {
+                suma += entry.getValue().get(i);
+            }
+            result.add( suma / (float)medias.size());
+        }
+
+        return result;
+    }
+
+    public ArrayList<Integer> differentYears() {
+
+        ArrayList<Integer> years = new ArrayList<>();
+
+        for( Gasto g: gastos) {
+            int year = g.fechaToCalendar().get( Calendar.YEAR);
+            if( !years.contains( year)) {
+                years.add( year);
+            }
+        }
+        return years;
+
+    }
+
+    /**
+     * Calcula la media de gastos de un mes en un año concreto.
+     * @param month Indice de la clase Calendar del mes (Enero: 0).
+     * @param year Numero de año de la clase Calendar.
+     * @return la media aritmetica de los gastos de ese mes.
+     */
+    public float getMediaDeMesAno( int month, int year) {
+
+        int numero = 0;
+        long suma = 0;
 
         for( Gasto g: gastos) {
             Calendar fechaGasto = g.fechaToCalendar();
-            if( fechaGasto.get( Calendar.MONTH) < hoy.get( Calendar.MONTH)) {
+            if( fechaGasto.get( Calendar.YEAR) < year)
                 break;
-            }
-            if( hoy.get( Calendar.MONTH) == fechaGasto.get( Calendar.MONTH)) {
-                gastosMes.add( g.getImporte());
+            if (fechaGasto.get(Calendar.YEAR) == year) {
+                if (g.fechaToCalendar().get(Calendar.MONTH) == month) {
+                    numero++;
+                    suma += g.getImporte();
+                }
             }
         }
 
-        return gastosMes;
+        if( numero == 0 || suma == 0) {
+            return 0;
+        }
+
+        return ( (float)suma / (float)100) / (float)numero;
+    }
+
+    public long getGastosMes( int month, int year) {
+
+       long importe = 0;
+
+        for( Gasto g: gastos) {
+
+            Calendar fechaGasto = g.fechaToCalendar();
+
+            if( fechaGasto.get( Calendar.YEAR) < year) {
+                break;
+            }
+            if( fechaGasto.get( Calendar.YEAR) == year) {
+
+                if( fechaGasto.get( Calendar.MONTH) < month) {
+                    break;
+                }
+
+                if( month == fechaGasto.get( Calendar.MONTH)) {
+                    importe += g.getImporte();
+                }
+            }
+        }
+
+        return importe;
     }
 
     public long getTotalGastosAnoActual() {

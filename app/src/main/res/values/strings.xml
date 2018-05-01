@@ -70,4 +70,6 @@
     <string name="ingresos_media_ano">Media:</string>
     <string name="gastos_ano">Gastos este año</string>
     <string name="ingresos_ano">Ingresos este año</string>
+    <string name="leyenda_grafico">Gastos cada mes</string>
+    <string name="label_media_grafico">media</string>
 </resources>
