@@ -72,4 +72,5 @@
     <string name="ingresos_ano">Ingresos este año</string>
     <string name="leyenda_grafico">Gastos cada mes</string>
     <string name="label_media_grafico">media</string>
+    <string name="gastos_pie_select_mes">Selecciona un mes:</string>
 </resources>

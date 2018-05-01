@@ -457,6 +457,8 @@ public class MainActivity extends AppCompatActivity
         LineChart lineChart = (LineChart) findViewById( R.id.chart);
         ArrayList<Entry> entriesCurrent = new ArrayList<>();
 
+        //lineChart.setTouchEnabled( false);
+
         final String[] xValues = new String[] { "E", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"};
 
         Calendar hoy = Calendar.getInstance();
