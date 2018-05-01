@@ -1,15 +1,15 @@
 package com.superg280.dev.luanco;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -23,25 +23,32 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
-
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -74,11 +81,16 @@ public class MainActivity extends AppCompatActivity
 
     private FirebaseAuth auth;
 
+    public boolean isLoading = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        isLoading = true;
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         /*
@@ -117,12 +129,17 @@ public class MainActivity extends AppCompatActivity
         View header = navigationView.getHeaderView(0);
 
         TextView userMail = (TextView) header.findViewById( R.id.textView_nav_user_mail);
-        userMail.setText( auth.getCurrentUser().getEmail());
+        if( auth != null) {
+            userMail.setText(auth.getCurrentUser().getEmail());
+        }
+
 
     }
     @Override
     public void onResume(){
         super.onResume();
+        isLoading = true;
+        new SomeTask().execute();
         refillFireBaseGastos();
         refillFireBaseIngresos();
     }
@@ -132,8 +149,9 @@ public class MainActivity extends AppCompatActivity
         SaldoUsuario1 = refillTextViewSaldoUser( USER_RAMON);
         SaldoUsuario2 = refillTextViewSaldoUser( USER_MARIA);
         SaldoUsuario3 = refillTextViewSaldoUser( USER_LUIS);
-        prepareGastosListView();
-        prepareIngresosListView();
+        prepareCardCuentas();
+        prepareCardGrafico();
+        isLoading = false;
     }
 
     @Override
@@ -150,7 +168,7 @@ public class MainActivity extends AppCompatActivity
         user1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent inte = new Intent(MainActivity.this, LuTabActivity.class);
-                inte.putExtra("TAB_INDEX", 2);
+                inte.putExtra("TAB_INDEX", 1);
                 inte.putExtra("GASTOS", gastos);
                 inte.putExtra("INGRESOS", ingresos);
 
@@ -171,7 +189,7 @@ public class MainActivity extends AppCompatActivity
                 dlgAlDia.setMessage(getString(R.string.dlg_aldia_mensaje1) + " " +
                         getString(R.string.app_name_user1) + " " +
                         getString(R.string.dlg_aldia_mensaje2) + " " +
-                        String.format("%.2f€", (double) ((double) (SaldoUsuario1 * -1) / (double) 100)));
+                        formatImporte((double) (SaldoUsuario1 * -1) / (double) 100));
                 dlgAlDia.setCancelable(false);
                 dlgAlDia.setPositiveButton(getString(R.string.dlg_delete_but_confirm), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogo1, int id) {
@@ -193,7 +211,7 @@ public class MainActivity extends AppCompatActivity
         user2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent inte = new Intent(MainActivity.this, LuTabActivity.class);
-                inte.putExtra("TAB_INDEX", 2);
+                inte.putExtra("TAB_INDEX", 1);
                 inte.putExtra("GASTOS", gastos);
                 inte.putExtra("INGRESOS", ingresos);
 
@@ -214,7 +232,7 @@ public class MainActivity extends AppCompatActivity
                 dlgAlDia.setMessage(getString(R.string.dlg_aldia_mensaje1) + " " +
                         getString(R.string.app_name_user2) + " " +
                         getString(R.string.dlg_aldia_mensaje2) + " " +
-                        String.format("%.2f€", (double) ((double) (SaldoUsuario2 * -1) / (double) 100)));
+                        formatImporte((double) (SaldoUsuario2 * -1) / (double) 100));
                 dlgAlDia.setCancelable(false);
                 dlgAlDia.setPositiveButton(getString(R.string.dlg_delete_but_confirm), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogo1, int id) {
@@ -236,7 +254,7 @@ public class MainActivity extends AppCompatActivity
         user3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent inte = new Intent(MainActivity.this, LuTabActivity.class);
-                inte.putExtra("TAB_INDEX", 2);
+                inte.putExtra("TAB_INDEX", 1);
                 inte.putExtra("GASTOS", gastos);
                 inte.putExtra("INGRESOS", ingresos);
 
@@ -257,7 +275,7 @@ public class MainActivity extends AppCompatActivity
                 dlgAlDia.setMessage(getString(R.string.dlg_aldia_mensaje1) + " " +
                         getString(R.string.app_name_user3) + " " +
                         getString(R.string.dlg_aldia_mensaje2) + " " +
-                        String.format("%.2f€", (double) ((double) (SaldoUsuario3 * -1) / (double) 100)));
+                        formatImporte((double) (SaldoUsuario3 * -1) / (double) 100));
                 dlgAlDia.setCancelable(false);
                 dlgAlDia.setPositiveButton(getString(R.string.dlg_delete_but_confirm), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogo1, int id) {
@@ -271,6 +289,35 @@ public class MainActivity extends AppCompatActivity
                 });
                 dlgAlDia.show();
                 return true;
+            }
+        });
+
+        TextView gastosVerTodos = ( TextView) findViewById( R.id.textView_card_gastos_title);
+
+        gastosVerTodos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar hoy = Calendar.getInstance();
+
+                Intent inte = new Intent(MainActivity.this, LuTabActivity.class);
+                inte.putExtra("TAB_INDEX", 0);
+                inte.putExtra( "GASTOS", gastos);
+                inte.putExtra( "INGRESOS", ingresos);
+                startActivity(inte);
+            }
+        });
+
+        TextView ingresosVerTodos = ( TextView) findViewById( R.id.textView_card_ingresos_title);
+
+        ingresosVerTodos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent inte = new Intent(MainActivity.this, LuTabActivity.class);
+                inte.putExtra("TAB_INDEX", 1);
+                inte.putExtra( "GASTOS", gastos);
+                inte.putExtra( "INGRESOS", ingresos);
+                startActivity(inte);
             }
         });
     }
@@ -381,53 +428,82 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void prepareGastosListView() {
+    public void prepareCardCuentas() {
 
-        if( gastos.size() < 0)
-            return;
+        long totalGastosAnoActual = getTotalGastosAnoActual();
 
-        ArrayList<Gasto> mainGastos = new ArrayList<Gasto>();
-        Gasto realGasto;
-        for( int i = 0; i < 8 && i < gastos.size(); i++) {
-            realGasto = gastos.get( i);
-            Gasto newGasto = new Gasto();
-            newGasto.setFecha      ( realGasto.getFecha());
-            newGasto.setDescripcion( realGasto.getDescripcion());
-            newGasto.setImporte    ( realGasto.getImporte());
+        TextView txTotalGastosAnoActual = ( TextView) findViewById( R.id.textView_card_gastos_esteano);
+        txTotalGastosAnoActual.setText( formatImporte((double)totalGastosAnoActual / (double)100));
 
-            mainGastos.add( newGasto);
-        }
+        long totalIngresosAnoActual = getTotalIngresosAnoActual();
 
-        gastoAdapter = new AdapterGastoMain( this, mainGastos);
+        TextView txTotalIngresosAnoActual = ( TextView) findViewById( R.id.textView_card_ingresos_esteano);
+        txTotalIngresosAnoActual.setText( formatImporte((double)totalIngresosAnoActual / (double)100));
 
-        ListView lv = (ListView) findViewById(R.id.listView_main_gastos);
-
-        lv.setAdapter(gastoAdapter);
     }
 
-    public void prepareIngresosListView() {
+    public ArrayList<Entry> getEntriesMedia() {
 
-        if( ingresos.size() < 0)
-            return;
-
-        ArrayList<Ingreso> mainIngresos = new ArrayList<Ingreso>();
-        Ingreso realIngreso;
-
-        for( int i = 0; i < 8 && i < ingresos.size(); i++) {
-            realIngreso = ingresos.get( i);
-            Ingreso newIngreso = new Ingreso();
-            newIngreso.setFecha      ( realIngreso.getFecha());
-            newIngreso.setDescripcion( realIngreso.getDescripcion());
-            newIngreso.setImporte    ( realIngreso.getImporte());
-
-            mainIngresos.add( newIngreso);
+        ArrayList<Entry> entriesMedia = new ArrayList<>();
+        ArrayList<Float> medias = getMedias();
+        for( int i = 0; i < 12; i++) {
+            entriesMedia.add( new Entry( i, medias.get(i)));
         }
 
-        ingresoAdapter = new AdapterIngresoMain( this, mainIngresos);
+        return entriesMedia;
+    }
+    public void prepareCardGrafico() {
 
-        ListView lv = (ListView) findViewById(R.id.listView_main_ingresos);
+        LineChart lineChart = (LineChart) findViewById( R.id.chart);
+        ArrayList<Entry> entriesCurrent = new ArrayList<>();
 
-        lv.setAdapter(ingresoAdapter);
+        final String[] xValues = new String[] { "E", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"};
+
+        Calendar hoy = Calendar.getInstance();
+        for( int i = 0; i < 12; i++) {
+
+            entriesCurrent.add( new Entry( i, (float)getGastosMes( i, hoy.get( Calendar.YEAR))/100));
+
+        }
+        SimpleDateFormat df = new SimpleDateFormat("yyyy");
+        LineDataSet dataSetCurrent = new LineDataSet( entriesCurrent, df.format(hoy));
+        dataSetCurrent.setColor(getResources().getColor(R.color.colorSaldoPositivo));
+        dataSetCurrent.setCircleColor(getResources().getColor(R.color.colorSaldoPositivo));
+
+
+        LineDataSet dataSetMedia = new LineDataSet( getEntriesMedia(), getString(R.string.label_media_grafico));
+        dataSetMedia.setColor(getResources().getColor(R.color.colorSaldoNegativoUsuario));
+        dataSetMedia.setCircleColor(getResources().getColor(R.color.colorSaldoNegativoUsuario));
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        dataSets.add(dataSetCurrent);
+        dataSets.add(dataSetMedia);
+
+        LineData lineData = new LineData( dataSets);
+        lineChart.setData( lineData);
+        Description description = new Description();
+        description.setText( getResources().getString(R.string.leyenda_grafico));
+        lineChart.setDescription( description);
+
+
+        IAxisValueFormatter formatter = new IAxisValueFormatter() {
+
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return xValues[(int) value % xValues.length];
+            }
+        };
+
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
+        xAxis.setValueFormatter(formatter);
+
+        lineChart.invalidate();
+    }
+
+    public String formatImporte( double importe) {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.getDefault());
+        return  nf.format(importe);
     }
 
     //Hay que llamarla después de haber llamado a updateSaldoActual, para
@@ -462,7 +538,7 @@ public class MainActivity extends AppCompatActivity
             txSaldoUsuario.setTextColor( ContextCompat.getColor( this, R.color.colorSaldoNeutroUsuario));
         }
 
-        txSaldoUsuario.setText( String.format("%.2f€", (double) ((double)saldoUsuario / (double)100)));
+        txSaldoUsuario.setText( formatImporte((double)saldoUsuario / (double)100));
 
         return saldoUsuario;
     }
@@ -491,22 +567,18 @@ public class MainActivity extends AppCompatActivity
             txSaldoActual.setTextColor( ContextCompat.getColor( this, R.color.colorSaldoNeutro));
         }
 
-        txSaldoActual.setText( String.format("%.2f€", (double) ((double)total / (double)100)));
+        txSaldoActual.setText( formatImporte((double)total / (double)100));
     }
 
     public void alDiaUser( int user) {
 
-        TextView txSaldoUsuario;
         long saldoUsuario = 0;
 
         if( user == USER_RAMON) {
-            txSaldoUsuario = ( TextView) findViewById( R.id.textView_current_user1);
             saldoUsuario = SaldoUsuario1;
         } else if( user == USER_MARIA) {
-            txSaldoUsuario = ( TextView) findViewById( R.id.textView_current_user2);
             saldoUsuario = SaldoUsuario2;
         } else if( user == USER_LUIS){
-            txSaldoUsuario = ( TextView) findViewById( R.id.textView_current_user3);
             saldoUsuario = SaldoUsuario3;
         } else {
             return;
@@ -561,7 +633,7 @@ public class MainActivity extends AppCompatActivity
         Collections.sort(gastos, new Comparator<Gasto>() {
             @Override
             public int compare(Gasto gasto, Gasto t1) {
-                return new Long(t1.getFecha()).compareTo(new Long(gasto.getFecha()));
+                return new Long(t1.getFecha()).compareTo(Long.valueOf(gasto.getFecha()));
             }
         });
     }
@@ -591,6 +663,7 @@ public class MainActivity extends AppCompatActivity
         mFirebaseDatabaseIngresos.addValueEventListener( mFireBaseIngresosEventListener );
     }
 
+
     public void sortIngresos() {
 
         Collections.sort(ingresos, new Comparator<Ingreso>() {
@@ -599,5 +672,211 @@ public class MainActivity extends AppCompatActivity
                 return new Long(t1.getFecha()).compareTo(new Long(ingreso.getFecha()));
             }
         });
+    }
+
+    public ArrayList<Float> getMedias() {
+
+        ArrayList<Integer> years = differentYears();
+        Map< Integer, ArrayList<Float>> medias = new HashMap< Integer, ArrayList<Float>>();
+
+        for( Integer y: years) {
+            ArrayList<Float> mediasOneYear = new ArrayList<>();
+            for( int i = 0; i < 12; i++) {
+                mediasOneYear.add( getMediaDeMesAno( i, y));
+            }
+            medias.put( y, mediasOneYear);
+        }
+
+        ArrayList< Float> result = new ArrayList<>();
+
+
+        for( int i = 0; i < 12; i++) {
+            float suma = 0;
+            for (Map.Entry<Integer, ArrayList<Float>> entry : medias.entrySet()) {
+                suma += entry.getValue().get(i);
+            }
+            result.add( suma / (float)medias.size());
+        }
+
+        return result;
+    }
+
+    public ArrayList<Integer> differentYears() {
+
+        ArrayList<Integer> years = new ArrayList<>();
+
+        for( Gasto g: gastos) {
+            int year = g.fechaToCalendar().get( Calendar.YEAR);
+            if( !years.contains( year)) {
+                years.add( year);
+            }
+        }
+        return years;
+
+    }
+
+    /**
+     * Calcula la media de gastos de un mes en un año concreto.
+     * @param month Indice de la clase Calendar del mes (Enero: 0).
+     * @param year Numero de año de la clase Calendar.
+     * @return la media aritmetica de los gastos de ese mes.
+     */
+    public float getMediaDeMesAno( int month, int year) {
+
+        int numero = 0;
+        long suma = 0;
+
+        for( Gasto g: gastos) {
+            Calendar fechaGasto = g.fechaToCalendar();
+            if( fechaGasto.get( Calendar.YEAR) < year)
+                break;
+            if (fechaGasto.get(Calendar.YEAR) == year) {
+                if (g.fechaToCalendar().get(Calendar.MONTH) == month) {
+                    numero++;
+                    suma += g.getImporte();
+                }
+            }
+        }
+
+        if( numero == 0 || suma == 0) {
+            return 0;
+        }
+
+        return ( (float)suma / (float)100) / (float)numero;
+    }
+
+    public long getGastosMes( int month, int year) {
+
+       long importe = 0;
+
+        for( Gasto g: gastos) {
+
+            Calendar fechaGasto = g.fechaToCalendar();
+
+            if( fechaGasto.get( Calendar.YEAR) < year) {
+                break;
+            }
+            if( fechaGasto.get( Calendar.YEAR) == year) {
+
+                if( fechaGasto.get( Calendar.MONTH) < month) {
+                    break;
+                }
+
+                if( month == fechaGasto.get( Calendar.MONTH)) {
+                    importe += g.getImporte();
+                }
+            }
+        }
+
+        return importe;
+    }
+
+    public long getTotalGastosAnoActual() {
+
+        if( gastos == null || gastos.size() == 0) {
+            return 0;
+        }
+
+        ArrayList<Long> gastosAActual = getGastosAnoActual();
+
+        long importe = 0;
+        for( Long g: gastosAActual) {
+            importe += g;
+        }
+        return importe;
+    }
+
+    public ArrayList<Long> getGastosAnoActual() {
+
+        ArrayList<Long> gastosA = new ArrayList<Long>();
+
+        Calendar hoy = Calendar.getInstance();
+
+        for( Gasto g: gastos) {
+            Calendar fechaGasto = g.fechaToCalendar();
+            if( fechaGasto.get( Calendar.YEAR) < hoy.get( Calendar.YEAR)) {
+
+                break;
+            }
+
+            if( hoy.get( Calendar.YEAR) == fechaGasto.get( Calendar.YEAR)) {
+                gastosA.add( g.getImporte());
+            }
+        }
+
+        return gastosA;
+    }
+
+    public long getTotalIngresosAnoActual() {
+
+        if( ingresos == null || ingresos.size() == 0) {
+            return 0;
+        }
+
+        ArrayList<Long> ingresosAActual = getIngresosAnoActual();
+
+        long importe = 0;
+        for( Long i: ingresosAActual) {
+            importe += i;
+        }
+        return importe;
+    }
+
+    public ArrayList<Long> getIngresosAnoActual() {
+
+        ArrayList<Long> ingresosA = new ArrayList<Long>();
+
+        Calendar hoy = Calendar.getInstance();
+
+        for( Ingreso i: ingresos) {
+            Calendar fechaIngreso = i.fechaToCalendar();
+            if( fechaIngreso.get( Calendar.YEAR) < hoy.get( Calendar.YEAR)) {
+
+                break;
+            }
+
+            if( hoy.get( Calendar.YEAR) == fechaIngreso.get( Calendar.YEAR)) {
+                ingresosA.add( i.getImporte());
+            }
+        }
+
+        return ingresosA;
+    }
+
+    /** Inner class for implementing progress bar before fetching data **/
+    private class SomeTask extends AsyncTask<Void, Void, Integer>
+    {
+        private ProgressDialog Dialog = new ProgressDialog(MainActivity.this);
+
+        @Override
+        protected void onPreExecute()
+        {
+            Dialog.setMessage(getString( R.string.toas_loading_main));
+            Dialog.show();
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params)
+        {
+            //Task for doing something
+            try {
+                while ( isLoading) {
+                    Thread.sleep(100);
+                }
+            } catch( Exception ex) {}
+            return 0;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result)
+        {
+
+            if(result==0)
+            {
+                //do some thing
+            }
+            // after completed finished the progressbar
+            Dialog.dismiss();
+        }
     }
 }

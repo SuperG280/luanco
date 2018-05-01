@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -73,7 +75,9 @@ public class Ingreso implements java.io.Serializable{
     }
 
     public String formatImporte() {
-        return String.format("%.2f€", (double) ((double)importe / 100));
+
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.getDefault());
+        return  nf.format( (double)importe / 100);
 
     }
     public void setDescripcion(String descripcion) {
@@ -98,5 +102,11 @@ public class Ingreso implements java.io.Serializable{
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+
+    public Calendar fechaToCalendar( ) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis( this.fecha);
+        return cal;
     }
 }

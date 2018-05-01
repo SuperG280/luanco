@@ -57,4 +57,19 @@
     <string name="menu_separador_cuenta">Cuenta</string>
     <string name="menu_cerrar_sesion">Cerrar sesión</string>
     <string name="copyright_login">Luanco app de gastos. SuperG © 2018</string>
+    <string name="toas_loading_main">Cargando datos...</string>
+    <string name="gastos_mes_actual">Este mes:</string>
+    <string name="gastos_media_mensual">Media:</string>
+    <string name="gastos_ver_todos">Ver todos</string>
+    <string name="gastos_ano_actual">Este año:</string>
+    <string name="gastos_media_ano">Media:</string>
+    <string name="ingresos_ver_todos">Ver todos</string>
+    <string name="ingresos_mes_actual">Este mes:</string>
+    <string name="ingresos_media_mensual">Media:</string>
+    <string name="ingresos_ano_actual">Este año:</string>
+    <string name="ingresos_media_ano">Media:</string>
+    <string name="gastos_ano">Gastos este año</string>
+    <string name="ingresos_ano">Ingresos este año</string>
+    <string name="leyenda_grafico">Gastos cada mes</string>
+    <string name="label_media_grafico">media</string>
 </resources>

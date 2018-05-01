@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#3f51b5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorFloatingRed">#FF2020</color>
-    <color name="colorSaldoNegativo">#FF2020</color>
+    <color name="colorSaldoNegativo">#ff2020</color>
     <color name="colorSaldoNeutro">#ffffffff</color>
     <color name="colorSaldoNegativoUsuario">#FF2020</color>
     <color name="colorSaldoNeutroUsuario">#272d2a</color>
@@ -12,5 +12,7 @@
     <color name="colorButtonRegistrar">#009969</color>
     <color name="colorTextoResetPassword">#009969</color>
     <color name="colorTituloGastos">#ff2020</color>
+    <color name="colorSaldoPositivo">#009919</color>
+    <color name="colorMainBackground">#eaeaea</color>
 
 </resources>
