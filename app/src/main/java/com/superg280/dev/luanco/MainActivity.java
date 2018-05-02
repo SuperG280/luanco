@@ -483,6 +483,7 @@ public class MainActivity extends AppCompatActivity
         xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
         xAxis.setValueFormatter(formatter);
 
+        lineChart.animateXY(1600, 1600);
         lineChart.invalidate();
     }
 

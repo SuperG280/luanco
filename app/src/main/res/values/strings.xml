@@ -73,6 +73,12 @@
     <string name="leyenda_grafico">Gastos cada mes</string>
     <string name="label_media_grafico">media</string>
     <string name="gastos_pie_select_fecha">Gastos de</string>
-    <string name="gastos_pie_sin_gastos">No hay gastos este mes. Prueba con otro</string>
+    <string name="gastos_pie_sin_gastos">No hay gastos ese mes. Prueba con otro</string>
+    <string name="gastos_pie_sin_gastos_total">No hay gastos ese año. Prueba con otro</string>
+    <string name="label_pie_luz">Luz</string>
+    <string name="label_pie_agua">Agua</string>
+    <string name="label_pie_banco">Banco</string>
+    <string name="label_pie_impuestos">Impuestos</string>
+    <string name="label_pie_comunidad">Comunidad</string>
 
 </resources>
