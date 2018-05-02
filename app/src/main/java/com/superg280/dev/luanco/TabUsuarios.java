@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.icu.util.Calendar;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -37,6 +38,10 @@ public class TabUsuarios extends Fragment {
 
     public final String[] meses = new String[]{"Enero","Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
 
+    public ArrayList<Integer> Years;
+
+    private int mnMonth;
+    private int mnYear;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,15 +49,20 @@ public class TabUsuarios extends Fragment {
         final View tab = inflater.inflate(R.layout.fragment_tab_usuarios, container, false);
 
         gastos = ((LuTabActivity)this.getActivity()).gastos;
+        differentYears();
 
-        ArrayAdapter<String> mesesAdapter = new ArrayAdapter< String>( ((LuTabActivity)this.getActivity()), android.R.layout.simple_spinner_item, meses);
+        ArrayAdapter<String> mesesAdapter = new ArrayAdapter< >( this.getActivity(), android.R.layout.simple_spinner_item, meses);
+        mesesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Spinner spinnerMeses = tab.findViewById( R.id.spinner_pie_gastos_mes);
         spinnerMeses.setAdapter( mesesAdapter);
-
+        mnMonth = Calendar.getInstance().get( Calendar.MONTH);
+        mnYear  = Calendar.getInstance().get( Calendar.YEAR);
+        spinnerMeses.setSelection( mnMonth);
         spinnerMeses.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                refillPieGastos( tab, i);
+                mnMonth = i;
+                refillPieGastos( tab);
             }
 
             @Override
@@ -61,16 +71,46 @@ public class TabUsuarios extends Fragment {
             }
         });
 
+        ArrayAdapter<Integer> yearsAdapter = new ArrayAdapter< >( this.getActivity(), android.R.layout.simple_spinner_item, Years);
+        yearsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        Spinner spinnerYears = tab.findViewById( R.id.spinner_pie_gastos_ano);
+        spinnerYears.setAdapter( yearsAdapter);
+        spinnerYears.setSelection( Calendar.getInstance().get( Calendar.YEAR) - mnYear);
+        spinnerYears.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                mnYear = (Integer) adapterView.getItemAtPosition(i);
+                refillPieGastos(tab);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         return tab;
     }
 
-    public void refillPieGastos( View tab, int month) {
+    public void differentYears() {
+
+        Years = new ArrayList<>();
+
+        for( Gasto g: gastos) {
+            int year = g.fechaToCalendar().get( Calendar.YEAR);
+            if( !Years.contains( year)) {
+                Years.add( year);
+            }
+        }
+    }
+
+    public void refillPieGastos( View tab) {
 
         if( gastos == null || gastos.size() == 0)
             return;
 
         Calendar hoy = Calendar.getInstance();
-        ArrayList<Gasto> gastosMes = getGastosMonth( month, hoy.get( Calendar.YEAR));
+        ArrayList<Gasto> gastosMes = getGastosMonth( mnMonth, mnYear);
 
         long total = 0;
         for( Gasto g: gastosMes) {
@@ -84,7 +124,15 @@ public class TabUsuarios extends Fragment {
         int index = 0;
         for( Gasto g: gastosMes) {
             yvalues.add(new PieEntry( getPorcentaje( total, g.getImporte()), g.getDescripcion()));
+            index++;
+        }
 
+        TextView mensajeNoGastos = ( TextView)tab.findViewById( R.id.textView_pie_sin_gastos);
+
+        if( index > 0) {
+            mensajeNoGastos.setVisibility( View.INVISIBLE);
+        } else {
+            mensajeNoGastos.setVisibility( View.VISIBLE);
         }
 
         PieDataSet dataSet = new PieDataSet(yvalues, "");
@@ -104,7 +152,7 @@ public class TabUsuarios extends Fragment {
         pieChart.setHoleRadius(38f);
 
         Description description = new Description();
-        description.setText( "Gastos mes " + meses[ month]);
+        description.setText( "Gastos " + meses[ mnMonth] + " " + mnYear);
         description.setTextSize( 13f);
         pieChart.setDescription( description);
         pieChart.getLegend().setEnabled(false);

@@ -13,7 +13,7 @@
     <string name="app_nav_header_subtitle">gestion de gastos</string>
     <string name="app_menu_gastos">Gastos</string>
     <string name="app_menu_ingresos">Ingresos</string>
-    <string name="app_manu_usuarios">Usuarios</string>
+    <string name="app_manu_usuarios">Graficos</string>
     <string name="app_menu_ajustes">Ajustes</string>
     <string name="app_action_ajustes">Ajustes</string>
     <string name="title_activity_lu_tab">LuTabActivity</string>
@@ -72,5 +72,7 @@
     <string name="ingresos_ano">Ingresos este año</string>
     <string name="leyenda_grafico">Gastos cada mes</string>
     <string name="label_media_grafico">media</string>
-    <string name="gastos_pie_select_mes">Selecciona un mes:</string>
+    <string name="gastos_pie_select_fecha">Gastos de</string>
+    <string name="gastos_pie_sin_gastos">No hay gastos este mes. Prueba con otro</string>
+
 </resources>

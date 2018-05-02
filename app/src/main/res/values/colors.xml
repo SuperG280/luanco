@@ -14,5 +14,6 @@
     <color name="colorTituloGastos">#ff2020</color>
     <color name="colorSaldoPositivo">#009919</color>
     <color name="colorMainBackground">#eaeaea</color>
+    <color name="colorTextoDeshabilitado">#c7c4c4</color>
 
 </resources>

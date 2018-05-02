@@ -292,7 +292,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        TextView gastosVerTodos = ( TextView) findViewById( R.id.textView_card_gastos_title);
+        View gastosVerTodos = ( View) findViewById( R.id.cardView_gastos);
 
         gastosVerTodos.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -301,20 +301,6 @@ public class MainActivity extends AppCompatActivity
 
                 Intent inte = new Intent(MainActivity.this, LuTabActivity.class);
                 inte.putExtra("TAB_INDEX", 0);
-                inte.putExtra( "GASTOS", gastos);
-                inte.putExtra( "INGRESOS", ingresos);
-                startActivity(inte);
-            }
-        });
-
-        TextView ingresosVerTodos = ( TextView) findViewById( R.id.textView_card_ingresos_title);
-
-        ingresosVerTodos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent inte = new Intent(MainActivity.this, LuTabActivity.class);
-                inte.putExtra("TAB_INDEX", 1);
                 inte.putExtra( "GASTOS", gastos);
                 inte.putExtra( "INGRESOS", ingresos);
                 startActivity(inte);
