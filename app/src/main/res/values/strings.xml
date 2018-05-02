@@ -56,6 +56,8 @@
     <string name="toast_send_mail_reset_password_error">Error reseteando la password. Ponte en contacto con el Ramón. Igual se puede arreglar o igual no...</string>
     <string name="menu_separador_cuenta">Cuenta</string>
     <string name="menu_cerrar_sesion">Cerrar sesión</string>
+    <string name="menu_separador_ayuda">Ayuda</string>
+    <string name="menu_about">Acerca de</string>
     <string name="copyright_login">Luanco app de gastos. SuperG © 2018</string>
     <string name="toas_loading_main">Cargando datos...</string>
     <string name="gastos_mes_actual">Este mes:</string>
@@ -80,5 +82,8 @@
     <string name="label_pie_banco">Banco</string>
     <string name="label_pie_impuestos">Impuestos</string>
     <string name="label_pie_comunidad">Comunidad</string>
-
+    <string name="about_linea1">Aplicación para la gestión de gastos e ingresos de la casa de Luanco</string>
+    <string name="about_copyright">SuperG © 2018</string>
+    <string name="about_version">Version de aplicacion 1.0.0</string>
+    <string name="connect_error">No hay acceso a los datos. Revisa tu conexión a internet.</string>
 </resources>

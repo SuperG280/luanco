@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -404,6 +405,9 @@ public class MainActivity extends AppCompatActivity
             auth.signOut();
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
+        } else if( id == R.id.nav_about) {
+            Intent inte = new Intent( this, AboutActivity.class);
+            startActivity( inte);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -846,7 +850,12 @@ public class MainActivity extends AppCompatActivity
         {
             //Task for doing something
             try {
+                Calendar inicio = Calendar.getInstance();
                 while ( isLoading) {
+                    Calendar ahora = Calendar.getInstance();
+                    if( ahora.getTimeInMillis() - inicio.getTimeInMillis() > 15000) {
+                        return 1;
+                    }
                     Thread.sleep(100);
                 }
             } catch( Exception ex) {}
@@ -857,9 +866,9 @@ public class MainActivity extends AppCompatActivity
         protected void onPostExecute(Integer result)
         {
 
-            if(result==0)
+            if(result == 1)
             {
-                //do some thing
+                Toast.makeText(MainActivity.this, getString( R.string.connect_error), Toast.LENGTH_LONG).show();
             }
             // after completed finished the progressbar
             Dialog.dismiss();
