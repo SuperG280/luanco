@@ -53,9 +53,6 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private AdapterGastoMain gastoAdapter;
-    private AdapterIngresoMain ingresoAdapter;
-
     public final static int USER_RAMON = 1;
     public final static int USER_MARIA = 2;
     public final static int USER_LUIS = 3;
