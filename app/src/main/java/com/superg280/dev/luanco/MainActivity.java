@@ -856,7 +856,7 @@ public class MainActivity extends AppCompatActivity
                 Calendar inicio = Calendar.getInstance();
                 while ( isLoading) {
                     Calendar ahora = Calendar.getInstance();
-                    if( ahora.getTimeInMillis() - inicio.getTimeInMillis() > 30000) {
+                    if( ahora.getTimeInMillis() - inicio.getTimeInMillis() > 15000) {
                         return 1;
                     }
                     Thread.sleep(100);
@@ -872,6 +872,7 @@ public class MainActivity extends AppCompatActivity
             if(result == 1)
             {
                 Toast.makeText(MainActivity.this, getString( R.string.connect_error), Toast.LENGTH_LONG).show();
+                finish();
             }
             // after completed finished the progressbar
             Dialog.dismiss();
