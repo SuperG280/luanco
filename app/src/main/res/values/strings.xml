@@ -84,6 +84,7 @@
     <string name="label_pie_comunidad">Comunidad</string>
     <string name="about_linea1">Aplicación para la gestión de gastos e ingresos de la casa de Luanco</string>
     <string name="about_copyright">SuperG © 2018</string>
-    <string name="about_version">Version de aplicacion 1.0.0</string>
+    <string name="about_version">Version de aplicacion</string>
     <string name="connect_error">No hay acceso a los datos. Revisa tu conexión a internet.</string>
+    <string name="luanco_version">1.0.0</string>
 </resources>
