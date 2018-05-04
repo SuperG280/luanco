@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -26,7 +26,6 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -36,7 +35,6 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -455,7 +453,7 @@ public class MainActivity extends AppCompatActivity
 
         }
         SimpleDateFormat df = new SimpleDateFormat("yyyy");
-        LineDataSet dataSetCurrent = new LineDataSet( entriesCurrent, df.format(hoy));
+        LineDataSet dataSetCurrent = new LineDataSet( entriesCurrent, df.format(hoy.getTime()));
         dataSetCurrent.setColor(getResources().getColor(R.color.colorSaldoPositivo));
         dataSetCurrent.setCircleColor(getResources().getColor(R.color.colorSaldoPositivo));
 
@@ -612,6 +610,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+                isLoading = false;
+                Toast.makeText(MainActivity.this, getString( R.string.connect_fire_error), Toast.LENGTH_LONG).show();
+
             }
         };
 
@@ -647,6 +648,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+                isLoading = false;
+                Toast.makeText(MainActivity.this, getString( R.string.connect_fire_error), Toast.LENGTH_LONG).show();
             }
         };
 
@@ -853,7 +856,7 @@ public class MainActivity extends AppCompatActivity
                 Calendar inicio = Calendar.getInstance();
                 while ( isLoading) {
                     Calendar ahora = Calendar.getInstance();
-                    if( ahora.getTimeInMillis() - inicio.getTimeInMillis() > 15000) {
+                    if( ahora.getTimeInMillis() - inicio.getTimeInMillis() > 30000) {
                         return 1;
                     }
                     Thread.sleep(100);

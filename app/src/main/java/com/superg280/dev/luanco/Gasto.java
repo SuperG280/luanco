@@ -1,8 +1,7 @@
 package com.superg280.dev.luanco;
 
-import android.content.ContentValues;
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import com.google.firebase.database.Exclude;
 
@@ -66,7 +65,7 @@ public class Gasto implements java.io.Serializable{
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis( fecha);
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy");
-        return df.format(cal);
+        return df.format(cal.getTime());
     }
 
     public long getImporte() {

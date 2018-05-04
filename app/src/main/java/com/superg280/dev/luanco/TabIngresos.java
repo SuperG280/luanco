@@ -1,17 +1,14 @@
 package com.superg280.dev.luanco;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
-import android.net.Uri;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -20,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -153,7 +149,7 @@ public class TabIngresos extends Fragment {
         editTextFecha = (EditText)v.findViewById(R.id.editText_new_ingreso_fecha);
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        editTextFecha.setText( df.format(cal));
+        editTextFecha.setText( df.format(cal.getTime()));
 
         editTextFecha.setOnClickListener(new View.OnClickListener() {
             @Override
