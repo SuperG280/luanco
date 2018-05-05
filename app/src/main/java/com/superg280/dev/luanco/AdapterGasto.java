@@ -16,10 +16,10 @@ import java.util.ArrayList;
 
 public class AdapterGasto extends BaseAdapter {
 
-    protected Activity activity;
-    protected ArrayList<Gasto> items;
+    private Activity activity;
+    private ArrayList<Gasto> items;
 
-    public AdapterGasto (Activity activity, ArrayList<Gasto> items) {
+    AdapterGasto(Activity activity, ArrayList<Gasto> items) {
         this.activity = activity;
         this.items    = items;
     }
@@ -34,9 +34,7 @@ public class AdapterGasto extends BaseAdapter {
     }
 
     public void addAll(ArrayList<Gasto> category) {
-        for (int i = 0; i < category.size(); i++) {
-            items.add(category.get(i));
-        }
+        items.addAll(category);
     }
 
     @Override
@@ -61,14 +59,14 @@ public class AdapterGasto extends BaseAdapter {
 
         Gasto dir = items.get(position);
 
-        TextView fecha = (TextView) v.findViewById(R.id.item_gasto_fecha);
+        TextView fecha = v.findViewById(R.id.item_gasto_fecha);
         fecha.setText(dir.formatFecha());
 
-        TextView description = (TextView) v.findViewById(R.id.item_gasto_descripcion);
+        TextView description = v.findViewById(R.id.item_gasto_descripcion);
         description.setText(dir.getDescripcion());
 
-        TextView importe = (TextView) v.findViewById(R.id.item_gasto_importe);
-        importe.setText( "-" + dir.formatImporte());
+        TextView importe = v.findViewById(R.id.item_gasto_importe);
+        importe.setText(String.format("-%s", dir.formatImporte()));
 
         return v;
     }

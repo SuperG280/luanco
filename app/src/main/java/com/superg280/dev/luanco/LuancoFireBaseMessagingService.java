@@ -21,7 +21,7 @@ public class LuancoFireBaseMessagingService extends FirebaseMessagingService {
         //sendMyNotification(message.getNotification().getBody());
     }
 
-
+/*
     private void sendMyNotification(String message) {
 
         //On click of notification it redirect to this Activity
@@ -58,8 +58,9 @@ public class LuancoFireBaseMessagingService extends FirebaseMessagingService {
                 .setContentInfo("Info")
                 .setContentIntent(pendingIntent);
 
-        notificationManager.notify(/*notification id*/1, notificationBuilder.build());
-        /*
+        notificationManager.notify(1, notificationBuilder.build());
+
+
         Uri soundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Notification.Builder notificationBuilder = new Notification.Builder(this)
                 .setSmallIcon( android.R.drawable.ic_menu_info_details)
@@ -77,6 +78,7 @@ public class LuancoFireBaseMessagingService extends FirebaseMessagingService {
             notificationManager.notify(0, notificationBuilder.build());
         } catch ( Exception ex) {}
 
-        */
+
     }
+    */
 }

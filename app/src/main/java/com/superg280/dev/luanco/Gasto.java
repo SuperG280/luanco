@@ -23,14 +23,14 @@ public class Gasto implements java.io.Serializable{
     public Gasto( String id, long fecha, String descripcion, long importe) {
         this.id          = id;
         this.fecha       = fecha;
-        this.descripcion = new String( descripcion);
+        this.descripcion = descripcion;
         this.importe     = importe;
     }
 
     public Gasto( long fecha, String descripcion, long importe) {
         regenerateID() ;
         this.fecha          = fecha;
-        this.descripcion    = new String( descripcion);
+        this.descripcion    = descripcion;
         this.importe        = importe;
     }
 
@@ -38,7 +38,7 @@ public class Gasto implements java.io.Serializable{
         regenerateID();
         this.importe = 0;
         this.fecha = Calendar.getInstance().getTimeInMillis();
-        this.descripcion = new String();
+        this.descripcion = "";
     }
 
     public void regenerateID() {
@@ -80,7 +80,7 @@ public class Gasto implements java.io.Serializable{
     }
 
     public void setDescripcion(String descripcion) {
-        this.descripcion = new String( descripcion);
+        this.descripcion = descripcion;
     }
 
     public void setFecha(long fecha) {

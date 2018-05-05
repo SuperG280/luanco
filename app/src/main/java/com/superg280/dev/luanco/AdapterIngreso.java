@@ -22,10 +22,10 @@ import java.util.ArrayList;
 
 public class AdapterIngreso extends BaseAdapter {
 
-    protected Activity activity;
-    protected ArrayList<Ingreso> items;
+    private Activity activity;
+    private ArrayList<Ingreso> items;
 
-    public AdapterIngreso(Activity activity, ArrayList<Ingreso> items) {
+    AdapterIngreso(Activity activity, ArrayList<Ingreso> items) {
         this.activity = activity;
         this.items    = items;
     }
@@ -40,9 +40,7 @@ public class AdapterIngreso extends BaseAdapter {
     }
 
     public void addAll(ArrayList<Ingreso> category) {
-        for (int i = 0; i < category.size(); i++) {
-            items.add(category.get(i));
-        }
+        items.addAll(category);
     }
 
     @Override
@@ -67,16 +65,16 @@ public class AdapterIngreso extends BaseAdapter {
 
         Ingreso ingreso = items.get(position);
 
-        TextView fecha = (TextView) v.findViewById(R.id.item_ingreso_fecha);
+        TextView fecha = v.findViewById(R.id.item_ingreso_fecha);
         fecha.setText(ingreso.formatFecha());
 
-        TextView description = (TextView) v.findViewById(R.id.item_ingreso_descripcion);
+        TextView description = v.findViewById(R.id.item_ingreso_descripcion);
         description.setText(ingreso.getDescripcion());
 
-        TextView importe = (TextView) v.findViewById(R.id.item_ingreso_importe);
+        TextView importe = v.findViewById(R.id.item_ingreso_importe);
         importe.setText(ingreso.formatImporte());
 
-        ImageView imagen = (ImageView) v.findViewById(R.id.item_ingreso_image);
+        ImageView imagen = v.findViewById(R.id.item_ingreso_image);
         Drawable originalDrawable;
 
         //Establece la imagen de usuario de cada ingreso.

@@ -22,27 +22,27 @@ public class Ingreso implements java.io.Serializable{
     public Ingreso( String id, long fecha, String descripcion, long importe, int userid) {
         this.id          = id;
         this.fecha       = fecha;
-        this.descripcion = new String( descripcion);
+        this.descripcion = descripcion;
         this.importe     = importe;
         this.userID      = userid;
     }
 
-    public Ingreso( long fecha, String descripcion, long importe, int userid) {
+    Ingreso( long fecha, String descripcion, long importe, int userid) {
         regenerateID();
         this.fecha       = fecha;
-        this.descripcion = new String( descripcion);
+        this.descripcion = descripcion;
         this.importe     = importe;
         this.userID      = userid;
     }
 
-    public Ingreso() {
+    Ingreso() {
         regenerateID();
         this.fecha = Calendar.getInstance().getTimeInMillis();
-        this.descripcion = new String();
+        this.descripcion = "";
         this.importe = 0;
         this.userID = 0;
     }
-    public void regenerateID() {
+    private void regenerateID() {
         this.id = UUID.randomUUID().toString();
     }
 
@@ -80,7 +80,7 @@ public class Ingreso implements java.io.Serializable{
 
     }
     public void setDescripcion(String descripcion) {
-        this.descripcion = new String( descripcion);
+        this.descripcion = descripcion;
     }
 
     public void setFecha(long fecha) {

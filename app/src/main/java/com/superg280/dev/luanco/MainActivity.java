@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Ingreso> ingresos = null;
 
     private DatabaseReference mFirebaseDatabaseGastos;
-    private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabaseIngresos;
     private ValueEventListener mFireBaseGastosEventListener;
     private ValueEventListener mFireBaseIngresosEventListener;
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity
 
         isLoading = true;
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -100,31 +99,31 @@ public class MainActivity extends AppCompatActivity
         });
         */
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         setImageRounded(USER_RAMON);
         setImageRounded(USER_MARIA);
         setImageRounded(USER_LUIS);
 
-        mFirebaseInstance = FirebaseDatabase.getInstance();
+        FirebaseDatabase mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabaseGastos = mFirebaseInstance.getReference("gastos");
         mFirebaseDatabaseIngresos = mFirebaseInstance.getReference("ingresos");
 
-        gastos = new ArrayList<Gasto>();
-        ingresos = new ArrayList<Ingreso>();
+        gastos = new ArrayList<>();
+        ingresos = new ArrayList<>();
 
         launchMainScreenListeners();
 
         auth = FirebaseAuth.getInstance();
         View header = navigationView.getHeaderView(0);
 
-        TextView userMail = (TextView) header.findViewById( R.id.textView_nav_user_mail);
+        TextView userMail = header.findViewById( R.id.textView_nav_user_mail);
         if( auth != null) {
             userMail.setText(auth.getCurrentUser().getEmail());
         }
@@ -159,7 +158,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void launchMainScreenListeners() {
-        ImageView user1 = (ImageView) findViewById(R.id.imageView_user1);
+        ImageView user1 = findViewById(R.id.imageView_user1);
 
         user1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -202,7 +201,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        ImageView user2 = (ImageView) findViewById(R.id.imageView_user2);
+        ImageView user2 = findViewById(R.id.imageView_user2);
 
         user2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -245,7 +244,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        ImageView user3 = (ImageView) findViewById(R.id.imageView_user3);
+        ImageView user3 = findViewById(R.id.imageView_user3);
 
         user3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -288,7 +287,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        View gastosVerTodos = ( View) findViewById( R.id.cardView_gastos);
+        View gastosVerTodos = findViewById( R.id.cardView_gastos);
 
         gastosVerTodos.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -328,11 +327,11 @@ public class MainActivity extends AppCompatActivity
         ImageView imageView;
 
         if( user == USER_RAMON) {
-            imageView = (ImageView) findViewById(R.id.imageView_user1);
+            imageView = findViewById(R.id.imageView_user1);
         } else if( user == USER_MARIA) {
-            imageView = (ImageView) findViewById(R.id.imageView_user2);
+            imageView = findViewById(R.id.imageView_user2);
         } else {
-            imageView = (ImageView) findViewById(R.id.imageView_user3);
+            imageView = findViewById(R.id.imageView_user3);
         }
 
         imageView.setImageDrawable(roundedDrawable);
@@ -341,7 +340,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -408,7 +407,7 @@ public class MainActivity extends AppCompatActivity
             startActivity( inte);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -417,12 +416,12 @@ public class MainActivity extends AppCompatActivity
 
         long totalGastosAnoActual = getTotalGastosAnoActual();
 
-        TextView txTotalGastosAnoActual = ( TextView) findViewById( R.id.textView_card_gastos_esteano);
+        TextView txTotalGastosAnoActual = findViewById( R.id.textView_card_gastos_esteano);
         txTotalGastosAnoActual.setText( formatImporte((double)totalGastosAnoActual / (double)100));
 
         long totalIngresosAnoActual = getTotalIngresosAnoActual();
 
-        TextView txTotalIngresosAnoActual = ( TextView) findViewById( R.id.textView_card_ingresos_esteano);
+        TextView txTotalIngresosAnoActual = findViewById( R.id.textView_card_ingresos_esteano);
         txTotalIngresosAnoActual.setText( formatImporte((double)totalIngresosAnoActual / (double)100));
 
     }
@@ -439,7 +438,7 @@ public class MainActivity extends AppCompatActivity
     }
     public void prepareCardGrafico() {
 
-        LineChart lineChart = (LineChart) findViewById( R.id.chart);
+        LineChart lineChart = findViewById( R.id.chart);
         ArrayList<Entry> entriesCurrent = new ArrayList<>();
 
         //lineChart.setTouchEnabled( false);
@@ -503,11 +502,11 @@ public class MainActivity extends AppCompatActivity
         TextView txSaldoUsuario;
 
         if( user == USER_RAMON) {
-            txSaldoUsuario = ( TextView) findViewById( R.id.textView_current_user1);
+            txSaldoUsuario = findViewById( R.id.textView_current_user1);
         } else if( user == USER_MARIA) {
-            txSaldoUsuario = ( TextView) findViewById( R.id.textView_current_user2);
+            txSaldoUsuario = findViewById( R.id.textView_current_user2);
         } else if( user == USER_LUIS){
-            txSaldoUsuario = ( TextView) findViewById( R.id.textView_current_user3);
+            txSaldoUsuario = findViewById( R.id.textView_current_user3);
         } else {
             return 0;
         }
@@ -533,7 +532,7 @@ public class MainActivity extends AppCompatActivity
 
     public void updateSaldoActual() {
 
-        TextView txSaldoActual = (TextView) findViewById( R.id.textView_current_amount);
+        TextView txSaldoActual = findViewById( R.id.textView_current_amount);
 
         long totalIngresos = 0;
         long total = 0;
@@ -597,7 +596,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                gastos = new ArrayList<Gasto>();
+                gastos = new ArrayList<>();
                 Gasto g;
                 for( DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     g = postSnapshot.getValue( Gasto.class);
@@ -635,7 +634,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ingresos = new ArrayList<Ingreso>();
+                ingresos = new ArrayList<>();
                 Ingreso ing;
                 for( DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     ing = postSnapshot.getValue( Ingreso.class);
