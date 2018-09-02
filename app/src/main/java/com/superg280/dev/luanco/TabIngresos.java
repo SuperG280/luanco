@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -186,13 +187,34 @@ public class TabIngresos extends Fragment {
             }
         });
 
+        final CheckBox checkBoxParaTodos = ( CheckBox)v.findViewById( R.id.checkBox_new_ingreso_todos);
+        checkBoxParaTodos.setChecked( false);
+
+        checkBoxParaTodos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean habilitar = false;
+                if( checkBoxParaTodos.isChecked()) {
+                    habilitar = false;
+                } else {
+                    habilitar = true;
+                }
+                radioUser1.setEnabled( habilitar);
+                radioUser2.setEnabled( habilitar);
+                radioUser3.setEnabled( habilitar);
+
+            }
+        });
+
         builder.setPositiveButton("OK",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String importe      = editTextImporte.getText().toString();
-                        String fecha        = editTextFecha.getText().toString();
-                        String descripcion  = editTextDescripcion.getText().toString();
+                        String  importe      = editTextImporte.getText().toString();
+                        String  fecha        = editTextFecha.getText().toString();
+                        String  descripcion  = editTextDescripcion.getText().toString();
+                        boolean todos        = checkBoxParaTodos.isChecked();
+
                         int userID = 0;
 
                         if( radioUser1.isChecked()) {
@@ -202,8 +224,13 @@ public class TabIngresos extends Fragment {
                         } else {
                             userID = MainActivity.USER_LUIS;
                         }
+                        //Si está chequeado para todos, pone el usuario 1 como usuario
+                        //y en addNewIngerso hará un ingreso a cada uno.
+                        if( todos) {
+                            userID = MainActivity.USER_RAMON;
+                        }
 
-                        addNewIngreso( fecha, importe, descripcion, userID);
+                        addNewIngreso( fecha, importe, descripcion, userID, todos);
                     }
                 });
 
@@ -249,7 +276,7 @@ public class TabIngresos extends Fragment {
         recogerFecha.show();
     }
 
-    public boolean addNewIngreso( String fecha, String importe, String descripcion, int user) {
+    public boolean addNewIngreso( String fecha, String importe, String descripcion, int user, boolean todos) {
 
         String fecha_formated = fecha.replace( '/', '-');
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -262,22 +289,32 @@ public class TabIngresos extends Fragment {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
-        int num = cal.get( Calendar.MONTH);
         long lImporte;
         try {
-            lImporte = (long)(new Double( importe).doubleValue() * 100);
+            if( todos) {
+                //Si es para todos, el importe hay que dividirlo entre 3 y hacer
+                //un ingreso a cada usuario con el importe dividido.
+                lImporte = (long) ((new Double(importe).doubleValue() / 3) * 100);
+            } else {
+                lImporte = (long) (new Double(importe).doubleValue() * 100);
+            }
         } catch( Exception ex) {
             return false;
         }
 
-        Ingreso newIngreso = new Ingreso( cal.getTimeInMillis(), descripcion, lImporte, user);
+        int user_todos = user;
 
-        String resultado = newIngreso.toString();
+        do {
+            Ingreso newIngreso = new Ingreso(cal.getTimeInMillis(), descripcion, lImporte, user_todos);
 
-        addIngresoInFireBase( newIngreso);
+            addIngresoInFireBase(newIngreso);
 
-        insertNewIngresoInArray( newIngreso);
-        adapter.notifyDataSetChanged();
+            insertNewIngresoInArray(newIngreso);
+            adapter.notifyDataSetChanged();
+            user_todos++;
+
+        } while (todos && user_todos <= MainActivity.USER_LUIS);
+
         return true;
     }
 

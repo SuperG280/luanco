@@ -87,5 +87,6 @@
     <string name="about_version">Version de aplicacion</string>
     <string name="connect_error">No hay acceso a los datos. Revisa tu conexión a internet.</string>
     <string name="connect_fire_error">Parece que hay algún problema accediendo a los datos. Intentalo en otro momento a ver si hay más suerte</string>
-    <string name="luanco_version">1.1.0</string>
+    <string name="luanco_version">1.2.0</string>
+    <string name="ingreso_nuevo_todos">Ingreso externo para todos</string>
 </resources>

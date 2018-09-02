@@ -136,7 +136,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:checked="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/checkBox_new_ingreso_todos"
         app:layout_constraintEnd_toEndOf="@+id/imageView_new_ingreso_user1"
         app:layout_constraintStart_toStartOf="@+id/imageView_new_ingreso_user1"
         app:layout_constraintTop_toBottomOf="@+id/imageView_new_ingreso_user1" />
@@ -145,11 +145,9 @@
         android:id="@+id/radioButton_new_ingreso_user2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:checked="false"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageView_new_ingreso_user2"
         app:layout_constraintStart_toStartOf="@+id/imageView_new_ingreso_user2"
         app:layout_constraintTop_toBottomOf="@+id/imageView_new_ingreso_user2" />
@@ -162,10 +160,26 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:checked="false"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/checkBox_new_ingreso_todos"
         app:layout_constraintEnd_toEndOf="@+id/imageView_new_ingreso_user3"
         app:layout_constraintStart_toStartOf="@+id/imageView_new_ingreso_user3"
         app:layout_constraintTop_toBottomOf="@+id/imageView_new_ingreso_user3" />
+
+    <CheckBox
+        android:id="@+id/checkBox_new_ingreso_todos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="serif"
+        android:text="@string/ingreso_nuevo_todos"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioButton_new_ingreso_user2" />
 
 
 </android.support.constraint.ConstraintLayout>

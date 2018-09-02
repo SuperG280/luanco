@@ -187,7 +187,6 @@ public class TabGastos extends Fragment {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
-        int num = cal.get( Calendar.MONTH);
         long lImporte;
         try {
             lImporte = (long)(new Double( importe).doubleValue() * 100);
@@ -196,8 +195,6 @@ public class TabGastos extends Fragment {
         }
 
         Gasto newGasto = new Gasto( cal.getTimeInMillis(), descripcion, lImporte);
-
-        String resultado = newGasto.toString();
 
         addGastoInFireBase( newGasto);
 
