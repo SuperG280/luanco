@@ -144,7 +144,7 @@ public class TabUsuarios extends Fragment {
         List<PieEntry> yvalues = new ArrayList<>();
         int index = 0;
         for( Gasto g: gastosAgrupados) {
-            yvalues.add(new PieEntry( getPorcentaje( total, g.getImporte()), g.getDescripcion()));
+            yvalues.add(new PieEntry( getPorcentaje( total, g.getImporte()), ( g.getDescripcion().length() >= 10) ? g.getDescripcion().substring(0, 10) : g.getDescripcion()));
             index++;
         }
 
@@ -158,7 +158,27 @@ public class TabUsuarios extends Fragment {
 
         PieDataSet dataSet = new PieDataSet(yvalues, "");
 
-        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        ArrayList<Integer> colors = new ArrayList<>();
+
+        for (int c : ColorTemplate.MATERIAL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.JOYFUL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.COLORFUL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.LIBERTY_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.PASTEL_COLORS)
+            colors.add(c);
+
+        colors.add(ColorTemplate.getHoloBlue());
+
+        dataSet.setColors(colors);
+        //dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         dataSet.setValueTextSize(13f);
         dataSet.setValueTextColor(Color.RED);
 
@@ -200,7 +220,7 @@ public class TabUsuarios extends Fragment {
         List<PieEntry> yvalues = new ArrayList<>();
         int index = 0;
         for( Gasto g: gastosMes) {
-            yvalues.add(new PieEntry( getPorcentaje( total, g.getImporte()), g.getDescripcion()));
+            yvalues.add(new PieEntry( getPorcentaje( total, g.getImporte()), ( g.getDescripcion().length() >= 10) ? g.getDescripcion().substring(0, 10) : g.getDescripcion()));
             index++;
         }
 
@@ -214,7 +234,28 @@ public class TabUsuarios extends Fragment {
 
         PieDataSet dataSet = new PieDataSet(yvalues, "");
 
-        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        ArrayList<Integer> colors = new ArrayList<>();
+
+        for (int c : ColorTemplate.MATERIAL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.JOYFUL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.COLORFUL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.LIBERTY_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.PASTEL_COLORS)
+            colors.add(c);
+
+        colors.add(ColorTemplate.getHoloBlue());
+
+        dataSet.setColors(colors);
+
+        //dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         dataSet.setValueTextSize(13f);
         dataSet.setValueTextColor(Color.RED);
 

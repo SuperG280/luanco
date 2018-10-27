@@ -107,9 +107,14 @@ public class TabGastos extends Fragment {
 
         ArrayList<String> descriptions = new ArrayList<>();
 
-        for( int i = 0; i < gastos.size(); i++)
-            descriptions.add(  gastos.get( i).getDescripcion());
+        String strDescription;
+        for( int i = 0; i < gastos.size(); i++) {
+            strDescription = gastos.get(i).getDescripcion();
 
+            if (!descriptions.contains(strDescription)) {
+                descriptions.add(strDescription);
+            }
+        }
         return descriptions;
     }
 
@@ -127,11 +132,12 @@ public class TabGastos extends Fragment {
         final AutoCompleteTextView  editTextDescripcion = (AutoCompleteTextView)v.findViewById( R.id.editText_new_gasto_descripcion);
 
         ArrayList<String> descriptions = getDescriptions();
+        if( descriptions != null) {
+            ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, descriptions.toArray());
 
-        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, descriptions.toArray());
-
-        editTextDescripcion.setAdapter( adapter);
-        editTextDescripcion.setThreshold(1);
+            editTextDescripcion.setAdapter(adapter);
+            editTextDescripcion.setThreshold(1);
+        }
 
         editTextFecha = (EditText)v.findViewById(R.id.editText_new_gasto_fecha);
         Calendar cal = Calendar.getInstance();
