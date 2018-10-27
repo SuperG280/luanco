@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -20,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class TabGastos extends Fragment {
@@ -97,6 +100,19 @@ public class TabGastos extends Fragment {
         return tab;
     }
 
+    public ArrayList<String> getDescriptions() {
+
+        if( gastos.size() == 0)
+            return null;
+
+        ArrayList<String> descriptions = new ArrayList<>();
+
+        for( int i = 0; i < gastos.size(); i++)
+            descriptions.add(  gastos.get( i).getDescripcion());
+
+        return descriptions;
+    }
+
     public AlertDialog createNewGastoDialogo() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -107,7 +123,16 @@ public class TabGastos extends Fragment {
         builder.setView(v);
 
         final EditText editTextImporte = (EditText)v.findViewById( R.id.editText_new_gasto_importe);
-        final EditText editTextDescripcion = (EditText)v.findViewById( R.id.editText_new_gasto_descripcion);
+
+        final AutoCompleteTextView  editTextDescripcion = (AutoCompleteTextView)v.findViewById( R.id.editText_new_gasto_descripcion);
+
+        ArrayList<String> descriptions = getDescriptions();
+
+        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, descriptions.toArray());
+
+        editTextDescripcion.setAdapter( adapter);
+        editTextDescripcion.setThreshold(1);
+
         editTextFecha = (EditText)v.findViewById(R.id.editText_new_gasto_fecha);
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
