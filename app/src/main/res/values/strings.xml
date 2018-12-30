@@ -16,6 +16,7 @@
     <string name="app_manu_usuarios">Graficos</string>
     <string name="app_menu_ajustes">Ajustes</string>
     <string name="app_action_ajustes">Ajustes</string>
+    <string name="app_menu_mail">Informe anual</string>
     <string name="title_activity_lu_tab">LuTabActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="dlg_delete_title_ingresos">Borrar ingreso</string>

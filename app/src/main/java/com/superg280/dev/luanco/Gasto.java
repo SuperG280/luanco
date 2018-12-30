@@ -96,4 +96,8 @@ public class Gasto implements java.io.Serializable{
         cal.setTimeInMillis( this.fecha);
         return cal;
     }
+
+    public String toMail() {
+        return formatFecha() + " " + getDescripcion() + ": " + formatImporte();
+    }
 }

@@ -16,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -407,6 +408,8 @@ public class MainActivity extends AppCompatActivity
         } else if( id == R.id.nav_about) {
             Intent inte = new Intent( this, AboutActivity.class);
             startActivity( inte);
+        } else if( id == R.id.nav_mail) {
+            generateAndSendAnualReport();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -414,6 +417,70 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    public void generateAndSendAnualReport() {
+        String[] TO = {"rsalvarez@gmail.com", "mariasuarezpiensa@gmail.com", "luissuarezalvarez@gmail.com"};
+
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+
+        StringBuilder Datos = new StringBuilder();
+        Datos.append( "Año: \t" + Calendar.getInstance().get( Calendar.YEAR) + "\n");
+        Datos.append( "\tGastos:\t" + formatImporte((double)getTotalGastosAnoActual() / (double)100) + "\n");
+        Datos.append( "\tIngresos:\t" + formatImporte((double)getTotalIngresosAnoActual() / (double)100) + "\n");
+
+        long totalIngresos = 0;
+        long total = 0;
+
+        long totalGastos = 0;
+
+        for( Gasto g: gastos) {
+            totalGastos += g.getImporte();
+        }
+
+        for( Ingreso i: ingresos) {
+            totalIngresos += i.getImporte();
+        }
+        total = totalIngresos - totalGastos;
+
+        Datos.append( "\tSaldo actual\t: " + formatImporte((double)total / (double)100) + "\n\n\n");
+
+        UtilArrayGastos UtilGastos = new UtilArrayGastos( this);
+
+        ArrayList<Gasto> gastosYear = UtilGastos.getGastosYear( gastos, Calendar.getInstance().get( Calendar.YEAR));
+
+        int nMonth = 0;
+        int nLastMonth = gastosYear.get(0).fechaToCalendar().get( Calendar.MONTH);
+        Datos.append( "\n\n------ " + UtilGastos.meses[ nLastMonth] + " ------\n");
+        for( Gasto g: gastosYear) {
+            nMonth = g.fechaToCalendar().get( Calendar.MONTH);
+            if( nMonth != nLastMonth) {
+                Datos.append( "\n\n------ " + UtilGastos.meses[ nMonth] + " ------\n");
+                nLastMonth = nMonth;
+            }
+            Datos.append( g.toMail() + "\n");
+        }
+
+        ArrayList<Gasto> packedGastosYear = UtilGastos.packGastos( gastosYear);
+
+        Datos.append( "\n\nGastos agrupados por conceptos:\n\n");
+
+        for( Gasto g: packedGastosYear) {
+
+            Datos.append( g.toMail() + "\n");
+        }
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Informe anual gastos e ingresos de Luanco");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, Datos.toString());
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Enviar informe anual."));
+
+        } catch (android.content.ActivityNotFoundException e) {
+            Toast.makeText(this, "NO existe ningún cliente de email instalado!.", Toast.LENGTH_SHORT).show();
+        }
+    }
     public void prepareCardCuentas() {
 
         long totalGastosAnoActual = getTotalGastosAnoActual();

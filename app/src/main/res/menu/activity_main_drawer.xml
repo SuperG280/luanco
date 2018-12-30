@@ -16,6 +16,10 @@
             android:id="@+id/nav_usuarios"
             android:icon="@drawable/ic_graphic_black_24dp"
             android:title="@string/app_manu_usuarios" />
+        <item
+            android:id="@+id/nav_mail"
+            android:icon="@drawable/baseline_mail_outline_black_18dp"
+            android:title="@string/app_menu_mail" />
     </group>
 
     <item android:title="@string/menu_separador_cuenta">
