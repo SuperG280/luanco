@@ -12,11 +12,12 @@ import java.util.Calendar;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AlertDialog;
-import android.text.Html;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -128,7 +129,11 @@ public class MainActivity extends AppCompatActivity
 
         TextView userMail = header.findViewById( R.id.textView_nav_user_mail);
         if( auth != null) {
-            userMail.setText(auth.getCurrentUser().getEmail());
+            try {
+                userMail.setText(auth.getCurrentUser().getEmail());
+            } catch( Exception ex) {
+                userMail.setText( "");
+            }
         }
 
 
@@ -295,7 +300,6 @@ public class MainActivity extends AppCompatActivity
         gastosVerTodos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Calendar hoy = Calendar.getInstance();
 
                 Intent inte = new Intent(MainActivity.this, LuTabActivity.class);
                 inte.putExtra("TAB_INDEX", 0);
@@ -311,11 +315,12 @@ public class MainActivity extends AppCompatActivity
         //extraemos el drawable en un bitmap
         Drawable originalDrawable;
         if (user == USER_RAMON) {
-            originalDrawable = getResources().getDrawable(R.drawable.yo);
+            originalDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.yo, null);//getResources().getDrawable(R.drawable.yo);
+
         } else if( user == USER_MARIA) {
-            originalDrawable = getResources().getDrawable(R.drawable.maria_perfil);
+            originalDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.maria_perfil, null);//getResources().getDrawable(R.drawable.maria_perfil);
         } else {
-            originalDrawable = getResources().getDrawable(R.drawable.luis_perfil);
+            originalDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.luis_perfil, null);//getResources().getDrawable(R.drawable.luis_perfil);
         }
 
         Bitmap originalBitmap = ((BitmapDrawable) originalDrawable).getBitmap();
@@ -375,7 +380,7 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -420,16 +425,25 @@ public class MainActivity extends AppCompatActivity
     public void generateAndSendAnualReport() {
         String[] TO = {"rsalvarez@gmail.com", "mariasuarezpiensa@gmail.com", "luissuarezalvarez@gmail.com"};
 
-        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
 
-        emailIntent.setData(Uri.parse("mailto:"));
         emailIntent.setType("text/plain");
+        emailIntent.setData(Uri.parse("mailto:"));
+
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
 
         StringBuilder Datos = new StringBuilder();
-        Datos.append( "Año: \t" + Calendar.getInstance().get( Calendar.YEAR) + "\n");
-        Datos.append( "\tGastos:\t" + formatImporte((double)getTotalGastosAnoActual() / (double)100) + "\n");
-        Datos.append( "\tIngresos:\t" + formatImporte((double)getTotalIngresosAnoActual() / (double)100) + "\n");
+        Datos.append( "Año: \t");
+        Datos.append( Calendar.getInstance().get( Calendar.YEAR));
+        Datos.append("\n");
+
+        Datos.append( "\tGastos:\t");
+        Datos.append( formatImporte((double)getTotalGastosAnoActual() / (double)100));
+        Datos.append("\n");
+
+        Datos.append( "\tIngresos:\t");
+        Datos.append( formatImporte((double)getTotalIngresosAnoActual() / (double)100));
+        Datos.append( "\n");
 
         long totalIngresos = 0;
         long total = 0;
@@ -445,7 +459,9 @@ public class MainActivity extends AppCompatActivity
         }
         total = totalIngresos - totalGastos;
 
-        Datos.append( "\tSaldo actual\t: " + formatImporte((double)total / (double)100) + "\n\n\n");
+        Datos.append( "\tSaldo actual\t: ");
+        Datos.append( formatImporte((double)total / (double)100));
+        Datos.append( "\n\n\n");
 
         UtilArrayGastos UtilGastos = new UtilArrayGastos( this);
 
@@ -453,14 +469,19 @@ public class MainActivity extends AppCompatActivity
 
         int nMonth = 0;
         int nLastMonth = gastosYear.get(0).fechaToCalendar().get( Calendar.MONTH);
-        Datos.append( "\n\n------ " + UtilGastos.meses[ nLastMonth] + " ------\n");
+        Datos.append( "\n\n------ ");
+        Datos.append( UtilGastos.meses[ nLastMonth]);
+        Datos.append(" ------\n");
         for( Gasto g: gastosYear) {
             nMonth = g.fechaToCalendar().get( Calendar.MONTH);
             if( nMonth != nLastMonth) {
-                Datos.append( "\n\n------ " + UtilGastos.meses[ nMonth] + " ------\n");
+                Datos.append( "\n\n------ ");
+                Datos.append( UtilGastos.meses[ nMonth]);
+                Datos.append(" ------\n");
                 nLastMonth = nMonth;
             }
-            Datos.append( g.toMail() + "\n");
+            Datos.append( g.toMail());
+            Datos.append("\n");
         }
 
         ArrayList<Gasto> packedGastosYear = UtilGastos.packGastos( gastosYear);
@@ -469,7 +490,8 @@ public class MainActivity extends AppCompatActivity
 
         for( Gasto g: packedGastosYear) {
 
-            Datos.append( g.toMail() + "\n");
+            Datos.append( g.toMail());
+            Datos.append("\n");
         }
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Informe anual gastos e ingresos de Luanco");
         emailIntent.putExtra(Intent.EXTRA_TEXT, Datos.toString());
@@ -738,7 +760,7 @@ public class MainActivity extends AppCompatActivity
     public ArrayList<Float> getMedias() {
 
         ArrayList<Integer> years = differentYears();
-        Map< Integer, ArrayList<Float>> medias = new HashMap< Integer, ArrayList<Float>>();
+        Map< Integer, ArrayList<Float>> medias = new HashMap< >();
 
         for( Integer y: years) {
             ArrayList<Float> mediasOneYear = new ArrayList<>();
