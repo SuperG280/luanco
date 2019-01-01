@@ -438,11 +438,11 @@ public class MainActivity extends AppCompatActivity
         Datos.append("\n");
 
         Datos.append( "\tGastos:\t");
-        Datos.append( formatImporte((double)getTotalGastosAnoActual() / (double)100));
+        Datos.append( formatImporte((double)UtilArrayGastos.getTotalGastosAnoActual(gastos) / (double)100));
         Datos.append("\n");
 
         Datos.append( "\tIngresos:\t");
-        Datos.append( formatImporte((double)getTotalIngresosAnoActual() / (double)100));
+        Datos.append( formatImporte((double)UtilArrayGastos.getTotalIngresosAnoActual(ingresos) / (double)100));
         Datos.append( "\n");
 
         long totalIngresos = 0;
@@ -505,12 +505,12 @@ public class MainActivity extends AppCompatActivity
     }
     public void prepareCardCuentas() {
 
-        long totalGastosAnoActual = getTotalGastosAnoActual();
+        long totalGastosAnoActual = UtilArrayGastos.getTotalGastosAnoActual(gastos);
 
         TextView txTotalGastosAnoActual = findViewById( R.id.textView_card_gastos_esteano);
         txTotalGastosAnoActual.setText( formatImporte((double)totalGastosAnoActual / (double)100));
 
-        long totalIngresosAnoActual = getTotalIngresosAnoActual();
+        long totalIngresosAnoActual = UtilArrayGastos.getTotalIngresosAnoActual(ingresos);
 
         TextView txTotalIngresosAnoActual = findViewById( R.id.textView_card_ingresos_esteano);
         txTotalIngresosAnoActual.setText( formatImporte((double)totalIngresosAnoActual / (double)100));
@@ -520,7 +520,7 @@ public class MainActivity extends AppCompatActivity
     public ArrayList<Entry> getEntriesMedia() {
 
         ArrayList<Entry> entriesMedia = new ArrayList<>();
-        ArrayList<Float> medias = getMedias();
+        ArrayList<Float> medias = UtilArrayGastos.getMedias( gastos);
         for( int i = 0; i < 12; i++) {
             entriesMedia.add( new Entry( i, medias.get(i)));
         }
@@ -539,7 +539,7 @@ public class MainActivity extends AppCompatActivity
         Calendar hoy = Calendar.getInstance();
         for( int i = 0; i < 12; i++) {
 
-            entriesCurrent.add( new Entry( i, (float)getGastosMes( i, hoy.get( Calendar.YEAR))/100));
+            entriesCurrent.add( new Entry( i, (float)UtilArrayGastos.getGastosMes( gastos, i, hoy.get( Calendar.YEAR))/100));
 
         }
         SimpleDateFormat df = new SimpleDateFormat("yyyy");
@@ -755,175 +755,6 @@ public class MainActivity extends AppCompatActivity
                 return new Long(t1.getFecha()).compareTo(new Long(ingreso.getFecha()));
             }
         });
-    }
-
-    public ArrayList<Float> getMedias() {
-
-        ArrayList<Integer> years = differentYears();
-        Map< Integer, ArrayList<Float>> medias = new HashMap< >();
-
-        for( Integer y: years) {
-            ArrayList<Float> mediasOneYear = new ArrayList<>();
-            for( int i = 0; i < 12; i++) {
-                mediasOneYear.add( getMediaDeMesAno( i, y));
-            }
-            medias.put( y, mediasOneYear);
-        }
-
-        ArrayList< Float> result = new ArrayList<>();
-
-
-        for( int i = 0; i < 12; i++) {
-            float suma = 0;
-            for (Map.Entry<Integer, ArrayList<Float>> entry : medias.entrySet()) {
-                suma += entry.getValue().get(i);
-            }
-            result.add( suma / (float)medias.size());
-        }
-
-        return result;
-    }
-
-    public ArrayList<Integer> differentYears() {
-
-        ArrayList<Integer> years = new ArrayList<>();
-
-        for( Gasto g: gastos) {
-            int year = g.fechaToCalendar().get( Calendar.YEAR);
-            if( !years.contains( year)) {
-                years.add( year);
-            }
-        }
-        return years;
-
-    }
-
-    /**
-     * Calcula la media de gastos de un mes en un año concreto.
-     * @param month Indice de la clase Calendar del mes (Enero: 0).
-     * @param year Numero de año de la clase Calendar.
-     * @return la media aritmetica de los gastos de ese mes.
-     */
-    public float getMediaDeMesAno( int month, int year) {
-
-        int numero = 0;
-        long suma = 0;
-
-        for( Gasto g: gastos) {
-            Calendar fechaGasto = g.fechaToCalendar();
-            if( fechaGasto.get( Calendar.YEAR) < year)
-                break;
-            if (fechaGasto.get(Calendar.YEAR) == year) {
-                if (g.fechaToCalendar().get(Calendar.MONTH) == month) {
-                    numero++;
-                    suma += g.getImporte();
-                }
-            }
-        }
-
-        if( numero == 0 || suma == 0) {
-            return 0;
-        }
-
-        return ( (float)suma / (float)100) / (float)numero;
-    }
-
-    public long getGastosMes( int month, int year) {
-
-       long importe = 0;
-
-        for( Gasto g: gastos) {
-
-            Calendar fechaGasto = g.fechaToCalendar();
-
-            if( fechaGasto.get( Calendar.YEAR) < year) {
-                break;
-            }
-            if( fechaGasto.get( Calendar.YEAR) == year) {
-
-                if( fechaGasto.get( Calendar.MONTH) < month) {
-                    break;
-                }
-
-                if( month == fechaGasto.get( Calendar.MONTH)) {
-                    importe += g.getImporte();
-                }
-            }
-        }
-
-        return importe;
-    }
-
-    public long getTotalGastosAnoActual() {
-
-        if( gastos == null || gastos.size() == 0) {
-            return 0;
-        }
-
-        ArrayList<Long> gastosAActual = getGastosAnoActual();
-
-        long importe = 0;
-        for( Long g: gastosAActual) {
-            importe += g;
-        }
-        return importe;
-    }
-
-    public ArrayList<Long> getGastosAnoActual() {
-
-        ArrayList<Long> gastosA = new ArrayList<Long>();
-
-        Calendar hoy = Calendar.getInstance();
-
-        for( Gasto g: gastos) {
-            Calendar fechaGasto = g.fechaToCalendar();
-            if( fechaGasto.get( Calendar.YEAR) < hoy.get( Calendar.YEAR)) {
-
-                break;
-            }
-
-            if( hoy.get( Calendar.YEAR) == fechaGasto.get( Calendar.YEAR)) {
-                gastosA.add( g.getImporte());
-            }
-        }
-
-        return gastosA;
-    }
-
-    public long getTotalIngresosAnoActual() {
-
-        if( ingresos == null || ingresos.size() == 0) {
-            return 0;
-        }
-
-        ArrayList<Long> ingresosAActual = getIngresosAnoActual();
-
-        long importe = 0;
-        for( Long i: ingresosAActual) {
-            importe += i;
-        }
-        return importe;
-    }
-
-    public ArrayList<Long> getIngresosAnoActual() {
-
-        ArrayList<Long> ingresosA = new ArrayList<Long>();
-
-        Calendar hoy = Calendar.getInstance();
-
-        for( Ingreso i: ingresos) {
-            Calendar fechaIngreso = i.fechaToCalendar();
-            if( fechaIngreso.get( Calendar.YEAR) < hoy.get( Calendar.YEAR)) {
-
-                break;
-            }
-
-            if( hoy.get( Calendar.YEAR) == fechaIngreso.get( Calendar.YEAR)) {
-                ingresosA.add( i.getImporte());
-            }
-        }
-
-        return ingresosA;
     }
 
     /** Inner class for implementing progress bar before fetching data **/
