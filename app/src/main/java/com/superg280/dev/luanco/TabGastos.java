@@ -17,6 +17,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -112,6 +113,11 @@ public class TabGastos extends Fragment {
         final EditText editTextImporte = (EditText)v.findViewById( R.id.editText_new_gasto_importe);
 
         final AutoCompleteTextView  editTextDescripcion = (AutoCompleteTextView)v.findViewById( R.id.editText_new_gasto_descripcion);
+
+        final Spinner spinnerCategories = v.findViewById( R.id.spinner_new_gasto_categorias);
+
+        CategoriesSpinnerAdapter categoriesAdapter = new CategoriesSpinnerAdapter( getContext(), UtilArrayGastos.cat_icons, UtilArrayGastos.cat_literales);
+        spinnerCategories.setAdapter( categoriesAdapter);
 
         ArrayList<String> descriptions = UtilArrayGastos.getDescriptions(gastos);
         if( descriptions != null) {

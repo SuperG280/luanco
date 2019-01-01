@@ -17,6 +17,9 @@ public class UtilArrayGastos {
         TheContext = context;
     }
 
+    public static final int cat_icons[] = { R.drawable.cat_agua, R.drawable.cat_luz, R.drawable.cat_banco, R.drawable.cat_comunidad, R.drawable.cat_impuesto, R.drawable.cat_otro};
+    public static final String cat_literales[] = { "agua", "luz", "banco", "comunidad", "impuesto", "otro"};
+
     public static final String[] luz = { "luz", "electricidad", "edp"};
     public static final String[] agua = { "agua"};
     public static final String[] banco = { "comision", "comisión", "banco", "sabadell" };

@@ -55,6 +55,7 @@ public class AdapterGasto extends BaseAdapter {
 
         if (convertView == null) {
             LayoutInflater inf = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            assert inf != null;
             v = inf.inflate(R.layout.item_gasto, null);
         }
 
