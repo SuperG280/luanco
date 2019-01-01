@@ -11,19 +11,19 @@ public class UtilArrayGastos {
 
     public final String[] meses = new String[]{"Enero","Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
 
-    private Context TheContext;
+    private static Context TheContext;
 
     public UtilArrayGastos( Context context) {
         TheContext = context;
     }
 
-    public final String[] luz = { "luz", "electricidad", "edp"};
-    public final String[] agua = { "agua"};
-    public final String[] banco = { "comision", "comisión", "banco", "sabadell" };
-    public final String[] impuestos = { "contribucion", "contribución", "ibi", "impuesto", "principado", "ayuntamiento"};
-    public final String[] comunidad = { "comunidad", "vecinos", "derrama"};
+    public static final String[] luz = { "luz", "electricidad", "edp"};
+    public static final String[] agua = { "agua"};
+    public static final String[] banco = { "comision", "comisión", "banco", "sabadell" };
+    public static final String[] impuestos = { "contribucion", "contribución", "ibi", "impuesto", "principado", "ayuntamiento"};
+    public static final String[] comunidad = { "comunidad", "vecinos", "derrama"};
 
-    public ArrayList<Gasto> packGastos(ArrayList<Gasto> gastosOrg) {
+    public static ArrayList<Gasto> packGastos(ArrayList<Gasto> gastosOrg) {
 
         ArrayList<Gasto> gastosPack = new ArrayList<>();
 
@@ -77,7 +77,7 @@ public class UtilArrayGastos {
         return gastosPack;
     }
 
-    public boolean descriptionInArray( String description, String[] array) {
+    public static boolean descriptionInArray( String description, String[] array) {
 
         if( description == null || array == null || array.length == 0)
             return false;
@@ -295,5 +295,23 @@ public class UtilArrayGastos {
         }
 
         return ingresosA;
+    }
+
+    public static ArrayList<String> getDescriptions(ArrayList<Gasto> gastos) {
+
+        if( gastos.size() == 0)
+            return null;
+
+        ArrayList<String> descriptions = new ArrayList<>();
+
+        String strDescription;
+        for( int i = 0; i < gastos.size(); i++) {
+            strDescription = gastos.get(i).getDescripcion();
+
+            if (!descriptions.contains(strDescription)) {
+                descriptions.add(strDescription);
+            }
+        }
+        return descriptions;
     }
 }

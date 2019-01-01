@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -13,6 +14,7 @@ import java.util.UUID;
  * Created by Super on 10/03/2018.
  */
 
+@IgnoreExtraProperties
 public class Gasto implements java.io.Serializable{
 
     private String id;

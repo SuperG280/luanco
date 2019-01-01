@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -67,6 +68,20 @@ public class AdapterGasto extends BaseAdapter {
 
         TextView importe = v.findViewById(R.id.item_gasto_importe);
         importe.setText(String.format("-%s", dir.formatImporte()));
+
+        ImageView icon = v.findViewById(R.id.item_gasto_icon);
+        if( UtilArrayGastos.descriptionInArray( dir.getDescripcion(), UtilArrayGastos.agua))
+            icon.setImageResource(R.drawable.cat_agua);
+        else if(UtilArrayGastos.descriptionInArray( dir.getDescripcion(), UtilArrayGastos.luz))
+            icon.setImageResource(R.drawable.cat_luz);
+        else if(UtilArrayGastos.descriptionInArray( dir.getDescripcion(), UtilArrayGastos.comunidad))
+            icon.setImageResource(R.drawable.cat_comunidad);
+        else if(UtilArrayGastos.descriptionInArray( dir.getDescripcion(), UtilArrayGastos.banco))
+            icon.setImageResource(R.drawable.cat_banco);
+        else if(UtilArrayGastos.descriptionInArray( dir.getDescripcion(), UtilArrayGastos.impuestos))
+            icon.setImageResource(R.drawable.cat_impuesto);
+        else
+            icon.setImageResource(R.drawable.cat_otro);
 
         return v;
     }

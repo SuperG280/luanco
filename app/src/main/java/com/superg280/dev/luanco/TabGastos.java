@@ -100,24 +100,6 @@ public class TabGastos extends Fragment {
         return tab;
     }
 
-    public ArrayList<String> getDescriptions() {
-
-        if( gastos.size() == 0)
-            return null;
-
-        ArrayList<String> descriptions = new ArrayList<>();
-
-        String strDescription;
-        for( int i = 0; i < gastos.size(); i++) {
-            strDescription = gastos.get(i).getDescripcion();
-
-            if (!descriptions.contains(strDescription)) {
-                descriptions.add(strDescription);
-            }
-        }
-        return descriptions;
-    }
-
     public AlertDialog createNewGastoDialogo() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -131,7 +113,7 @@ public class TabGastos extends Fragment {
 
         final AutoCompleteTextView  editTextDescripcion = (AutoCompleteTextView)v.findViewById( R.id.editText_new_gasto_descripcion);
 
-        ArrayList<String> descriptions = getDescriptions();
+        ArrayList<String> descriptions = UtilArrayGastos.getDescriptions(gastos);
         if( descriptions != null) {
             ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, descriptions.toArray());
 
