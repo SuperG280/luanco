@@ -1,6 +1,7 @@
 package com.superg280.dev.luanco;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,15 +14,27 @@ public class UtilArrayGastos {
 
     private static Context TheContext;
 
-    public UtilArrayGastos( Context context) {
+    public UtilArrayGastos(Context context) {
         TheContext = context;
     }
 
-    public static final String[] luz = { "luz", "electricidad", "edp"};
-    public static final String[] agua = { "agua"};
-    public static final String[] banco = { "comision", "comisión", "banco", "sabadell" };
-    public static final String[] impuestos = { "contribucion", "contribución", "ibi", "impuesto", "principado", "ayuntamiento"};
-    public static final String[] comunidad = { "comunidad", "vecinos", "derrama"};
+    @Nullable
+    public static Gasto addAllGastosOfCategory(ArrayList<Gasto> gastos, int categoryID) {
+
+        if( categoryID < Categories.CAT_AGUA || categoryID > Categories.CAT_OTRO)
+            return null;
+
+        Gasto gResult = new Gasto();
+        gResult.setCategoria( categoryID);
+
+        for( Gasto g: gastos) {
+            if( g.getCategoria() == categoryID) {
+                gResult.setImporte( gResult.getImporte() + g.getImporte());
+            }
+        }
+
+        return gResult;
+    }
 
     public static ArrayList<Gasto> packGastos(ArrayList<Gasto> gastosOrg) {
 
@@ -30,63 +43,15 @@ public class UtilArrayGastos {
         if( gastosOrg == null || gastosOrg.size() == 0)
             return gastosPack;
 
-        Gasto gastoLuz = new Gasto();
-        Gasto gastoAgua = new Gasto();
-        Gasto gastoBanco = new Gasto();
-        Gasto gastoImpuestos = new Gasto();
-        Gasto gastoComunidad = new Gasto();
-        gastoLuz.setDescripcion( TheContext.getString( R.string.label_pie_luz));
-        gastoAgua.setDescripcion( TheContext.getString( R.string.label_pie_agua));
-        gastoBanco.setDescripcion( TheContext.getString( R.string.label_pie_banco));
-        gastoImpuestos.setDescripcion( TheContext.getString( R.string.label_pie_impuestos));
-        gastoComunidad.setDescripcion( TheContext.getString( R.string.label_pie_comunidad));
-
-        for( Gasto g: gastosOrg) {
-            String description = g.getDescripcion();
-
-            if( descriptionInArray( description, luz)) {
-                gastoLuz.setImporte( gastoLuz.getImporte() + g.getImporte());
-            } else if( descriptionInArray( description, agua)){
-                gastoAgua.setImporte( gastoAgua.getImporte() + g.getImporte());
-            } else if( descriptionInArray( description, banco)) {
-                gastoBanco.setImporte(gastoBanco.getImporte() + g.getImporte());
-            } else if( descriptionInArray( description, impuestos)) {
-                gastoImpuestos.setImporte(gastoImpuestos.getImporte() + g.getImporte());
-            } else if( descriptionInArray( description, comunidad)) {
-                gastoComunidad.setImporte(gastoComunidad.getImporte() + g.getImporte());
-            } else {
+        for( int i = Categories.CAT_AGUA; i < Categories.CAT_OTRO; i++) {
+            Gasto g = addAllGastosOfCategory( gastosOrg, i);
+            if( g != null && g.getImporte() > 0) {
+                g.setDescripcion( Categories.getCategoryLiteral( i));
                 gastosPack.add( g);
             }
         }
 
-        if( gastoLuz.getImporte() > 0)
-            gastosPack.add( gastoLuz);
-
-        if( gastoAgua.getImporte() > 0)
-            gastosPack.add( gastoAgua);
-
-        if( gastoBanco.getImporte() > 0)
-            gastosPack.add( gastoBanco);
-
-        if( gastoImpuestos.getImporte() > 0)
-            gastosPack.add( gastoImpuestos);
-
-        if( gastoComunidad.getImporte() > 0)
-            gastosPack.add( gastoComunidad);
-
         return gastosPack;
-    }
-
-    public static boolean descriptionInArray( String description, String[] array) {
-
-        if( description == null || array == null || array.length == 0)
-            return false;
-
-        for( String s: array) {
-            if(description.toUpperCase().contains(s.toUpperCase()))
-                return true;
-        }
-        return false;
     }
 
     public ArrayList<Gasto> getGastosYear( ArrayList<Gasto> gastos, int year) {
