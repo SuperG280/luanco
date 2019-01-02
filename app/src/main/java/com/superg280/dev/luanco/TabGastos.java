@@ -116,7 +116,7 @@ public class TabGastos extends Fragment {
 
         final Spinner spinnerCategories = v.findViewById( R.id.spinner_new_gasto_categorias);
 
-        CategoriesSpinnerAdapter categoriesAdapter = new CategoriesSpinnerAdapter( getContext(), UtilArrayGastos.cat_icons, UtilArrayGastos.cat_literales);
+        CategoriesSpinnerAdapter categoriesAdapter = new CategoriesSpinnerAdapter( getContext(), Categories.getCat_icons(), Categories.getCat_literales());
         spinnerCategories.setAdapter( categoriesAdapter);
 
         ArrayList<String> descriptions = UtilArrayGastos.getDescriptions(gastos);
