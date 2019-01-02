@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -13,32 +14,30 @@ import java.util.UUID;
  * Created by Super on 10/03/2018.
  */
 
+@IgnoreExtraProperties
 public class Gasto implements java.io.Serializable{
 
     private String id;
     private long fecha;
     private String descripcion;
     private long importe;
+    private int categoria;
 
-    public Gasto( String id, long fecha, String descripcion, long importe) {
-        this.id          = id;
-        this.fecha       = fecha;
-        this.descripcion = descripcion;
-        this.importe     = importe;
-    }
 
     public Gasto( long fecha, String descripcion, long importe) {
         regenerateID() ;
         this.fecha          = fecha;
         this.descripcion    = descripcion;
         this.importe        = importe;
+        this.categoria      = Categories.CAT_OTRO;
     }
 
     public Gasto() {
         regenerateID();
-        this.importe = 0;
-        this.fecha = Calendar.getInstance().getTimeInMillis();
-        this.descripcion = "";
+        this.importe        = 0;
+        this.fecha          = Calendar.getInstance().getTimeInMillis();
+        this.descripcion    = "";
+        this.categoria      = Categories.CAT_OTRO;
     }
 
     public void regenerateID() {
@@ -99,5 +98,13 @@ public class Gasto implements java.io.Serializable{
 
     public String toMail() {
         return formatFecha() + " " + getDescripcion() + ": " + formatImporte();
+    }
+
+    public int getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(int categoria) {
+        this.categoria = categoria;
     }
 }

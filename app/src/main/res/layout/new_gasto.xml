@@ -6,6 +6,16 @@
     android:layout_height="wrap_content">
 
     <TextView
+        android:id="@+id/textView_new_gasto_categoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="serif"
+        android:text="@string/app_new_gasto_categoria"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/spinner_new_gasto_categorias"
+        app:layout_constraintStart_toStartOf="@+id/spinner_new_gasto_categorias" />
+
+    <TextView
         android:id="@+id/textView_new_gasto_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -76,16 +86,16 @@
         android:id="@+id/editText_new_gasto_descripcion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:ems="10"
         android:inputType="textCapSentences|textAutoCorrect"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/editText_new_gasto_importe"
         app:layout_constraintStart_toStartOf="@+id/editText_new_gasto_fecha"
-        app:layout_constraintTop_toBottomOf="@+id/editText_new_gasto_fecha" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_new_gasto_categorias" />
 
     <TextView
         android:id="@+id/textView4"
@@ -96,5 +106,16 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/editText_new_gasto_descripcion"
         app:layout_constraintStart_toStartOf="@+id/editText_new_gasto_descripcion" />
+
+    <Spinner
+        android:id="@+id/spinner_new_gasto_categorias"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_new_gasto_fecha" />
 
 </android.support.constraint.ConstraintLayout>

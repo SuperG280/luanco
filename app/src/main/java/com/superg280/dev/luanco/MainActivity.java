@@ -315,12 +315,12 @@ public class MainActivity extends AppCompatActivity
         //extraemos el drawable en un bitmap
         Drawable originalDrawable;
         if (user == USER_RAMON) {
-            originalDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.yo, null);//getResources().getDrawable(R.drawable.yo);
+            originalDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.yo, null);
 
         } else if( user == USER_MARIA) {
-            originalDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.maria_perfil, null);//getResources().getDrawable(R.drawable.maria_perfil);
+            originalDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.maria_perfil, null);
         } else {
-            originalDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.luis_perfil, null);//getResources().getDrawable(R.drawable.luis_perfil);
+            originalDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.luis_perfil, null);
         }
 
         Bitmap originalBitmap = ((BitmapDrawable) originalDrawable).getBitmap();

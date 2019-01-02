@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ public class AdapterGasto extends BaseAdapter {
 
         if (convertView == null) {
             LayoutInflater inf = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            assert inf != null;
             v = inf.inflate(R.layout.item_gasto, null);
         }
 
@@ -67,6 +69,9 @@ public class AdapterGasto extends BaseAdapter {
 
         TextView importe = v.findViewById(R.id.item_gasto_importe);
         importe.setText(String.format("-%s", dir.formatImporte()));
+
+        ImageView icon = v.findViewById(R.id.item_gasto_icon);
+        icon.setImageResource(Categories.getCategoryIcon( dir.getCategoria()));
 
         return v;
     }

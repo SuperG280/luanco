@@ -13,16 +13,16 @@
         android:layout_marginTop="8dp"
         android:fontFamily="serif"
         android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/item_gasto_icon"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/item_gasto_descripcion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:fontFamily="serif"
         android:text="TextView"
         android:textSize="18sp"
@@ -51,4 +51,14 @@
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@+id/item_gasto_descripcion"
         app:layout_constraintTop_toBottomOf="@+id/item_gasto_fecha" />
+
+    <ImageView
+        android:id="@+id/item_gasto_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/item_gasto_fecha"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/item_gasto_fecha"
+        app:srcCompat="@drawable/cat_otro" />
 </android.support.constraint.ConstraintLayout>

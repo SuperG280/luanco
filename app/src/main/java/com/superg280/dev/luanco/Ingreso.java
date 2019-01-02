@@ -1,5 +1,7 @@
 package com.superg280.dev.luanco;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -11,6 +13,7 @@ import java.util.UUID;
  * Created by Super on 10/03/2018.
  */
 
+@IgnoreExtraProperties
 public class Ingreso implements java.io.Serializable{
 
     private String id;
