@@ -146,8 +146,8 @@ public class TabGastos extends Fragment {
                         String importe = editTextImporte.getText().toString();
                         String fecha = editTextFecha.getText().toString();
                         String descripcion = editTextDescripcion.getText().toString();
-
-                        addNewGasto( fecha, importe, descripcion);
+                        int categoria = spinnerCategories.getSelectedItemPosition();
+                        addNewGasto( fecha, importe, descripcion, categoria);
                     }
                 });
 
@@ -193,7 +193,7 @@ public class TabGastos extends Fragment {
         recogerFecha.show();
     }
 
-    public boolean addNewGasto( String fecha, String importe, String descripcion) {
+    public boolean addNewGasto( String fecha, String importe, String descripcion, int categoria) {
 
         String fecha_formated = fecha.replace( '/', '-');
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -214,6 +214,7 @@ public class TabGastos extends Fragment {
         }
 
         Gasto newGasto = new Gasto( cal.getTimeInMillis(), descripcion, lImporte);
+        newGasto.setCategoria(categoria);
 
         addGastoInFireBase( newGasto);
 

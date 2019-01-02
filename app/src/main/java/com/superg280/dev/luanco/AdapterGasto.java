@@ -71,18 +71,7 @@ public class AdapterGasto extends BaseAdapter {
         importe.setText(String.format("-%s", dir.formatImporte()));
 
         ImageView icon = v.findViewById(R.id.item_gasto_icon);
-        if( UtilArrayGastos.descriptionInArray( dir.getDescripcion(), UtilArrayGastos.agua))
-            icon.setImageResource(R.drawable.cat_agua);
-        else if(UtilArrayGastos.descriptionInArray( dir.getDescripcion(), UtilArrayGastos.luz))
-            icon.setImageResource(R.drawable.cat_luz);
-        else if(UtilArrayGastos.descriptionInArray( dir.getDescripcion(), UtilArrayGastos.comunidad))
-            icon.setImageResource(R.drawable.cat_comunidad);
-        else if(UtilArrayGastos.descriptionInArray( dir.getDescripcion(), UtilArrayGastos.banco))
-            icon.setImageResource(R.drawable.cat_banco);
-        else if(UtilArrayGastos.descriptionInArray( dir.getDescripcion(), UtilArrayGastos.impuestos))
-            icon.setImageResource(R.drawable.cat_impuesto);
-        else
-            icon.setImageResource(R.drawable.cat_otro);
+        icon.setImageResource(Categories.getCategoryIcon( dir.getCategoria()));
 
         return v;
     }
