@@ -91,4 +91,5 @@
     <string name="luanco_version">2.0.0</string>
     <string name="ingreso_nuevo_todos">Ingreso externo para todos</string>
     <string name="app_new_gasto_categoria">Categoria</string>
+    <string name="app_gastostab_spinercategories">Categorías:</string>
 </resources>

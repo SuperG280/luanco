@@ -3,6 +3,8 @@ package com.superg280.dev.luanco;
 public class Categories {
 
 
+    public final static int CAT_ALL = -1;
+
     public final static int CAT_AGUA = 0;
     public final static int CAT_LUZ = 1;
     public final static int CAT_BANCO = 2;
@@ -43,8 +45,28 @@ public class Categories {
         return cat_icons;
     }
 
+    public static int[] getCat_iconsAll() {
+        int[] allIcons = new int[ cat_icons.length + 1];
+        allIcons[ 0] = R.drawable.cat_all;
+        for( int i = 0; i < cat_icons.length; i++) {
+            allIcons[ i + 1] = cat_icons[ i];
+        }
+
+        return allIcons;
+    }
+
     public static String[] getCat_literales() {
         return cat_literales;
+    }
+
+    public static String[] getCat_literalesAll() {
+        String[] allLiterales = new String[ cat_literales.length + 1];
+        allLiterales[ 0] = "Todas";
+        for( int i = 0; i < cat_literales.length; i++) {
+            allLiterales[ i + 1] = cat_literales[ i];
+        }
+
+        return allLiterales;
     }
 
     public static int getCategoryIcon( int categoryID) {

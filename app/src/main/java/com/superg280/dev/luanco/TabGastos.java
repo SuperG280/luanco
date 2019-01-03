@@ -97,6 +97,31 @@ public class TabGastos extends Fragment {
             }
         });
 
+        //Spiner para seleccionar categoria en la tabla.
+        final Spinner spinnerCategories = tab.findViewById( R.id.spinner_gastos_categorias);
+
+        CategoriesSpinnerAdapter categoriesAdapter = new CategoriesSpinnerAdapter( getContext(), Categories.getCat_iconsAll(), Categories.getCat_literalesAll());
+        spinnerCategories.setAdapter( categoriesAdapter);
+
+        spinnerCategories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id)
+            {
+                int CategoryID = Categories.CAT_ALL;
+                //La posición 0 es ALL, así que lo deja como está.
+                //las demás las decrementa en uno (la pos 1 es la categoría 0)
+                if( pos > 0) {
+                    CategoryID = pos - 1;
+                }
+                adapter.setNewArrayGastos(gastos, CategoryID);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent)
+            {    }
+        });
         // Inflate the layout for this fragment
         return tab;
     }
@@ -114,10 +139,11 @@ public class TabGastos extends Fragment {
 
         final AutoCompleteTextView  editTextDescripcion = (AutoCompleteTextView)v.findViewById( R.id.editText_new_gasto_descripcion);
 
-        final Spinner spinnerCategories = v.findViewById( R.id.spinner_new_gasto_categorias);
+        //Spinner para el dialogo de nuevo gasto.
+        final Spinner newGastoSpinnerCategories = v.findViewById( R.id.spinner_new_gasto_categorias);
 
-        CategoriesSpinnerAdapter categoriesAdapter = new CategoriesSpinnerAdapter( getContext(), Categories.getCat_icons(), Categories.getCat_literales());
-        spinnerCategories.setAdapter( categoriesAdapter);
+        CategoriesSpinnerAdapter newGastocategoriesAdapter = new CategoriesSpinnerAdapter( getContext(), Categories.getCat_icons(), Categories.getCat_literales());
+        newGastoSpinnerCategories.setAdapter( newGastocategoriesAdapter);
 
         ArrayList<String> descriptions = UtilArrayGastos.getDescriptions(gastos);
         if( descriptions != null) {
@@ -146,7 +172,7 @@ public class TabGastos extends Fragment {
                         String importe = editTextImporte.getText().toString();
                         String fecha = editTextFecha.getText().toString();
                         String descripcion = editTextDescripcion.getText().toString();
-                        int categoria = spinnerCategories.getSelectedItemPosition();
+                        int categoria = newGastoSpinnerCategories.getSelectedItemPosition();
                         addNewGasto( fecha, importe, descripcion, categoria);
                     }
                 });

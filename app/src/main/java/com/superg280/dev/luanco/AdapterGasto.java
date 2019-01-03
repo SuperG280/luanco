@@ -38,6 +38,20 @@ public class AdapterGasto extends BaseAdapter {
         items.addAll(category);
     }
 
+    public void setNewArrayGastos( ArrayList<Gasto> gastos, int category) {
+        if( gastos.isEmpty())
+            return;
+
+        items = new ArrayList<Gasto>();
+        for( Gasto g: gastos) {
+            if( category == Categories.CAT_ALL) {
+                items.add( g);
+            } else if( g.getCategoria() == category) {
+                items.add( g);
+            }
+        }
+    }
+
     @Override
     public Object getItem(int arg0) {
         return items.get(arg0);
