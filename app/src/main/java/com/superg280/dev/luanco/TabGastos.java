@@ -31,7 +31,7 @@ public class TabGastos extends Fragment {
     private ArrayList<Gasto> gastos = null;
     private AdapterGasto adapter = null;
     public EditText editTextFecha;
-
+    private Spinner spinnerCategories = null;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
 
@@ -98,7 +98,7 @@ public class TabGastos extends Fragment {
         });
 
         //Spiner para seleccionar categoria en la tabla.
-        final Spinner spinnerCategories = tab.findViewById( R.id.spinner_gastos_categorias);
+        spinnerCategories = tab.findViewById( R.id.spinner_gastos_categorias);
 
         CategoriesSpinnerAdapter categoriesAdapter = new CategoriesSpinnerAdapter( getContext(), Categories.getCat_iconsAll(), Categories.getCat_literalesAll());
         spinnerCategories.setAdapter( categoriesAdapter);
@@ -245,6 +245,9 @@ public class TabGastos extends Fragment {
         addGastoInFireBase( newGasto);
 
         insertNewGastoInArray( newGasto);
+        int currentCategory = spinnerCategories.getSelectedItemPosition() - 1;
+
+        adapter.setNewArrayGastos( gastos, currentCategory);
         adapter.notifyDataSetChanged();
         return true;
     }
@@ -275,6 +278,9 @@ public class TabGastos extends Fragment {
         deleteGastoInFireBase( gastos.get(posicion).getId());
         //getLuancoBD().deleteGasto( gastos.get(posicion).getId());
         gastos.remove(posicion);
+        int currentCategory = spinnerCategories.getSelectedItemPosition() - 1;
+
+        adapter.setNewArrayGastos( gastos, currentCategory);
         adapter.notifyDataSetChanged();
     }
 
