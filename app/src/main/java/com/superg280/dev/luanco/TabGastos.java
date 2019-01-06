@@ -16,14 +16,15 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 
 public class TabGastos extends Fragment {
@@ -88,6 +89,14 @@ public class TabGastos extends Fragment {
             }
         });
 
+        lv.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+               AlertDialog dlg = showGastoDialogo( i);
+               dlg.show();
+            }
+        });
         FloatingActionButton fab = (FloatingActionButton) tab.findViewById(R.id.fab_new_gastos);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +135,36 @@ public class TabGastos extends Fragment {
         return tab;
     }
 
+    public AlertDialog showGastoDialogo( int gasto) {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        View v = inflater.inflate(R.layout.view_gasto, null);
+
+        builder.setView(v);
+
+        Gasto g = gastos.get( gasto);
+
+        final TextView textViewFecha = v.findViewById( R.id.textView_view_gasto_fecha);
+        textViewFecha.setText( g.formatFecha());
+        final TextView textViewDescripcion = v.findViewById(R.id.textView_view_gasto_descripcion);
+        textViewDescripcion.setText( g.getDescripcion());
+        final TextView textViewImporte = v.findViewById(R.id.textView_view_gasto_importe);
+        textViewImporte.setText(g.formatImporte());
+
+
+        builder.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        return builder.create();
+    }
+
     public AlertDialog createNewGastoDialogo() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -135,12 +174,12 @@ public class TabGastos extends Fragment {
 
         builder.setView(v);
 
-        final EditText editTextImporte = (EditText)v.findViewById( R.id.editText_new_gasto_importe);
+        final EditText editTextImporte = (EditText)v.findViewById( R.id.editText_view_edit_gasto_importe);
 
-        final AutoCompleteTextView  editTextDescripcion = (AutoCompleteTextView)v.findViewById( R.id.editText_new_gasto_descripcion);
+        final AutoCompleteTextView  editTextDescripcion = (AutoCompleteTextView)v.findViewById( R.id.editText_view_edit_gasto_descripcion);
 
         //Spinner para el dialogo de nuevo gasto.
-        final Spinner newGastoSpinnerCategories = v.findViewById( R.id.spinner_new_gasto_categorias);
+        final Spinner newGastoSpinnerCategories = v.findViewById( R.id.spinner_view_edit_gasto_categorias);
 
         CategoriesSpinnerAdapter newGastocategoriesAdapter = new CategoriesSpinnerAdapter( getContext(), Categories.getCat_icons(), Categories.getCat_literales());
         newGastoSpinnerCategories.setAdapter( newGastocategoriesAdapter);
@@ -153,7 +192,7 @@ public class TabGastos extends Fragment {
             editTextDescripcion.setThreshold(1);
         }
 
-        editTextFecha = (EditText)v.findViewById(R.id.editText_new_gasto_fecha);
+        editTextFecha = (EditText)v.findViewById(R.id.editText_view_edit_gasto_fecha);
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         editTextFecha.setText( df.format(cal.getTime()));

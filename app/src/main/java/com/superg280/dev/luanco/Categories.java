@@ -28,6 +28,17 @@ public class Categories {
                                             R.drawable.cat_seguros,
                                             R.drawable.cat_otro};
 
+    private static final int cat_icons_big[] = { R.drawable.cat_agua_grande,
+                                                 R.drawable.cat_luz_grande,
+                                                 R.drawable.cat_banco_grande,
+                                                 R.drawable.cat_impuesto_grande,
+                                                 R.drawable.cat_comunidad_grande,
+                                                 R.drawable.cat_casa_grande,
+                                                 R.drawable.cat_electrodomesticos_grande,
+                                                 R.drawable.cat_reparacion_grande,
+                                                 R.drawable.cat_seguros_grande,
+                                                 R.drawable.cat_otro_grande};
+
     private static final String cat_literales[] = {  "Agua, basuras,...",
                                                     "Luz",
                                                     "Gasto banco",
@@ -67,6 +78,15 @@ public class Categories {
         }
 
         return allLiterales;
+    }
+
+    public static int getCategoryIconBig( int categoryID) {
+
+        if( categoryID >= cat_icons_big.length || categoryID < 0) {
+            return cat_icons_big[ CAT_OTRO];
+        }
+
+        return cat_icons_big[ categoryID];
     }
 
     public static int getCategoryIcon( int categoryID) {
