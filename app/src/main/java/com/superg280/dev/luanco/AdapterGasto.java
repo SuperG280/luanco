@@ -52,6 +52,10 @@ public class AdapterGasto extends BaseAdapter {
         }
     }
 
+    public Gasto getGastoSelected( int position) {
+        return items.get( position);
+    }
+
     @Override
     public Object getItem(int arg0) {
         return items.get(arg0);

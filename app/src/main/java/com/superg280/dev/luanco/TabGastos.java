@@ -145,7 +145,7 @@ public class TabGastos extends Fragment {
 
         builder.setView(v);
 
-        Gasto g = gastos.get( gasto);
+        final Gasto g = adapter.getGastoSelected( gasto);
 
         final TextView textViewFecha = v.findViewById( R.id.textView_view_gasto_fecha);
         textViewFecha.setText( g.formatFecha());
@@ -154,14 +154,16 @@ public class TabGastos extends Fragment {
         final TextView textViewImporte = v.findViewById(R.id.textView_view_gasto_importe);
         textViewImporte.setText(g.formatImporte());
 
+        FloatingActionButton fab = v.findViewById(R.id.floatingCatIcon_view_gasto);
+        fab.setImageResource( Categories.getCategoryIconBig(g.getCategoria()));
 
-        builder.setPositiveButton("OK",
+        builder.setPositiveButton("Ok",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                     }
                 });
+
         return builder.create();
     }
 
@@ -174,9 +176,9 @@ public class TabGastos extends Fragment {
 
         builder.setView(v);
 
-        final EditText editTextImporte = (EditText)v.findViewById( R.id.editText_view_edit_gasto_importe);
+        final EditText editTextImporte = v.findViewById( R.id.editText_view_edit_gasto_importe);
 
-        final AutoCompleteTextView  editTextDescripcion = (AutoCompleteTextView)v.findViewById( R.id.editText_view_edit_gasto_descripcion);
+        final AutoCompleteTextView  editTextDescripcion = v.findViewById( R.id.editText_view_edit_gasto_descripcion);
 
         //Spinner para el dialogo de nuevo gasto.
         final Spinner newGastoSpinnerCategories = v.findViewById( R.id.spinner_view_edit_gasto_categorias);

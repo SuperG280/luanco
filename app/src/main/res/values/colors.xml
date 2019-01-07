@@ -16,5 +16,6 @@
     <color name="colorMainBackground">#eaeaea</color>
     <color name="colorBackgroundListaGastos">#ececec</color>
     <color name="colorTextoDeshabilitado">#c7c4c4</color>
+    <color name="colorFondoCardViewGasto">#e3f4ef</color>
 
 </resources>
