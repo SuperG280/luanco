@@ -153,6 +153,8 @@ public class TabGastos extends Fragment {
         textViewDescripcion.setText( g.getDescripcion());
         final TextView textViewImporte = v.findViewById(R.id.textView_view_gasto_importe);
         textViewImporte.setText(g.formatImporte());
+        final TextView textViewNota = v.findViewById(R.id.textView_view_gasto_nota);
+        textViewNota.setText(g.getNota());
 
         FloatingActionButton fab = v.findViewById(R.id.floatingCatIcon_view_gasto);
         fab.setImageResource( Categories.getCategoryIconBig(g.getCategoria()));
@@ -179,6 +181,8 @@ public class TabGastos extends Fragment {
         final EditText editTextImporte = v.findViewById( R.id.editText_view_edit_gasto_importe);
 
         final AutoCompleteTextView  editTextDescripcion = v.findViewById( R.id.editText_view_edit_gasto_descripcion);
+
+        final EditText editTextNota = v.findViewById( R.id.editText_view_edit_gasto_nota);
 
         //Spinner para el dialogo de nuevo gasto.
         final Spinner newGastoSpinnerCategories = v.findViewById( R.id.spinner_view_edit_gasto_categorias);
@@ -214,7 +218,8 @@ public class TabGastos extends Fragment {
                         String fecha = editTextFecha.getText().toString();
                         String descripcion = editTextDescripcion.getText().toString();
                         int categoria = newGastoSpinnerCategories.getSelectedItemPosition();
-                        addNewGasto( fecha, importe, descripcion, categoria);
+                        String nota = editTextNota.getText().toString();
+                        addNewGasto( fecha, importe, descripcion, categoria, nota);
                     }
                 });
 
@@ -260,7 +265,7 @@ public class TabGastos extends Fragment {
         recogerFecha.show();
     }
 
-    public boolean addNewGasto( String fecha, String importe, String descripcion, int categoria) {
+    public boolean addNewGasto( String fecha, String importe, String descripcion, int categoria, String nota) {
 
         String fecha_formated = fecha.replace( '/', '-');
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -282,7 +287,7 @@ public class TabGastos extends Fragment {
 
         Gasto newGasto = new Gasto( cal.getTimeInMillis(), descripcion, lImporte);
         newGasto.setCategoria(categoria);
-
+        newGasto.setNota( nota);
         addGastoInFireBase( newGasto);
 
         insertNewGastoInArray( newGasto);

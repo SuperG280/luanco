@@ -62,4 +62,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/item_gasto_fecha"
         app:srcCompat="@drawable/cat_otro" />
+
+    <ImageView
+        android:id="@+id/item_gasto_con_nota"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_gasto_con_nota" />
 </android.support.constraint.ConstraintLayout>

@@ -91,6 +91,9 @@ public class AdapterGasto extends BaseAdapter {
         ImageView icon = v.findViewById(R.id.item_gasto_icon);
         icon.setImageResource(Categories.getCategoryIcon( dir.getCategoria()));
 
+        ImageView iconConNota = v.findViewById( R.id.item_gasto_con_nota);
+        iconConNota.setVisibility( dir.hasNota() ? View.VISIBLE : View.GONE);
+
         return v;
     }
 }

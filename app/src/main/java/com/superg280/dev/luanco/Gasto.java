@@ -22,6 +22,7 @@ public class Gasto implements java.io.Serializable{
     private String descripcion;
     private long importe;
     private int categoria;
+    private String nota;
 
 
     public Gasto( long fecha, String descripcion, long importe) {
@@ -30,6 +31,7 @@ public class Gasto implements java.io.Serializable{
         this.descripcion    = descripcion;
         this.importe        = importe;
         this.categoria      = Categories.CAT_OTRO;
+        this.nota           = "";
     }
 
     public Gasto() {
@@ -38,6 +40,7 @@ public class Gasto implements java.io.Serializable{
         this.fecha          = Calendar.getInstance().getTimeInMillis();
         this.descripcion    = "";
         this.categoria      = Categories.CAT_OTRO;
+        this.nota           = "";
     }
 
     public void regenerateID() {
@@ -106,5 +109,17 @@ public class Gasto implements java.io.Serializable{
 
     public void setCategoria(int categoria) {
         this.categoria = categoria;
+    }
+
+    public String getNota() {
+        return nota;
+    }
+
+    public void setNota(String nota) {
+        this.nota = nota;
+    }
+
+    public boolean hasNota() {
+        return !this.nota.isEmpty();
     }
 }
