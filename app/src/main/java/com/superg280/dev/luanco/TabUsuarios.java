@@ -139,7 +139,8 @@ public class TabUsuarios extends Fragment {
         List<PieEntry> yvalues = new ArrayList<>();
         int index = 0;
         for( Gasto g: gastosAgrupados) {
-            yvalues.add(new PieEntry( getPorcentaje( total, g.getImporte()), ( g.getDescripcion().length() >= 10) ? g.getDescripcion().substring(0, 10) : g.getDescripcion()));
+            String Descripcion = String.format("%s %s", g.getDescripcion(), g.formatImporte());
+            yvalues.add(new PieEntry( getPorcentaje( total, g.getImporte()), Descripcion));//( g.getDescripcion().length() >= 10) ? g.getDescripcion().substring(0, 10) : g.getDescripcion()));
             index++;
         }
 
@@ -215,7 +216,8 @@ public class TabUsuarios extends Fragment {
         List<PieEntry> yvalues = new ArrayList<>();
         int index = 0;
         for( Gasto g: gastosMes) {
-            yvalues.add(new PieEntry( getPorcentaje( total, g.getImporte()), ( g.getDescripcion().length() >= 10) ? g.getDescripcion().substring(0, 10) : g.getDescripcion()));
+            String Descripcion = String.format("%s %s", g.getDescripcion(), g.formatImporte());
+            yvalues.add(new PieEntry( getPorcentaje( total, g.getImporte()), Descripcion));//( g.getDescripcion().length() >= 10) ? g.getDescripcion().substring(0, 10) : g.getDescripcion()));
             index++;
         }
 
