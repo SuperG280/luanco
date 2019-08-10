@@ -159,7 +159,7 @@ public class TabGastos extends Fragment {
         FloatingActionButton fab = v.findViewById(R.id.floatingCatIcon_view_gasto);
         fab.setImageResource( Categories.getCategoryIconBig(g.getCategoria()));
 
-        builder.setPositiveButton("Ok",
+        builder.setPositiveButton("Cerrar",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

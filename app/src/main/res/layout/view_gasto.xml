@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/colorMainBackground">
 
     <TextView
         android:id="@+id/textView_new_gasto_title2"
@@ -53,7 +54,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorFondoCardViewGasto">
+            android:background="@color/cardview_light_background">
 
             <TextView
                 android:id="@+id/textView11"
