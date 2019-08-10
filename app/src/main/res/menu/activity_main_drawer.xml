@@ -6,11 +6,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_gastos"
-            android:icon="@drawable/ic_account_balance_black_24dp"
+            android:icon="@drawable/ic_credit_card_black_24dp"
             android:title="@string/app_menu_gastos" />
         <item
             android:id="@+id/nav_ingresos"
-            android:icon="@drawable/ic_credit_card_black_24dp"
+            android:icon="@drawable/ic_account_balance_black_24dp"
             android:title="@string/app_menu_ingresos" />
         <item
             android:id="@+id/nav_usuarios"

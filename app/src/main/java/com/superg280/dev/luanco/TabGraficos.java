@@ -22,7 +22,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 
-public class TabUsuarios extends Fragment {
+public class TabGraficos extends Fragment {
 
     private ArrayList<Gasto> gastos = null;
 
@@ -38,7 +38,7 @@ public class TabUsuarios extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View tab = inflater.inflate(R.layout.fragment_tab_usuarios, container, false);
+        final View tab = inflater.inflate(R.layout.fragment_tab_graficos, container, false);
 
         gastos = ((LuTabActivity)this.getActivity()).gastos;
         differentYears();
