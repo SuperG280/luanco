@@ -13,7 +13,8 @@
     <string name="app_nav_header_subtitle">gestion de gastos</string>
     <string name="app_menu_gastos">Gastos</string>
     <string name="app_menu_ingresos">Ingresos</string>
-    <string name="app_manu_usuarios">Graficos</string>
+    <string name="app_menu_graficos">Graficos</string>
+    <string name="app_menu_informes">Informes</string>
     <string name="app_menu_ajustes">Ajustes</string>
     <string name="app_action_ajustes">Ajustes</string>
     <string name="app_menu_mail">Informe anual</string>
@@ -88,10 +89,16 @@
     <string name="about_version">Version de aplicacion</string>
     <string name="connect_error">No hay acceso a los datos. Revisa tu conexión a internet.</string>
     <string name="connect_fire_error">Parece que hay algún problema accediendo a los datos. Intentalo en otro momento a ver si hay más suerte</string>
-    <string name="luanco_version">2.1.0</string>
+    <string name="luanco_version">3.0.0</string>
     <string name="ingreso_nuevo_todos">Ingreso externo para todos</string>
     <string name="app_new_gasto_categoria">Categoria</string>
     <string name="app_gastostab_spinercategories">Categorías:</string>
     <string name="app_view_gasto_tittle">Datos del Gasto</string>
     <string name="app_new_gasto_nota">Nota</string>
+    <string name="tab_informes_fecha_inicio">Fecha inicio</string>
+    <string name="tab_informes_fecha_fin">Fecha fin</string>
+    <string name="tab_informes_spiner_categorias">Categoria</string>
+    <string name="tab_informes_total">Total</string>
+    <string name="tab_informes_encontrados">Gastos</string>
+    <string name="tab_informes_desde_inicio">Desde inicio</string>
 </resources>

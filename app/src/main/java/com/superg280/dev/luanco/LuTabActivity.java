@@ -116,6 +116,10 @@ public class LuTabActivity extends AppCompatActivity {
                     Fragment tabgraficos = new TabGraficos();
                     tabgraficos.setArguments(args);
                     return tabgraficos;
+                case 3:
+                    Fragment tabinformes = new TabInformes();
+                    tabinformes.setArguments(args);
+                    return tabinformes;
                 default:
                     return null;
             }
@@ -124,7 +128,7 @@ public class LuTabActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 4;
         }
 
         @Override
@@ -135,7 +139,9 @@ public class LuTabActivity extends AppCompatActivity {
                 case 1:
                     return getResources().getString(R.string.app_menu_ingresos);
                 case 2:
-                    return getResources().getString(R.string.app_manu_usuarios);
+                    return getResources().getString(R.string.app_menu_graficos);
+                case 3:
+                    return getResources().getString(R.string.app_menu_informes);
             }
             return null;
         }

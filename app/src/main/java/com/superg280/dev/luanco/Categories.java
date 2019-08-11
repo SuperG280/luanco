@@ -39,16 +39,16 @@ public class Categories {
                                                  R.drawable.cat_seguros_grande,
                                                  R.drawable.cat_otro_grande};
 
-    private static final String cat_literales[] = {  "Agua, basuras,...",
+    private static final String cat_literales[] = {  "Agua-basuras",
                                                     "Luz",
                                                     "Gasto banco",
                                                     "Impuestos",
-                                                    "Comunidad de vecinos",
-                                                    "Gasto de casa",
+                                                    "Comunidad",
+                                                    "Gasto casa",
                                                     "Electrodomesticos",
                                                     "Reparaciones",
                                                     "Seguros",
-                                                    "Otra categoria"};
+                                                    "Otra"};
 
 
 

@@ -13,9 +13,13 @@
             android:icon="@drawable/ic_account_balance_black_24dp"
             android:title="@string/app_menu_ingresos" />
         <item
-            android:id="@+id/nav_usuarios"
+            android:id="@+id/nav_graficos"
             android:icon="@drawable/ic_graphic_black_24dp"
-            android:title="@string/app_manu_usuarios" />
+            android:title="@string/app_menu_graficos" />
+        <item
+            android:id="@+id/nav_informes"
+            android:icon="@drawable/baseline_assignment_black_18dp"
+            android:title="@string/app_menu_informes" />
         <item
             android:id="@+id/nav_mail"
             android:icon="@drawable/baseline_mail_outline_black_18dp"

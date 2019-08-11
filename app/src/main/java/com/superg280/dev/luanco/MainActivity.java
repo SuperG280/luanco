@@ -49,9 +49,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -399,9 +397,15 @@ public class MainActivity extends AppCompatActivity
             startActivity(inte);
 
 
-        } else if (id == R.id.nav_usuarios) {
+        } else if (id == R.id.nav_graficos) {
             Intent inte = new Intent(this, LuTabActivity.class);
             inte.putExtra("TAB_INDEX", 2);
+            inte.putExtra("GASTOS", gastos);
+            inte.putExtra("INGRESOS", ingresos);
+            startActivity(inte);
+        }else if (id == R.id.nav_informes) {
+            Intent inte = new Intent(this, LuTabActivity.class);
+            inte.putExtra("TAB_INDEX", 3);
             inte.putExtra( "GASTOS", gastos);
             inte.putExtra( "INGRESOS", ingresos);
             startActivity(inte);
