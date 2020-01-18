@@ -18,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
@@ -154,6 +155,8 @@ public class TabGastos extends Fragment {
         textViewImporte.setText(g.formatImporte());
         final TextView textViewNota = v.findViewById(R.id.textView_view_gasto_nota);
         textViewNota.setText(g.getNota());
+        final TextView textViewImputable = v.findViewById( R.id.textView_imputable);
+        textViewImputable.setText(g.isImputable() ? "" : getString( R.string.view_gasto_no_imputable));
 
         FloatingActionButton fab = v.findViewById(R.id.floatingCatIcon_view_gasto);
         fab.setImageResource( Categories.getCategoryIconBig(g.getCategoria()));
@@ -185,6 +188,8 @@ public class TabGastos extends Fragment {
 
         //Spinner para el dialogo de nuevo gasto.
         final Spinner newGastoSpinnerCategories = v.findViewById( R.id.spinner_view_edit_gasto_categorias);
+
+        final Switch switchImputable = v.findViewById( R.id.switch_new_gasto_imputable);
 
         CategoriesSpinnerAdapter newGastocategoriesAdapter = new CategoriesSpinnerAdapter( getContext(), Categories.getCat_icons(), Categories.getCat_literales());
         newGastoSpinnerCategories.setAdapter( newGastocategoriesAdapter);
@@ -218,7 +223,8 @@ public class TabGastos extends Fragment {
                         String descripcion = editTextDescripcion.getText().toString();
                         int categoria = newGastoSpinnerCategories.getSelectedItemPosition();
                         String nota = editTextNota.getText().toString();
-                        addNewGasto( fecha, importe, descripcion, categoria, nota);
+                        boolean imputable = switchImputable.isChecked();
+                        addNewGasto( fecha, importe, descripcion, categoria, nota, imputable);
                     }
                 });
 
@@ -264,7 +270,7 @@ public class TabGastos extends Fragment {
         recogerFecha.show();
     }
 
-    public boolean addNewGasto( String fecha, String importe, String descripcion, int categoria, String nota) {
+    public boolean addNewGasto( String fecha, String importe, String descripcion, int categoria, String nota, boolean imputable) {
 
         String fecha_formated = fecha.replace( '/', '-');
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -284,7 +290,7 @@ public class TabGastos extends Fragment {
             return false;
         }
 
-        Gasto newGasto = new Gasto( cal.getTimeInMillis(), descripcion, lImporte);
+        Gasto newGasto = new Gasto( cal.getTimeInMillis(), descripcion, lImporte, imputable);
         newGasto.setCategoria(categoria);
         newGasto.setNota( nota);
         addGastoInFireBase( newGasto);

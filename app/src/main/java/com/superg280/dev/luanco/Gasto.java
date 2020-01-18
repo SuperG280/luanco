@@ -23,15 +23,17 @@ public class Gasto implements java.io.Serializable{
     private long importe;
     private int categoria;
     private String nota;
+    private boolean imputable;
 
 
-    public Gasto( long fecha, String descripcion, long importe) {
+    public Gasto( long fecha, String descripcion, long importe, boolean imputable) {
         regenerateID() ;
         this.fecha          = fecha;
         this.descripcion    = descripcion;
         this.importe        = importe;
         this.categoria      = Categories.CAT_OTRO;
         this.nota           = "";
+        this.imputable      = imputable;
     }
 
     public Gasto() {
@@ -41,6 +43,7 @@ public class Gasto implements java.io.Serializable{
         this.descripcion    = "";
         this.categoria      = Categories.CAT_OTRO;
         this.nota           = "";
+        this.imputable      = true;
     }
 
     public void regenerateID() {
@@ -122,4 +125,8 @@ public class Gasto implements java.io.Serializable{
     public boolean hasNota() {
         return !this.nota.isEmpty();
     }
+
+    public boolean isImputable() { return this.imputable;}
+
+    public void setImputable( boolean imputable) { this.imputable = imputable;}
 }

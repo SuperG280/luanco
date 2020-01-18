@@ -120,11 +120,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_view_edit_gasto_fecha" />
+        app:layout_constraintTop_toBottomOf="@+id/switch_new_gasto_imputable" />
 
     <EditText
         android:id="@+id/editText_view_edit_gasto_nota"
@@ -140,5 +140,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_view_edit_gasto_descripcion" />
+
+    <Switch
+        android:id="@+id/switch_new_gasto_imputable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:checked="true"
+        android:text="@string/new_gasto_imputable_switch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_view_edit_gasto_fecha" />
 
 </android.support.constraint.ConstraintLayout>

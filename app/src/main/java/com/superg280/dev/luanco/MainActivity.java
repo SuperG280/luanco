@@ -635,7 +635,8 @@ public class MainActivity extends AppCompatActivity
         TotalGastos = 0;
 
         for( Gasto g: gastos) {
-            TotalGastos += g.getImporte();
+            if( g.isImputable())
+                TotalGastos += g.getImporte();
         }
 
         for( Ingreso i: ingresos) {

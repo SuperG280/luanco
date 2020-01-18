@@ -89,7 +89,7 @@
     <string name="about_version">Version de aplicacion</string>
     <string name="connect_error">No hay acceso a los datos. Revisa tu conexión a internet.</string>
     <string name="connect_fire_error">Parece que hay algún problema accediendo a los datos. Intentalo en otro momento a ver si hay más suerte</string>
-    <string name="luanco_version">3.0.0</string>
+    <string name="luanco_version">3.1.0</string>
     <string name="ingreso_nuevo_todos">Ingreso externo para todos</string>
     <string name="app_new_gasto_categoria">Categoria</string>
     <string name="app_gastostab_spinercategories">Categorías:</string>
@@ -101,4 +101,6 @@
     <string name="tab_informes_total">Total</string>
     <string name="tab_informes_encontrados">Gastos</string>
     <string name="tab_informes_desde_inicio">Desde inicio</string>
+    <string name="new_gasto_imputable_switch">Imputable</string>
+    <string name="view_gasto_no_imputable">No imputable</string>
 </resources>
